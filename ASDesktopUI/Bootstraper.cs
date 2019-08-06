@@ -1,4 +1,6 @@
 ﻿using ASDesktopUI.Helpers;
+using ASDesktopUI.Library.Api;
+using ASDesktopUI.Library.Models;
 using ASDesktopUI.ViewModels;
 using Caliburn.Micro;
 using System;
@@ -32,6 +34,7 @@ namespace ASDesktopUI
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>()
                 .Singleton<IAPIHelper, APIHelper>();
 
             GetType().Assembly.GetTypes()
