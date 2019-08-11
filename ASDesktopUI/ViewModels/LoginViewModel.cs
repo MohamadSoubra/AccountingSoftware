@@ -1,4 +1,5 @@
-﻿using ASDesktopUI.Helpers;
+﻿using ASDesktopUI.EventModels;
+using ASDesktopUI.Helpers;
 using ASDesktopUI.Library.Api;
 using Caliburn.Micro;
 using System;
@@ -14,10 +15,12 @@ namespace ASDesktopUI.ViewModels
         private string _userName;
         private string _password;
         private IAPIHelper _apiHelper;
+        private IEventAggregator _events;
 
-        public LoginViewModel(IAPIHelper apiHelper)
+        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
         {
             _apiHelper = apiHelper;
+            _events = events;
         }
 
         public string UserName
@@ -92,6 +95,8 @@ namespace ASDesktopUI.ViewModels
 
                 //capture more informaion about the user
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+
+                _events.PublishOnUIThread(new LogOnEvent());
             }
             catch (Exception ex)
             {

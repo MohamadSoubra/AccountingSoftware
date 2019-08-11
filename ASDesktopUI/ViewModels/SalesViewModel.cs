@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ASDesktopUI.ViewModels
 {
-    class SalesViewModel : Screen
+    public class SalesViewModel : Screen
     {
         private BindingList<string> _products;
 
@@ -34,8 +34,8 @@ namespace ASDesktopUI.ViewModels
             }
         }
 
-        private string _itemQuantity;
-        public string ItemQuantity
+        private int _itemQuantity;
+        public int ItemQuantity
         {
             get { return _itemQuantity; }
             set
