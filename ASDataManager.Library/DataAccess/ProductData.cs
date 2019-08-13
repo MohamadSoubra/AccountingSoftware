@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 
 namespace ASDataManager.Library.DataAccess
 {
-    public class UserData
+    public class ProductData
     {
-        public List<UserModel> GetUserById(string Id)
+        public List<ProductModel> GetProducts()
         {
             SQLDataAccess sql = new SQLDataAccess();
-            
-            var p = new { Id = Id };
 
-            var output = sql.LoadData<UserModel, dynamic>("dbo.spUserLookup", p, "ASDatabase");
+            var output = sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", new { }, "ASDatabase");
 
             return output;
         }

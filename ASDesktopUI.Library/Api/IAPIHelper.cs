@@ -1,4 +1,5 @@
 ﻿using ASDesktopUI.Library.Models;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ASDesktopUI.Library.Api
@@ -7,5 +8,6 @@ namespace ASDesktopUI.Library.Api
     {
         Task<AuthenticatedUser> Authenticate(string username, string password);
         Task GetLoggedInUserInfo(string token);
+        HttpClient ApiClient { get; }
     }       
 }
