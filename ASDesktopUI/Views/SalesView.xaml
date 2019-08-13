@@ -34,8 +34,8 @@
         <TextBlock Text="Sales Page" FontSize="40" Grid.Row="0" Grid.ColumnSpan="3" Margin="0 0 0 20" Grid.Column="1"/>
         <!-- Column 0 -->
         <TextBlock Text="Items" Grid.Row="1" Grid.Column="1"/>
-        <ListBox x:Name="Products" Grid.Row="2" 
-                  MinHeight="200" MinWidth="150" Grid.Column="1">
+        <ListBox x:Name="Products" Grid.Row="2"  MinHeight="200" 
+                 MinWidth="150" Grid.Column="1" SelectedItem="{Binding SelectedProduct}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding ProductName}"/>
@@ -57,6 +57,11 @@
         <TextBlock Text="Cart" Grid.Row="1" Grid.Column="3"/>
         <ListBox x:Name="Cart" Grid.Row="2" Grid.Column="3" 
                   MinHeight="200" MinWidth="150">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DisplayText}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
 
         <!-- Totals -->
