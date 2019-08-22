@@ -13,11 +13,14 @@ namespace ASDesktopUI.ViewModels
 {
     public class SalesViewModel : Screen
     {
-        private IProductEndpoint _productEndpoint;
+        IProductEndpoint _productEndpoint;
+        ISaleEndpoint _saleEndpoint;
         IConfigHelper _confHelper;
-        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper)
+
+        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper, ISaleEndpoint saleEndpoint)
         {
             _productEndpoint = productEndpoint;
+            _saleEndpoint = saleEndpoint;
             _confHelper = configHelper;
         }
 
@@ -107,7 +110,7 @@ namespace ASDesktopUI.ViewModels
             decimal taxRate = _confHelper.GetTaxRate()/100;
 
             taxAmount = Cart.Where(x => x.Product.IsTaxable)
-                .Sum(x => x.Product.RetailPrice * x.QuantityInCart * taxRate);
+                            .Sum(x => x.Product.RetailPrice * x.QuantityInCart * taxRate);
 
             //foreach (var item in Cart)
             //{
@@ -178,6 +181,7 @@ namespace ASDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanRemoveFromCart
@@ -197,6 +201,7 @@ namespace ASDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanCheckOut
@@ -206,14 +211,30 @@ namespace ASDesktopUI.ViewModels
                 bool output = false;
 
                 //Make sure there is something in the cart
+                if (Cart.Count > 0)
+                {
+                    output = true;
+                }
 
                 return output;
             }
         }
 
-        public void CheckOut()
+        public async Task CheckOut()
         {
+            //Create a sale Model and post to API
+            SaleModel sale = new SaleModel();
+            foreach (var item in Cart)
+            {
+                sale.SailDetails.Add(new SaleDetailModel
+                {
+                    ProductId = item.Product.Id,
+                    Quantity = item.QuantityInCart
+                });
 
+            }
+
+            await _saleEndpoint.postSale(sale);
         }
 
         
