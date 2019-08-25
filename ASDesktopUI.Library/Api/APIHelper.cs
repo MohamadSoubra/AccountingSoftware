@@ -54,6 +54,11 @@ namespace ASDesktopUI.Library.Api
             }
         }
 
+        public void ResetUserModel()
+        {
+            _apiClient.DefaultRequestHeaders.Clear();
+        }
+
         public async Task GetLoggedInUserInfo(string token)
         {
             _apiClient.DefaultRequestHeaders.Clear();
