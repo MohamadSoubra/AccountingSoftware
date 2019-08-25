@@ -66,6 +66,18 @@ namespace ASDesktopUI.ViewModels
                 NotifyOfPropertyChange(() => CanAddToCart);
             }
         }
+
+        private async Task ResetSalesViewModel()
+        {
+            Cart = new BindingList<CartItemDisplayModel>();
+            //TODO - Add clearing the selectedCartedItem if it does not do it itself
+            await LoadProducts();
+
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
+        }
         
         private CartItemDisplayModel _selectedCartItem;
 
@@ -206,8 +218,8 @@ namespace ASDesktopUI.ViewModels
             {
                 bool output = false;
 
-                //make sue something is selected
-                if (SelectedCartItem != null && SelectedCartItem?.Product.QuantityInStock > 0)
+                //make sure something is selected
+                if (SelectedCartItem != null && SelectedCartItem?.QuantityInCart > 0)
                 {
                     output = true;
                 }
@@ -234,6 +246,7 @@ namespace ASDesktopUI.ViewModels
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
             NotifyOfPropertyChange(() => CanCheckOut);
+            NotifyOfPropertyChange(() => CanAddToCart);
         }
 
         public bool CanCheckOut
@@ -267,6 +280,8 @@ namespace ASDesktopUI.ViewModels
             }
 
             await _saleEndpoint.postSale(sale);
+
+            await ResetSalesViewModel();
         }
 
         
