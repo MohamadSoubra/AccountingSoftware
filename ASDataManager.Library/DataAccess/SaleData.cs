@@ -85,14 +85,13 @@ namespace ASDataManager.Library.DataAccess
             }
         }
 
+        public List<SaleReportModel> GetSaleReport()
+        {
+            SQLDataAccess sql = new SQLDataAccess();
 
-        //public List<ProductModel> GetProducts()
-        //{
-        //    SQLDataAccess sql = new SQLDataAccess();
+            var output = sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "ASDatabase");
 
-        //    var output = sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", new { }, "ASDatabase");
-
-        //    return output;
-        //}
+            return output;
+        }
     }
 }
