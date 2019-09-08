@@ -9,7 +9,7 @@ using ASDataManager.Library.Models;
 
 namespace ASDataManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Cashier")]
     public class ProductController : ApiController
     {
         public List<ProductModel> Get()
