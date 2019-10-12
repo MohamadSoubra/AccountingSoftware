@@ -80,5 +80,10 @@
     <Build Include="dbo\Stored Procedures\spInventory_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spInventory_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spSale_SaleReport.sql" />
+    <Build Include="dbo\Tables\Client.sql" />
+    <Build Include="dbo\Tables\Supplier.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="ASDatabase.refactorlog" />
   </ItemGroup>
 </Project>
