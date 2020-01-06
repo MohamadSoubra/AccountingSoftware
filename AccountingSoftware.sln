@@ -9,15 +9,17 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ASDatabase", "AccountingSof
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASDesktopUI", "ASDesktopUI\ASDesktopUI.csproj", "{E9B555DD-0F2F-492A-82AA-FC3AF492F80A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASDataManager.Library", "ASDataManager.Library\ASDataManager.Library.csproj", "{68258B39-6BC0-4F40-86C8-2611802557A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASDataManager.Library", "ASDataManager.Library\ASDataManager.Library.csproj", "{68258B39-6BC0-4F40-86C8-2611802557A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASDesktopUI.Library", "ASDesktopUI.Library\ASDesktopUI.Library.csproj", "{4A77DBE3-5FAF-4024-8E25-EFAFB013825D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASDesktopUI.Library", "ASDesktopUI.Library\ASDesktopUI.Library.csproj", "{4A77DBE3-5FAF-4024-8E25-EFAFB013825D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{AFB64C73-B7A9-40D6-83E4-B0F8B95C8797}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{35CEE23F-77CA-4018-981C-6F146044996D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front-End", "Front-End", "{8125EF88-06F4-4CA4-B42F-D44D542C0A4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingSoftwareApi", "AccountingSoftwareApi\AccountingSoftwareApi.csproj", "{8BB5BDD0-B36A-4B3D-AEE8-012878470CAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{4A77DBE3-5FAF-4024-8E25-EFAFB013825D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A77DBE3-5FAF-4024-8E25-EFAFB013825D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A77DBE3-5FAF-4024-8E25-EFAFB013825D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB5BDD0-B36A-4B3D-AEE8-012878470CAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB5BDD0-B36A-4B3D-AEE8-012878470CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB5BDD0-B36A-4B3D-AEE8-012878470CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB5BDD0-B36A-4B3D-AEE8-012878470CAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{E9B555DD-0F2F-492A-82AA-FC3AF492F80A} = {8125EF88-06F4-4CA4-B42F-D44D542C0A4D}
 		{68258B39-6BC0-4F40-86C8-2611802557A5} = {AFB64C73-B7A9-40D6-83E4-B0F8B95C8797}
 		{4A77DBE3-5FAF-4024-8E25-EFAFB013825D} = {8125EF88-06F4-4CA4-B42F-D44D542C0A4D}
+		{8BB5BDD0-B36A-4B3D-AEE8-012878470CAD} = {AFB64C73-B7A9-40D6-83E4-B0F8B95C8797}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {84597BA4-3694-451B-9CAB-902E0E73F6C1}

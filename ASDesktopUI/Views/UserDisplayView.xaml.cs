@@ -24,5 +24,10 @@ namespace ASDesktopUI.Views
         {
             InitializeComponent();
         }
+
+        private void RemoveSelectedRole_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
