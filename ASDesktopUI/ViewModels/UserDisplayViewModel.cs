@@ -157,7 +157,7 @@ namespace ASDesktopUI.ViewModels
 
             foreach (var role in roles)
             {
-                if (UserRoles.IndexOf(role.Value) > 0)
+                if (UserRoles.IndexOf(role.Value) < 0)
                 {
                     AvailableRoles.Add(role.Value);
                 }
@@ -174,7 +174,7 @@ namespace ASDesktopUI.ViewModels
 
         public async void RemoveSelectedRole()
         {
-            await _userEndpoint.AddUserToRole(SelectedUser.Id, SelectedUserRole);
+            await _userEndpoint.RemoveUserFromRole(SelectedUser.Id, SelectedUserRole);
 
             AvailableRoles.Add(SelectedUserRole);
             UserRoles.Remove(SelectedUserRole);

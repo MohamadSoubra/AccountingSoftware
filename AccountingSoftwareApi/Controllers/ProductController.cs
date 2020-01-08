@@ -23,6 +23,7 @@ namespace AccountingSoftwareApi.Controllers
         }
 
         [Authorize(Roles = "Cashier")]
+        [HttpGet]
         public List<ProductModel> Get()
         {
             ProductData data = new ProductData(_config);

@@ -24,7 +24,7 @@ namespace ASDataManager.Library.DataAccess
             
             var p = new { Id = Id };
 
-            var output = sql.LoadData<UserModel, dynamic>("dbo.spUserLookup", p, "ASDatabase");
+            var output = sql.LoadData<UserModel, dynamic>("dbo.spUser_Lookup", p, "ASDatabase");
 
             return output;
         }
