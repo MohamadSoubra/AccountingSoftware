@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ASDesktopUI.Views"
-        mc:Ignorable="d" FontSize="18"
+        mc:Ignorable="d" FontSize="16"
         Title="ShellView" Height="600" Width="1000">
     <DockPanel>
         <Menu DockPanel.Dock="Top" FontSize="18">
@@ -14,15 +14,19 @@
             <MenuItem Header="_Users">
                 <MenuItem x:Name="UserManagement" Header="User_Management"/>
             </MenuItem>
-            <MenuItem Header="_Account" Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                <MenuItem x:Name="LogOut" Header="_Log Out"/>
+            <MenuItem Header="_Account" >
+                <!-- Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" -->
+                <MenuItem x:Name="LogOut" Header="_Log Out" IsEnabled="{Binding IsLoggedIn}"/>
+                <MenuItem x:Name="LogIn" Header="_Log In" IsEnabled="{Binding IsLoggedOut}"/>
             </MenuItem>
         </Menu>
+        <TextBlock DockPanel.Dock="Bottom" x:Name="UserStatus" HorizontalAlignment="Right" Padding="10" />
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ContentControl x:Name="ActiveItem" Margin="20 5 20 20" />
+            <ContentControl x:Name="ActiveItem" Margin="20 5 20 0" />
         </Grid>
     </DockPanel>
+
 </Window>

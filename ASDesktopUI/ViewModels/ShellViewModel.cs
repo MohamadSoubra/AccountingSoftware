@@ -38,10 +38,38 @@ namespace ASDesktopUI.ViewModels
                 if (string.IsNullOrWhiteSpace(_user.Token) == false)
                 {
                     output = true;
+                    UserStatus = $"Welcome {_user.EmailAddress}";
                 }
                 return output;
             }
         }
+
+        public bool IsLoggedOut
+        {
+            get 
+            {
+                bool output = false;
+                if (string.IsNullOrWhiteSpace(_user.Token) == true)
+                {
+                    output = true;
+                    UserStatus = "Logged Out";
+                }
+                return output;
+            }
+        }
+
+        private string _userStatus;
+
+        public string UserStatus
+        {
+            get { return _userStatus; }
+            set 
+            {
+                _userStatus = value;
+                NotifyOfPropertyChange(() => UserStatus);
+            }
+        }
+
 
         public void ExitApplication()
         {
@@ -53,6 +81,16 @@ namespace ASDesktopUI.ViewModels
             _user.LogOffUser();
             _apiHelper.ResetUserModel();
             await ActivateItemAsync(IoC.Get<LoginViewModel>(), new CancellationToken());
+            NotifyOfPropertyChange(() => IsLoggedIn);
+            NotifyOfPropertyChange(() => IsLoggedOut);
+        }
+
+        public async Task LogIn()
+        {
+            _user.LogOffUser();
+            _apiHelper.ResetUserModel();
+            await ActivateItemAsync(IoC.Get<LoginViewModel>(), new CancellationToken());
+            NotifyOfPropertyChange(() => IsLoggedOut);
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
 
@@ -70,6 +108,7 @@ namespace ASDesktopUI.ViewModels
         {
             await ActivateItemAsync(_salesVM, cancellationToken);
             NotifyOfPropertyChange(() => IsLoggedIn);
+            NotifyOfPropertyChange(() => IsLoggedOut);
         }
     }
 }

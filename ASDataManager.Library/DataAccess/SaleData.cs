@@ -24,7 +24,8 @@ namespace ASDataManager.Library.DataAccess
             // Start filling in the models we will save to the database
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
             ProductData products = new ProductData(_config);
-            var taxRate = ConfigHelper.GetTaxRate()/100;
+            var configHelper = new ConfigHelper(_config);
+            var taxRate = configHelper.GetTaxRate()/100;
 
             foreach (var item in saleInfo.SailDetails)
             {

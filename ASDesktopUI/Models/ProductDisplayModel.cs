@@ -8,6 +8,7 @@ namespace ASDesktopUI.Models
         public string ProductName { get; set; }
         public string Description { get; set; }
         public decimal RetailPrice { get; set; }
+
         private int _quantityInStock;
 
         public int QuantityInStock
