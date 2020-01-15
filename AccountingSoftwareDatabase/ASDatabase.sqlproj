@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocation\AccountingSoftwareDatabase.publish.xml" />
+    <None Include="dbo\Scripts\Populate-Database.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\User.sql" />
@@ -87,8 +88,5 @@
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ASDatabase.refactorlog" />
-  </ItemGroup>
-  <ItemGroup>
-    <PreDeploy Include="dbo\Scripts\Populate_Database.sql" />
   </ItemGroup>
 </Project>
