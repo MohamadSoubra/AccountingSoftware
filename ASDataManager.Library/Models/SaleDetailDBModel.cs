@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ASDataManager.Library.Models
 {
-    class SaleDetailDBModel
+    public class SaleDetailDBModel
     {
         public int SaleId { get; set; }
         public int ProductId { get; set; }

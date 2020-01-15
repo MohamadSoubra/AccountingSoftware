@@ -300,13 +300,17 @@ namespace ASDesktopUI.ViewModels
             SaleModel sale = new SaleModel();
             foreach (var item in Cart)
             {
-                sale.SailDetails.Add(new SaleDetailModel
+                sale.SaleDetails.Add(new SaleDetailModel
                 {
                     ProductId = item.Product.Id,
                     Quantity = item.QuantityInCart
                 });
 
+
+
             }
+
+
 
             await _saleEndpoint.postSale(sale);
 
