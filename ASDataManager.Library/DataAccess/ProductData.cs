@@ -9,29 +9,25 @@ using System.Threading.Tasks;
 
 namespace ASDataManager.Library.DataAccess
 {
-    public class ProductData
+    public class ProductData : IProductData
     {
-        private readonly IConfiguration _config;
+        private readonly ISQLDataAccess _sql;
 
-        public ProductData(IConfiguration config)
+        public ProductData(ISQLDataAccess sql)
         {
-            _config = config;
+            _sql = sql;
         }
 
         public List<ProductModel> GetProducts()
         {
-            SQLDataAccess sql = new SQLDataAccess(_config);
-
-            var output = sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", new { }, "ASDatabase");
+            var output = _sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", new { }, "ASDatabase");
 
             return output;
         }
 
         public ProductModel GetProductById(int productId)
         {
-            SQLDataAccess sql = new SQLDataAccess(_config);
-
-            var output = sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetById", new { Id = productId }, "ASDatabase").FirstOrDefault();
+            var output = _sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetById", new { Id = productId }, "ASDatabase").FirstOrDefault();
 
             return output;
         }

@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,23 +12,24 @@ using System.Threading.Tasks;
 
 namespace ASDataManager.Library.Internal.DataAccess
 {
-    internal class SQLDataAccess : IDisposable
+    public class SQLDataAccess : IDisposable, ISQLDataAccess
     {
-        public SQLDataAccess(IConfiguration config)
+        public SQLDataAccess(IConfiguration config, ILogger<SQLDataAccess> logger)
         {
             _config = config;
+            _logger = logger;
         }
         public string GetConnectionString(string name)
         {
             return _config.GetConnectionString(name);
         }
 
-        public List<T> LoadData<T,U>(string StoredProcedure, U parameters, string connectionStringName)
+        public List<T> LoadData<T, U>(string StoredProcedure, U parameters, string connectionStringName)
         {
             string connectionString = GetConnectionString(connectionStringName);
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
-                List<T> rows = connection.Query<T>(StoredProcedure, parameters, 
+                List<T> rows = connection.Query<T>(StoredProcedure, parameters,
                     commandType: CommandType.StoredProcedure).ToList();
 
                 return rows;
@@ -47,7 +49,7 @@ namespace ASDataManager.Library.Internal.DataAccess
 
         private IDbConnection _connection;
         private IDbTransaction _transaction;
-        
+
         public void StartTransaction(string connectionStringName)
         {
             string connectionstring = GetConnectionString(connectionStringName);
@@ -66,18 +68,19 @@ namespace ASDataManager.Library.Internal.DataAccess
                 commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
 
             return rows;
-            
+
         }
 
         public void SaveDataInTransaction<T>(string StoredProcedure, T parameters)
         {
-            _connection.Execute(StoredProcedure, parameters, 
-                                commandType: CommandType.StoredProcedure, 
+            _connection.Execute(StoredProcedure, parameters,
+                                commandType: CommandType.StoredProcedure,
                                 transaction: _transaction);
         }
 
         private bool isClosed = false;
         private readonly IConfiguration _config;
+        private readonly ILogger<SQLDataAccess> _logger;
 
         public void CommitTransaction()
         {
@@ -103,19 +106,13 @@ namespace ASDataManager.Library.Internal.DataAccess
                 {
                     CommitTransaction();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    //TODO Log this issue
+                    _logger.LogError(ex, "Commit transaction failed in the dispose method.");
                 }
             }
             _transaction = null;
             _connection = null;
         }
-        // Open Connection/Strat transaction method
-        // load using the transaction
-        // save using the transaction
-        // Close Connection/stop trasnaction
-        // Dispose
-
     }
 }

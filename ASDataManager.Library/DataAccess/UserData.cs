@@ -9,22 +9,18 @@ using System.Threading.Tasks;
 
 namespace ASDataManager.Library.DataAccess
 {
-    public class UserData
+    public class UserData : IUserData
     {
-        private readonly IConfiguration _config;
+        private readonly ISQLDataAccess _sql;
 
-        public UserData(IConfiguration config)
+        public UserData(ISQLDataAccess sql)
         {
-            _config = config;
+            _sql = sql;
         }
 
         public List<UserModel> GetUserById(string Id)
         {
-            SQLDataAccess sql = new SQLDataAccess(_config);
-            
-            var p = new { Id = Id };
-
-            var output = sql.LoadData<UserModel, dynamic>("dbo.spUser_Lookup", p, "ASDatabase");
+            var output = _sql.LoadData<UserModel, dynamic>("dbo.spUser_Lookup", new { Id }, "ASDatabase");
 
             return output;
         }

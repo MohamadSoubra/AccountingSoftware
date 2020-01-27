@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace AccountingSoftwareApi.Controllers
 {
@@ -23,24 +24,26 @@ namespace AccountingSoftwareApi.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IConfiguration _config;
+        private readonly IUserData _userData;
+        private readonly ILogger _logger;
 
         public UserController(ApplicationDbContext context, 
-                             UserManager<IdentityUser> userManager, 
-                             IConfiguration config)
+                             UserManager<IdentityUser> userManager,
+                             IUserData userData,
+                             ILogger<UserController> logger)
         {
             _context = context;
             _userManager = userManager;
-            _config = config;
+            _userData = userData;
+            _logger = logger;
         }
 
         [HttpGet]
         public UserModel GetById()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //RequestContext.Principal.Identity.GetUserId();
-            UserData data = new UserData(_config);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return data.GetUserById(userId).First();
+            return _userData.GetUserById(userId).First();
         }
 
         [Authorize(Roles = "Admin")]
@@ -89,7 +92,13 @@ namespace AccountingSoftwareApi.Controllers
         [Route("Admin/AddRole")]
         public async Task AddARole(UserRolePairModel pairing)
         {
-           var user = await _userManager.FindByIdAsync(pairing.UserId);
+            string looggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = await _userManager.FindByIdAsync(pairing.UserId);
+
+            _logger.LogInformation("Admin {Admin} added user {User} to role {Role}",
+                looggedInUserId, user.Id, pairing.RoleName);
+
            await _userManager.AddToRoleAsync(user, pairing.RoleName);
             
         }
@@ -99,7 +108,13 @@ namespace AccountingSoftwareApi.Controllers
         [Route("Admin/RemoveRole")]
         public async Task RemoveARole(UserRolePairModel pairing)
         {
+            string looggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var user = await _userManager.FindByIdAsync(pairing.UserId);
+
+            _logger.LogInformation("Admin {Admin} removed user {User} from role {Role}",
+                looggedInUserId, user.Id, pairing.RoleName);
+
             await _userManager.RemoveFromRoleAsync(user, pairing.RoleName);
 
         }
