@@ -8,7 +8,7 @@ namespace ASDesktopUI.Library.Models
 {
     public class SaleModel
     {
-        public List<SaleDetailModel> SailDetails { get; set; } = new List<SaleDetailModel>();
+        public List<SaleDetailModel> SaleDetails { get; set; } = new List<SaleDetailModel>();
 
     }
 }

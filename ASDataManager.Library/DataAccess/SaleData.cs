@@ -27,7 +27,7 @@ namespace ASDataManager.Library.DataAccess
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
             var taxRate = ConfigHelper.GetTaxRate() / 100;
 
-            foreach (var item in saleInfo.SailDetails)
+            foreach (var item in saleInfo.SaleDetails)
             {
                 var detail = new SaleDetailDBModel
                 {
