@@ -23,24 +23,23 @@ namespace AccountingSoftwareApi.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IConfiguration _config;
+        private readonly IUserData _userData;
 
         public UserController(ApplicationDbContext context, 
-                             UserManager<IdentityUser> userManager, 
-                             IConfiguration config)
+                             UserManager<IdentityUser> userManager,
+                             IUserData userData)
         {
             _context = context;
             _userManager = userManager;
-            _config = config;
+            _userData = userData;
         }
 
         [HttpGet]
         public UserModel GetById()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //RequestContext.Principal.Identity.GetUserId();
-            UserData data = new UserData(_config);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return data.GetUserById(userId).First();
+            return _userData.GetUserById(userId).First();
         }
 
         [Authorize(Roles = "Admin")]

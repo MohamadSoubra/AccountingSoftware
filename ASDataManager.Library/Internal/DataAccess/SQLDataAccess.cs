@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ASDataManager.Library.Internal.DataAccess
 {
-    internal class SQLDataAccess : IDisposable
+    public class SQLDataAccess : IDisposable, ISQLDataAccess
     {
         public SQLDataAccess(IConfiguration config)
         {
@@ -22,12 +22,12 @@ namespace ASDataManager.Library.Internal.DataAccess
             return _config.GetConnectionString(name);
         }
 
-        public List<T> LoadData<T,U>(string StoredProcedure, U parameters, string connectionStringName)
+        public List<T> LoadData<T, U>(string StoredProcedure, U parameters, string connectionStringName)
         {
             string connectionString = GetConnectionString(connectionStringName);
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
-                List<T> rows = connection.Query<T>(StoredProcedure, parameters, 
+                List<T> rows = connection.Query<T>(StoredProcedure, parameters,
                     commandType: CommandType.StoredProcedure).ToList();
 
                 return rows;
@@ -47,7 +47,7 @@ namespace ASDataManager.Library.Internal.DataAccess
 
         private IDbConnection _connection;
         private IDbTransaction _transaction;
-        
+
         public void StartTransaction(string connectionStringName)
         {
             string connectionstring = GetConnectionString(connectionStringName);
@@ -66,13 +66,13 @@ namespace ASDataManager.Library.Internal.DataAccess
                 commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
 
             return rows;
-            
+
         }
 
         public void SaveDataInTransaction<T>(string StoredProcedure, T parameters)
         {
-            _connection.Execute(StoredProcedure, parameters, 
-                                commandType: CommandType.StoredProcedure, 
+            _connection.Execute(StoredProcedure, parameters,
+                                commandType: CommandType.StoredProcedure,
                                 transaction: _transaction);
         }
 
@@ -111,11 +111,5 @@ namespace ASDataManager.Library.Internal.DataAccess
             _transaction = null;
             _connection = null;
         }
-        // Open Connection/Strat transaction method
-        // load using the transaction
-        // save using the transaction
-        // Close Connection/stop trasnaction
-        // Dispose
-
     }
 }

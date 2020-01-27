@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace ASDataManager.Library.DataAccess
 {
-    public class SaleData
+    public class SaleData : ISaleData
     {
-        private readonly IConfiguration _config;
+        private readonly IProductData _productData;
+        private readonly ISQLDataAccess _sql;
 
-        public SaleData(IConfiguration config)
+        public SaleData(IProductData productData, ISQLDataAccess sql)
         {
-            _config = config;
+            _productData = productData;
+            _sql = sql;
         }
 
         public void SaveSale(SaleModel saleInfo, string cashierId)
@@ -23,8 +25,7 @@ namespace ASDataManager.Library.DataAccess
             //TODO: Make this SOLID/DRY/Better
             // Start filling in the models we will save to the database
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
-            ProductData products = new ProductData(_config);
-            var taxRate = ConfigHelper.GetTaxRate()/100;
+            var taxRate = ConfigHelper.GetTaxRate() / 100;
 
             foreach (var item in saleInfo.SailDetails)
             {
@@ -35,9 +36,9 @@ namespace ASDataManager.Library.DataAccess
                 };
 
                 // Get the information about this product
-                var productInfo = products.GetProductById(detail.ProductId);
+                var productInfo = _productData.GetProductById(detail.ProductId);
 
-                if (productInfo ==null)
+                if (productInfo == null)
                 {
                     throw new Exception($"The product Id of { detail.ProductId } could not be found in the database.");
                 }
@@ -62,42 +63,39 @@ namespace ASDataManager.Library.DataAccess
 
             sale.Total = sale.SubTotal + sale.Tax;
 
-            using (SQLDataAccess sql = new SQLDataAccess(_config))
+
+            try
             {
-                try
+                _sql.StartTransaction("ASDatabase");
+
+                // Save the sale model
+                _sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
+
+                // Get the ID from the sale model
+                sale.Id = _sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { sale.CashierId, sale.SaleDate }).FirstOrDefault();
+
+                // Finish filling in the sale detail models
+                foreach (var item in details)
                 {
-                    sql.StartTransaction("ASDatabase");
+                    item.SaleId = sale.Id;
 
-                    // Save the sale model
-                    sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
-
-                    // Get the ID from the sale model
-                    sale.Id = sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { sale.CashierId, sale.SaleDate }).FirstOrDefault();
-
-                    // Finish filling in the sale detail models
-                    foreach (var item in details)
-                    {
-                        item.SaleId = sale.Id;
-
-                        // Save the sale detail models
-                        sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
-                    }
-
-                    sql.CommitTransaction();
+                    // Save the sale detail models
+                    _sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
                 }
-                catch
-                {
-                    sql.RollbackTransaction();
-                    throw;
-                }
+
+                _sql.CommitTransaction();
             }
+            catch
+            {
+                _sql.RollbackTransaction();
+                throw;
+            }
+
         }
 
         public List<SaleReportModel> GetSaleReport()
         {
-            SQLDataAccess sql = new SQLDataAccess(_config);
-
-            var output = sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "ASDatabase");
+            var output = _sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "ASDatabase");
 
             return output;
         }
