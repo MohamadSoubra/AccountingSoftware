@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28917.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASDataManager", "ASDataManager\ASDataManager.csproj", "{1A5D606B-C547-4AC8-B4DF-2BA6BD13AD88}"
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ASDatabase", "AccountingSoftwareDatabase\ASDatabase.sqlproj", "{5CDAC44C-34FB-4CA4-AB0B-725EDE1E25C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASDesktopUI", "ASDesktopUI\ASDesktopUI.csproj", "{E9B555DD-0F2F-492A-82AA-FC3AF492F80A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASDesktopUI", "ASDesktopUI\ASDesktopUI.csproj", "{E9B555DD-0F2F-492A-82AA-FC3AF492F80A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASDataManager.Library", "ASDataManager.Library\ASDataManager.Library.csproj", "{68258B39-6BC0-4F40-86C8-2611802557A5}"
 EndProject
@@ -19,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{35
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front-End", "Front-End", "{8125EF88-06F4-4CA4-B42F-D44D542C0A4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingSoftwareApi", "AccountingSoftwareApi\AccountingSoftwareApi.csproj", "{8BB5BDD0-B36A-4B3D-AEE8-012878470CAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountingSoftwareApi", "AccountingSoftwareApi\AccountingSoftwareApi.csproj", "{8BB5BDD0-B36A-4B3D-AEE8-012878470CAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1A5D606B-C547-4AC8-B4DF-2BA6BD13AD88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A5D606B-C547-4AC8-B4DF-2BA6BD13AD88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A5D606B-C547-4AC8-B4DF-2BA6BD13AD88}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A5D606B-C547-4AC8-B4DF-2BA6BD13AD88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CDAC44C-34FB-4CA4-AB0B-725EDE1E25C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5CDAC44C-34FB-4CA4-AB0B-725EDE1E25C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CDAC44C-34FB-4CA4-AB0B-725EDE1E25C3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -58,7 +52,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1A5D606B-C547-4AC8-B4DF-2BA6BD13AD88} = {AFB64C73-B7A9-40D6-83E4-B0F8B95C8797}
 		{5CDAC44C-34FB-4CA4-AB0B-725EDE1E25C3} = {35CEE23F-77CA-4018-981C-6F146044996D}
 		{E9B555DD-0F2F-492A-82AA-FC3AF492F80A} = {8125EF88-06F4-4CA4-B42F-D44D542C0A4D}
 		{68258B39-6BC0-4F40-86C8-2611802557A5} = {AFB64C73-B7A9-40D6-83E4-B0F8B95C8797}
