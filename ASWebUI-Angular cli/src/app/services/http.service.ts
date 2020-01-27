@@ -8,13 +8,13 @@ import { throwError } from "rxjs";
 })
 export class HttpService {
 
-  rootUrl: string = "https://localhost:44379"
+  rootUrl: string = "https://localhost:5001"
 
   constructor(private http:HttpClient) { }
 
   getProducts(){
     return this.http.get(`${this.rootUrl}/api/product`).pipe(
-      catchError(() => throwError('User not found'))
+      catchError(() => throwError('Product not found'))
     );
   }
 }
