@@ -306,7 +306,11 @@ namespace ASDesktopUI.ViewModels
                     Quantity = item.QuantityInCart
                 });
 
+
+
             }
+
+
 
             await _saleEndpoint.postSale(sale);
 

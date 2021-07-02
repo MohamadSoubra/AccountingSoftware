@@ -13,20 +13,25 @@ namespace ASDataManager.Library.DataAccess
     {
         private readonly IProductData _productData;
         private readonly ISQLDataAccess _sql;
+        private readonly IConfiguration _config;
 
-        public SaleData(IProductData productData, ISQLDataAccess sql)
+        public SaleData(IProductData productData, ISQLDataAccess sql, IConfiguration config)
         {
             _productData = productData;
             _sql = sql;
+            _config = config;
         }
 
         public void SaveSale(SaleModel saleInfo, string cashierId)
         {
-            //TODO: Make this SOLID/DRY/Better
+            // TODO: Make this SOLID/DRY/Better
             // Start filling in the models we will save to the database
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
-            var taxRate = ConfigHelper.GetTaxRate() / 100;
+            //var taxRate = _configHelper.GetTaxRate() / 100;
+            ConfigHelper cf = new ConfigHelper(_config);
 
+            var taxRate = cf.GetTaxRate() / 100;
+           
             foreach (var item in saleInfo.SaleDetails)
             {
                 var detail = new SaleDetailDBModel

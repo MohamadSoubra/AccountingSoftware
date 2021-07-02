@@ -61,9 +61,11 @@
     <Folder Include="dbo\Views" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="PublishLocation" />
+    <Folder Include="dbo\Scripts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocation\AccountingSoftwareDatabase.publish.xml" />
+    <None Include="dbo\Scripts\Populate-Database.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\User.sql" />
@@ -80,5 +82,11 @@
     <Build Include="dbo\Stored Procedures\spInventory_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spInventory_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spSale_SaleReport.sql" />
+    <Build Include="dbo\Tables\Client.sql" />
+    <Build Include="dbo\Tables\Supplier.sql" />
+    <Build Include="dbo\Tables\Invoice.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="ASDatabase.refactorlog" />
   </ItemGroup>
 </Project>

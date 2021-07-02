@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -7,11 +8,22 @@ using System.Threading.Tasks;
 
 namespace ASDataManager.Library
 {
-    public static class ConfigHelper
+    public class ConfigHelper
     {
-        public static decimal GetTaxRate()
+        private readonly IConfiguration _config;
+
+        public ConfigHelper(IConfiguration config)
         {
-            string ratetext = ConfigurationManager.AppSettings["taxRate"];
+            _config = config;
+        }
+
+
+        public decimal GetTaxRate()
+        {
+            //string ratetext = ConfigurationManager.AppSettings["taxRate"];
+            string ratetext = _config.GetSection("taxRate").Value;
+
+
 
             bool IsValidTaxRate = Decimal.TryParse(ratetext, out decimal output);
 
@@ -22,5 +34,6 @@ namespace ASDataManager.Library
 
             return output;
         }
+
     }
 }

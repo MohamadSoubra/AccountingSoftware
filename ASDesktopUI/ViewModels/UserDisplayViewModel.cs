@@ -73,14 +73,14 @@ namespace ASDesktopUI.ViewModels
         }
 
 
-        private string _SelectedUserName;
+        private string _selectedUserName;
 
         public string SelectedUserName
         {
-            get { return _SelectedUserName; }
+            get { return _selectedUserName; }
             set 
             { 
-                _SelectedUserName = value;
+                _selectedUserName = value;
                 NotifyOfPropertyChange(() => SelectedUserName);
             }
         }
