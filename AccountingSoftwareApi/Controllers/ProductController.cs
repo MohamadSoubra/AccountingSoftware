@@ -14,7 +14,6 @@ namespace AccountingSoftwareApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[EnableCors("AllowMyOrigin")]
     public class ProductController : ControllerBase
     {
         private readonly IProductData _productData;
@@ -24,13 +23,29 @@ namespace AccountingSoftwareApi.Controllers
             _productData = productData;
         }
 
-        [Authorize(Roles = "Cashier")]
+        [Authorize(Roles = "Accountant")]
         [HttpGet]
-        [AllowAnonymous]
-        //[EnableCors("AllowMyOrigin")]
         public List<ProductModel> Get()
         {
             return _productData.GetProducts();
+        }
+
+        [Authorize(Roles = "Manager")]
+        //[Authorize(Roles = "Accountant")]
+        [HttpPost]
+        public IActionResult PostProducts([FromBody] List<ProductModel> products)
+        {
+            _productData.PostProducts(products);
+
+            return Ok();
+        }
+
+
+        [Authorize(Roles ="Accountant")]
+        [HttpDelete]
+        public void DeleteProducts([FromBody] int[] productsIds)
+        {
+            _productData.DeleteProducts(productsIds);
         }
     }
 }
