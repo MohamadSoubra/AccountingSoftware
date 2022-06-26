@@ -24,13 +24,13 @@ namespace AccountingSoftwareApi.Controllers
             _saleData = saleData;
         }
 
-        [Authorize(Roles = "Cashier")]
+        [Authorize(Roles = "Accountant")]
         [HttpPost]
         public void Post(SaleModel sale)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            _saleData.SaveSale(sale, userId);
+            _saleData.SaveSale(sale, userId, null);
         }
 
         [Authorize(Roles = "Admin,Manager")]
