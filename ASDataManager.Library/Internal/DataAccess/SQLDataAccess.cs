@@ -37,13 +37,13 @@ namespace ASDataManager.Library.Internal.DataAccess
 
         }
 
-        public void SaveData<T>(string StoredProcedure, T parameters, string connectionStringName)
+        public int SaveData<T>(string StoredProcedure, T parameters, string connectionStringName)
         {
             string connectionString = GetConnectionString(connectionStringName);
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
-                connection.Execute(StoredProcedure, parameters, commandType: CommandType.StoredProcedure);
+                return connection.ExecuteScalar<int>(StoredProcedure, parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -71,9 +71,9 @@ namespace ASDataManager.Library.Internal.DataAccess
 
         }
 
-        public void SaveDataInTransaction<T>(string StoredProcedure, T parameters)
+        public T SaveDataInTransaction<T>(string StoredProcedure, T parameters)
         {
-            _connection.Execute(StoredProcedure, parameters,
+            return _connection.ExecuteScalar<T>(StoredProcedure, parameters,
                                 commandType: CommandType.StoredProcedure,
                                 transaction: _transaction);
         }
@@ -114,5 +114,7 @@ namespace ASDataManager.Library.Internal.DataAccess
             _transaction = null;
             _connection = null;
         }
+
+     
     }
 }

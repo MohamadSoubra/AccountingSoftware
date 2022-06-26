@@ -7,5 +7,8 @@ namespace ASDataManager.Library.DataAccess
     {
         ProductModel GetProductById(int productId);
         List<ProductModel> GetProducts();
+        void PostProducts(List<ProductModel> products);
+
+        void DeleteProducts(int[] Ids);
     }
 }

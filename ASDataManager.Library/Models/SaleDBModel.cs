@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ASDataManager.Library.DataAccess
+namespace ASDataManager.Library.Models
 {
     public class SaleDBModel
     {

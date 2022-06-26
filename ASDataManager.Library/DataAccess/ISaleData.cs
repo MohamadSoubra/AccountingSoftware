@@ -6,6 +6,6 @@ namespace ASDataManager.Library.DataAccess
     public interface ISaleData
     {
         List<SaleReportModel> GetSaleReport();
-        void SaveSale(SaleModel saleInfo, string cashierId);
+        void SaveSale(SaleModel saleInfo, string cashierId, int? invoiceId);
     }
 }

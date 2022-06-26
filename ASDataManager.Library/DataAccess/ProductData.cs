@@ -31,5 +31,24 @@ namespace ASDataManager.Library.DataAccess
 
             return output;
         }
+
+        //TODO: Check if that method is made by me or by IAMTIMCOREY
+        public void PostProducts(List<ProductModel> products)
+        {
+
+            //foreach (var product in products)
+            //{
+            //    //_sql.SaveData<ProductModel>("dbo.spProduct_Insert", new {ProductName = product.ProductName, Description = product.Description, RetailPrice= product.RetailPrice, QuantityInStock = product.QuantityInStock}, "ASDatabase");
+            //    _sql.SaveData<object>("dbo.spProduct_Insert", new {product.ProductName, product.Description, product.RetailPrice, product.QuantityInStock, product.IsTaxable}, "ASDatabase");
+
+            //}
+            _sql.SaveData<object>("dbo.spProduct_Insert", products, "ASDatabase");
+        }
+
+        public void DeleteProducts(int[] IDs)
+        {
+            _sql.SaveData<object>("dbo.spProduct_Delete", new { Ids = String.Join(",", IDs) }, "ASDatabase");
+
+        }
     }
 }

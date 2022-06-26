@@ -10,8 +10,8 @@ namespace ASDataManager.Library.Internal.DataAccess
         List<T> LoadData<T, U>(string StoredProcedure, U parameters, string connectionStringName);
         List<T> LoadDataInTransaction<T, U>(string StoredProcedure, U parameters);
         void RollbackTransaction();
-        void SaveData<T>(string StoredProcedure, T parameters, string connectionStringName);
-        void SaveDataInTransaction<T>(string StoredProcedure, T parameters);
+        int SaveData<T>(string StoredProcedure, T parameters, string connectionStringName);
+        T SaveDataInTransaction<T>(string StoredProcedure, T parameters);
         void StartTransaction(string connectionStringName);
     }
 }

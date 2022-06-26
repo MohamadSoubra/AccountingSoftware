@@ -22,7 +22,7 @@ namespace ASDataManager.Library.DataAccess
             _config = config;
         }
 
-        public void SaveSale(SaleModel saleInfo, string cashierId)
+        public void SaveSale(SaleModel saleInfo, string cashierId, int? invoiceId = null)
         {
             // TODO: Make this SOLID/DRY/Better
             // Start filling in the models we will save to the database
@@ -37,7 +37,8 @@ namespace ASDataManager.Library.DataAccess
                 var detail = new SaleDetailDBModel
                 {
                     ProductId = item.ProductId,
-                    Quantity = item.Quantity
+                    Quantity = item.Quantity,
+                    InvoiceId = invoiceId
                 };
 
                 // Get the information about this product
@@ -63,7 +64,6 @@ namespace ASDataManager.Library.DataAccess
                 SubTotal = details.Sum(x => x.PurchasePrice),
                 Tax = details.Sum(x => x.Tax),
                 CashierId = cashierId
-
             };
 
             sale.Total = sale.SubTotal + sale.Tax;
