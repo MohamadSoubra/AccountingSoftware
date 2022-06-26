@@ -25,11 +25,13 @@ namespace AccountingSoftwareApi.Controllers
             _userManager = userManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Privacy()
         {
             //string[] roles = { "Admin", "Manager", "Cashier" };
@@ -56,6 +58,7 @@ namespace AccountingSoftwareApi.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [HttpGet]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
