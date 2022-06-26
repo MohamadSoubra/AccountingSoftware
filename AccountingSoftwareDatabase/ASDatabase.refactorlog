@@ -28,4 +28,74 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="SaleDetailId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="57ffb34e-0f91-4ba6-a4c4-c91536b6f724" ChangeDateTime="06/16/2021 16:53:42">
+    <Property Name="ElementName" Value="[dbo].[Invoice].[Am]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Invoice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AmountDue" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5007509c-2504-43ed-9cc9-e83133166313" ChangeDateTime="06/17/2021 19:19:26">
+    <Property Name="ElementName" Value="[dbo].[Invoice].[InvoiceDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Invoice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreationDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3e1aa62e-ce67-44be-b284-aeefa46cd04d" ChangeDateTime="06/17/2021 19:21:02">
+    <Property Name="ElementName" Value="[dbo].[Invoice].[CreationDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Invoice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InvoicedAt" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4769da33-d330-4878-ab2a-0423b3a0390f" ChangeDateTime="06/24/2021 15:03:22">
+    <Property Name="ElementName" Value="[dbo].[Statement].[Datefrom]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Statement]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FromDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="72d26c75-264d-447b-ab41-98a229e8b43e" ChangeDateTime="06/24/2021 15:03:26">
+    <Property Name="ElementName" Value="[dbo].[Statement].[DateTo]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Statement]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ToDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bb7d1e83-639c-4fe3-8040-cddd0ed71779" ChangeDateTime="06/24/2021 15:05:40">
+    <Property Name="ElementName" Value="[dbo].[Statement].[Amount]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Statement]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Invoiced" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="62de7336-01d2-4d9e-9dd6-a15c3a962a58" ChangeDateTime="06/24/2021 15:05:48">
+    <Property Name="ElementName" Value="[dbo].[Statement].[Balance]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Statement]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Paid" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7bf9020d-4747-437a-bfba-5f63d5fe22b2" ChangeDateTime="02/24/2022 05:38:48">
+    <Property Name="ElementName" Value="[dbo].[Invoice].[Paid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Invoice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Status" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8d622ea5-f4fa-4d01-984f-1d6c90ba8630" ChangeDateTime="03/01/2022 06:03:39">
+    <Property Name="ElementName" Value="[dbo].[Invoice].[InvoicedAt]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Invoice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InvoiceDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="920a18a9-af90-4a1a-8090-bce817a2e60d" ChangeDateTime="03/01/2022 06:23:47">
+    <Property Name="ElementName" Value="[dbo].[Statement].[Invoiced]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Statement]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Amount" />
+  </Operation>
 </Operations>

@@ -9,8 +9,7 @@
     <ProjectGuid>{5cdac44c-34fb-4ca4-ab0b-725ede1e25c3}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
-    <RootPath>
-    </RootPath>
+    <RootPath />
     <RootNamespace>AccountingSoftwareDatabase</RootNamespace>
     <AssemblyName>AccountingSoftwareDatabase</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
@@ -48,7 +47,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
@@ -62,6 +60,7 @@
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="PublishLocation" />
     <Folder Include="dbo\Scripts" />
+    <Folder Include="dbo\Functions" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocation\AccountingSoftwareDatabase.publish.xml" />
@@ -85,6 +84,21 @@
     <Build Include="dbo\Tables\Client.sql" />
     <Build Include="dbo\Tables\Supplier.sql" />
     <Build Include="dbo\Tables\Invoice.sql" />
+    <Build Include="dbo\Stored Procedures\spProduct_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spClient_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\spClient_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spClient_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\spInvoice_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\spInvoice_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\spInvoice_Insert.sql" />
+    <Build Include="dbo\Tables\Statement.sql" />
+    <Build Include="dbo\Stored Procedures\spSupplier_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\spSupplier_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spSupplier_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\spProduct_GetPaged.sql" />
+    <Build Include="dbo\Stored Procedures\spProduct_Delete.sql" />
+    <Build Include="dbo\Functions\Split.sql" />
+    <Build Include="dbo\Stored Procedures\spSaleDetail_GetByInvoiceId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ASDatabase.refactorlog" />
