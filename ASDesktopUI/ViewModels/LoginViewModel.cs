@@ -87,7 +87,7 @@ namespace ASDesktopUI.ViewModels
             }
         }
 
-        public async Task LogIn ()
+        public async Task LogIn()
         {
             try
             {

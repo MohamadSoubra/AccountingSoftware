@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Caliburn.Micro" Version="4.0.104-alpha" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Caliburn.Micro" Version="4.0.173" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ASDesktopUI.Library\ASDesktopUI.Library.csproj" />

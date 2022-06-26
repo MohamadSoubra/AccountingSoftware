@@ -18,16 +18,14 @@ namespace ASDesktopUI.Library.Api
 
         public async Task postSale(SaleModel sale)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Sale", sale))
+            using HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("api/Sale", sale);
+            if (response.IsSuccessStatusCode)
             {
-                if (response.IsSuccessStatusCode)
-                {
-                    // Log successful call?
-                }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+                // Log successful call?
+            }
+            else
+            {
+                throw new Exception(response.ReasonPhrase);
             }
         }
     }

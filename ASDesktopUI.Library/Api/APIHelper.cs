@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
+//using System.Net.Http;
+//using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace ASDesktopUI.Library.Api
@@ -29,19 +31,28 @@ namespace ASDesktopUI.Library.Api
             _apiClient = new HttpClient();
             _apiClient.BaseAddress = new Uri(api);
             _apiClient.DefaultRequestHeaders.Accept.Clear();
-            _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("applicatio/json"));
+            _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public async Task<AuthenticatedUser> Authenticate(string username, string password)
         {
-            var date = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("grant_type", "password"),
-                new KeyValuePair<string, string>("username", username),
-                new KeyValuePair<string, string>("password", password)
-            });
+            //var data = new FormUrlEncodedContent(new[]
+            //{
+            //    new KeyValuePair<string, string>("grant_type", "password"),
+            //    new KeyValuePair<string, string>("username", username),
+            //    new KeyValuePair<string, string>("password", password)
+            //});
 
-            using (HttpResponseMessage response = await _apiClient.PostAsync("/Token", date))
+            var dataList = new[]
+        {
+            new KeyValuePair<string, string>("grant_type", "password"),
+            new KeyValuePair<string, string>("email", username),
+            new KeyValuePair<string, string>("password", password)
+        };
+
+            var content = new FormUrlEncodedContent(dataList);
+
+            using (HttpResponseMessage response = await _apiClient.PostAsync("token", content))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -64,10 +75,10 @@ namespace ASDesktopUI.Library.Api
         {
             _apiClient.DefaultRequestHeaders.Clear();
             _apiClient.DefaultRequestHeaders.Accept.Clear();
-            _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("applicatio/json"));
+            _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _apiClient.DefaultRequestHeaders.Add("Authorization", $"Bearer { token }");
 
-            using (HttpResponseMessage response = await _apiClient.GetAsync("/api/User"))
+            using (HttpResponseMessage response = await _apiClient.GetAsync("api/User"))
             {
                 if (response.IsSuccessStatusCode)
                 {

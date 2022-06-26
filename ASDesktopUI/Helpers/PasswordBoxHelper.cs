@@ -27,7 +27,7 @@ namespace ASDesktopUI.Helpers
                 box.PasswordChanged -= PasswordChanged;
                 box.PasswordChanged += PasswordChanged;
             }
-
+            Console.WriteLine();
             return (string)d.GetValue(BoundPasswordProperty);
         }
 
