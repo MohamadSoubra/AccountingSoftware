@@ -6,46 +6,72 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AccountingSoftwareApi.Data;
+using AccountingSoftwareApi.Identity;
+using AccountingSoftwareApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AccountingSoftwareApi.Controllers
 {
-    public class TokenController : Controller
+    public class TokenController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IIdentityService _identityService;
 
-        public TokenController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public TokenController(ApplicationDbContext context, 
+                               UserManager<IdentityUser> userManager,
+                               IIdentityService identityService)
         {
             _context = context;
             _userManager = userManager;
+            _identityService = identityService;
         }
 
         [Route("/token")]
         [HttpPost]
-        public async Task<IActionResult> Create(string username, string password, string grant_type)
+        public async Task<AuthenticationResult> Create(string email, string password, string grant_type)
         {
-            if (await IsValidUsernameAndPassword(username,password))
+            #region Old Code
+            /*
+            if (await IsValidUsernameAndPassword(email,password))
             {
-                return new ObjectResult(await GenerateToken(username));
+                //return new ObjectResult(await GenerateTokens(email));
+                return await _identityService.LoginAsync(email, password);
             }
             else
             {
-                return BadRequest();
+                return new AuthenticationResult {Errors = new[] { "Invalid email or password" } };
             }
+            */
+            #endregion
+
+            var authResponse = await _identityService.LoginAsync(email, password);
+
+            if (authResponse == null) 
+            {
+
+                return new AuthenticationResult { Errors = new[] { "Invalid email or password" } };
+            }
+
+            setTokenCookie(authResponse.RefreshToken);
+
+            return new AuthenticationResult { Username = email, Access_Token = authResponse.Access_Token, RefreshToken = authResponse.RefreshToken, Success = true };
         }
 
-        private async Task<bool> IsValidUsernameAndPassword(string username, string password)
+        private async Task<bool> IsValidUsernameAndPassword(string email, string password)
         {
-            var user = await _userManager.FindByEmailAsync(username);
+            var user = await _userManager.FindByEmailAsync(email);
             return await _userManager.CheckPasswordAsync(user, password);
         }
 
-        private async Task<dynamic> GenerateToken(string username)
+        #region Old Token Generation implementation
+        /*
+        private async Task<AuthSuccessResponse> GenerateTokens(string email)
         {
-            var user = await _userManager.FindByEmailAsync(username);
+            var user = await _userManager.FindByEmailAsync(email);
             var roles = from ur in _context.UserRoles
                         join r in _context.Roles on ur.RoleId equals r.Id
                         where ur.UserId == user.Id
@@ -53,10 +79,12 @@ namespace AccountingSoftwareApi.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Name, email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
-                new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString())
+                //new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now).AddSeconds(10).ToUnixTimeSeconds().ToString())
+                new Claim(JwtRegisteredClaimNames.Exp, DateTime.UtcNow.AddHours(1).ToString())
             };
 
             foreach (var role in roles)
@@ -71,13 +99,106 @@ namespace AccountingSoftwareApi.Controllers
                         SecurityAlgorithms.HmacSha256)),
                 new JwtPayload(claims));
 
-            var output = new
+
+            var refreshToken = new RefreshToken
             {
-                Access_token = new JwtSecurityTokenHandler().WriteToken(token),
-                Username = username
+                JwtId = token.Id,
+                UserId = user.Id,
+                CreationDate = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddMonths(6)
+            };
+
+            await _context.RefreshTokens.AddAsync(refreshToken);
+            await _context.SaveChangesAsync();
+            //var output = new 
+            //{
+            //    Access_token = new JwtSecurityTokenHandler().WriteToken(token),
+            //    email = email,
+            //    validFrom = token.ValidFrom.ToString(),
+            //    expiresIn = token.ValidTo.ToString()
+            //};
+
+            setTokenCookie(refreshToken.Token);
+            
+            var output = new AuthSuccessResponse
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                RefreshToken = refreshToken.Token
             };
 
             return output;
         }
+        */
+        #endregion
+
+        [Route("/refresh-token")]
+        [HttpPost]
+        public async Task<IActionResult> RefreshToken([FromBody] AuthRequest request)
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            var authResponse = await _identityService.RefreshTokenAsync(request.Token, refreshToken);
+
+
+            if (!authResponse.Success)
+            {
+                return BadRequest(new AuthenticationResult
+                {
+                    Errors = authResponse.Errors
+                });
+            }
+
+            setTokenCookie(authResponse.RefreshToken);
+
+            return Ok(new AuthSuccessResponse
+            {
+                Token = authResponse.Access_Token,
+                RefreshToken = authResponse.RefreshToken
+            });
+
+        }
+
+        [Route("/revoke-token")]
+        [HttpPost]
+        public async Task<IActionResult> RevokeToken([FromBody] RefreshTokenRequest request)
+        {
+            //var refreshTokenRequest = Request.Cookies["refreshToken"];
+            var tokenrequest = request.RefreshToken ?? Request.Cookies["refreshToken"];
+
+            var storedRefreshToken = _context.RefreshTokens.FirstOrDefault(token => token.Token == tokenrequest);
+
+            if (storedRefreshToken == null)
+            {
+                return BadRequest("Token Not found");
+            }
+
+            storedRefreshToken.Invalidated = true;
+            _context.RefreshTokens.Update(storedRefreshToken);
+            await _context.SaveChangesAsync();
+
+            return Ok("Token successfully revoked");
+        }
+
+        private void setTokenCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                Expires = DateTime.UtcNow.AddDays(7),
+                SameSite = SameSiteMode.None
+                
+            };
+            Response.Cookies.Append("refreshToken", token, cookieOptions);
+        }
+
+
+
+        //private string ipAddress()
+        //{
+        //    if (Request.Headers.ContainsKey("X-Forwarded-For"))
+        //        return Request.Headers["X-Forwarded-For"];
+        //    else
+        //        return HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+        //}
     }
 }
