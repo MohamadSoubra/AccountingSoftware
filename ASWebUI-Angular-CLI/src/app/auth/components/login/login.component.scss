@@ -1,0 +1,53 @@
+// @import "src/styles.scss";  
+
+.container {
+  width: 100%;
+  margin: 5% auto;
+  max-width: 30em;
+}
+.alert {
+  max-width: 25em;
+  margin: 2% auto;
+}
+
+.center {
+  text-align: center;
+}
+
+.form {
+  padding: 2rem 1rem;
+  //padding-bottom: 3rem;
+  //background-color: $background;
+  margin: 0 5%;
+  border-radius: 0.5rem;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.form h2 {
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+.form-group {
+  //margin-top: 1rem;
+  //margin: 0;
+  text-align: center;
+
+  input {
+    margin-top: 0.5rem;
+  }
+  button {
+    margin-top: 2rem;
+  }
+  //font-weight: 600;
+  .ForgetPwd {
+    margin: 0;
+  }
+  .Register {
+    margin-top: 0;
+    padding: 0;
+  }
+}
+
+.form-group {
+  margin-bottom: 0;
+}

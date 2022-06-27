@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "mont";
+    src: url("/assets/Fonts/Montserrat-Medium.ttf") format("truetype") ;
+    font-display: block;
+}
+
+@font-face {
+    font-family: "mont-bold";
+    src: url("/assets/Fonts/Montserrat-Bold.ttf") format("truetype") ;
+    font-display: block;
+}

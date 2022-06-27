@@ -1,0 +1,5 @@
+@use '~@angular/material' as mat;
+
+$primary: mat.get-color-from-palette($ASW-primary);
+$secondary: mat.get-color-from-palette($ASW-accent);
+$warn:    mat.get-color-from-palette($ASW-warn, 400);

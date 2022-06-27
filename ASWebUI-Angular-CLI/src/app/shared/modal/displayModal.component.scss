@@ -1,0 +1,115 @@
+// @use "../../../cutomMaterialTheme.scss" as cmt;
+.modal {
+  --flex-size : 100%;
+  // width: 60vw;
+  z-index: 2;
+  margin: -1px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 101%;
+  position: relative;
+  left: 0;
+  top: 0;
+  background-color: var(--primary-light); // cmt.$primary-light;
+  border-bottom: 1px solid var(--primary); //cmt.$primary;
+    .title {
+    z-index: 5 !important;
+    color: white;
+    background-color: var(--primary);// cmt.$primary;
+    padding: 1rem;
+    margin: 0;
+    // height: 20%;
+    div{
+      display: flex;
+      justify-content: space-between;
+      vertical-align: middle;
+      h1{
+        margin: 0;
+      }
+    }
+
+    }
+    .mat-dialog-content {
+      // padding: 1rem;
+      overflow: auto;
+      margin-inline: auto;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      // background-color: orange;
+      form {
+        overflow: auto;
+        width: 90%;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+      
+        .firstName & {
+          width: 100%;
+          background: orange;
+          border: 5px solid blue;
+        }
+        * > .address {
+          display: block;
+          flex-grow: 1;
+          flex-shrink: 0;
+          flex-basis: 100% !important;
+        }
+      }
+      
+      .form > *{
+        // width: 100%;
+        // flex: 1;
+        flex-wrap: wrap;
+        flex-shrink: 1;
+        flex-basis: auto;
+        
+      }
+
+      .form > .ng-star-inserted:first-child{
+        display: none;
+      }
+
+      .form > * > * {
+        padding: 1rem;
+        width: 100%;
+      }
+  }
+  .dialog-actions {
+  display: flex;
+  padding: 1rem;
+  justify-content: flex-end;
+    button{
+      background-color: white;
+    }
+  }
+
+}
+
+.firstName{
+  // background: pink;
+  // .firstName &{
+  //   width: 100%;
+  //   background: orange;
+  //   border: 5px solid blue;
+  // }
+}
+
+// .ng-star-inserted:nth-of-type(2), .ng-star-inserted:nth-of-type(3){
+//   border: 5px dashed red;
+//   width: 50%;
+//   height: fit-content;
+// }
+
+.ml {
+  margin-left: 1rem;
+}
+
+@media (min-width: 768px) {
+
+  .mat-dialog-content {
+    padding: 1rem;
+  }
+}

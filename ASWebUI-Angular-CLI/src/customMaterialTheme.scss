@@ -1,0 +1,79 @@
+@use '~@angular/material' as mat;
+// @use './bootStrap.scss' as boot;
+@use "sass:map";
+
+@include mat.core();
+///////////////////////////////BOOtSTRAP/////////////////////////////////////
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+
+
+$ASW-primary: mat.define-palette(mat.$teal-palette, 900);//, 500, 100, 700);
+$ASW-accent: mat.define-palette(mat.$orange-palette, 500);
+$ASW-warn: mat.define-palette(mat.$red-palette);
+
+$ASW-theme: mat.define-light-theme((
+ color: (
+   primary: $ASW-primary,
+   accent: $ASW-accent,
+ )
+));
+
+@mixin color($BG-Color, $color: $ASWebUI-primary, ) {
+  
+}
+
+
+
+
+/*
+@include mat.core-theme($ASW-theme);
+@include mat.menu-theme($ASW-theme);
+@include mat.select-theme($ASW-theme);
+@include mat.button-theme($ASW-theme);
+@include mat.table-theme($ASW-theme);
+@include mat.tooltip-theme($ASW-theme);
+@include mat.dialog-theme($ASW-theme);
+@include mat.form-field-theme($ASW-theme);
+*/
+
+@include mat.all-component-themes($ASW-theme);
+
+//$color-config:    mat.get-color-config($ASW-theme);
+$primary: mat.get-color-from-palette($ASW-primary);
+// boot.$primary: $primary;
+$primary-light: mat.get-color-from-palette($ASW-primary, 50);
+$accent:  mat.get-color-from-palette($ASW-accent); 
+$secondary: $accent;
+$warn:    mat.get-color-from-palette($ASW-warn, 400);
+//$is-dark-theme:   map.get($color-config, 'is-dark');
+
+// 
+// // @include mat.all-component-themes($ASW-theme);
+// .mat-stroked-button, .mat-flat-button{
+//     @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-border-radius);
+
+// }
+
+
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+// 4. Include any optional Bootstrap components as you like
+@import "../node_modules/bootstrap/scss/root";
+// @import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/containers";
+@import "../node_modules/bootstrap/scss/grid";
+@import "../node_modules/bootstrap/scss/type";
+@import "../node_modules/bootstrap/scss/nav";
+@import "../node_modules/bootstrap/scss/navbar";
+@import "../node_modules/bootstrap/scss/utilities";
+@import "../node_modules/bootstrap/scss/forms";
+@import "../node_modules/bootstrap/scss/buttons";
+
+// 5. Add additional custom code here

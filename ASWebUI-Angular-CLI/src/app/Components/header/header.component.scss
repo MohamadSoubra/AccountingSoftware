@@ -1,0 +1,22 @@
+// //@use '~@angular/material' as mat;
+// @use "src/customMaterialTheme.scss" as cmt;
+
+.navbar {
+  
+  background-color: var(--primary);
+  padding: 0.5rem 1.5rem;
+  
+  ul {
+    margin: auto;
+  }
+  
+  .navbar-nav {
+    .nav-item {
+      margin: auto 0;
+    }
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

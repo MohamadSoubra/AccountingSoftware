@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <app-table
+    [tableData]="clientList"
+    [tableColumns]="clientTableColumns"
+    [isPageable]="true"
+    [isFilterable]="true"
+    [paginationSizes]=""
+    [defaultPageSize]=""
+    [hasActionColumn]="true"
+    [hasCheckboxColumn]="true"
+    [componentName]= "componentName"
+    >
+    <!-- (actionEdit)="edit($event)"
+    (actionDelete)="delete($event)" -->
+  </app-table>
+  
+</div>

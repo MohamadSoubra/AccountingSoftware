@@ -1,0 +1,7 @@
+// @use "cutomMaterialTheme.scss" as cmt;
+
+$test-variable: black;
+
+@mixin set-variables($test) {
+   $test-variable : $test;
+}

@@ -1,0 +1,24 @@
+<form [formGroup]="clientForm" (ngSubmit)="saveClient()">
+    <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="" formControlName="firstName" >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput placeholder="" formControlName="lastName" >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Email Address</mat-label>
+        <input matInput placeholder="" formControlName="emailAddress" >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Phone Number</mat-label>
+        <input matInput placeholder="" formControlName="phoneNumber" >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput placeholder="" formControlName="address" >
+    </mat-form-field>
+
+    <button mat-stroked-button color="primary" [disabled]="!clientForm.valid" type="submit">save</button>
+</form>
