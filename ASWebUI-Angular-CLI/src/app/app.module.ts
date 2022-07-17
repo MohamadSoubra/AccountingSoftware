@@ -23,27 +23,15 @@ import { LoadingSpinnerComponent } from "./shared/loading-Spinner/loading-spoinn
 import { TableComponent } from "./components/table/table.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatTableModule } from "@angular/material/table";
-import { MatSortModule } from "@angular/material/sort";
-import { MatPaginatorModule } from "@angular/material/paginator";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatButtonModule } from "@angular/material/button";
-import { MatInputModule } from "@angular/material/input";
-import { MatTabsModule } from "@angular/material/tabs";
-import { MatIconModule } from "@angular/material/icon";
 import { DataPropertyGetterPipe } from "./components/table/data-property-getter/data-property-getter-pipe";
 import { TesttableComponent } from "./testtable/testtable.component";
-import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatDialogModule } from "@angular/material/dialog";
 import { DisplayModalComponent } from "./shared/modal/displayModal.component";
-import { MatSelectModule } from "@angular/material/select";
-import { MatCheckboxModule } from "@angular/material/checkbox";
 import { InvoicesComponent } from "./components/invoices/invoices.component";
-import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatNativeDateModule } from "@angular/material/core";
 import { ClientFormComponent } from './components/clients/client-form/client-form.component';
 import { SaleDetailComponent } from './components/sale-detail/sale-detail.component';
-import { AddEditComponent } from './Shared/add-edit/add-edit.component';
+import { AddEditModule } from "./shared/add-edit/add-edit.module";
+import { AngularMaterialModule } from "./shared/angular-material/angular-material.module";
 
 @NgModule({
   declarations: [
@@ -60,36 +48,23 @@ import { AddEditComponent } from './Shared/add-edit/add-edit.component';
     InvoicesComponent,
     ClientFormComponent,
     SaleDetailComponent,
-    AddEditComponent,
     //LoadingSpinnerComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     AuthModule,
     AlertModule.forRoot(),
     RouterModule,
+    AddEditModule,
     BrowserAnimationsModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatTabsModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatDialogModule,
+    BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
+    AngularMaterialModule,
+    
   ],
-  exports: [MatTableModule, MatDialogModule],
+  exports: [MatTableModule, MatDialogModule, AngularMaterialModule],
   providers: [
     AuthService,
     AuthGuard,

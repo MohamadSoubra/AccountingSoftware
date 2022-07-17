@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,10 +21,12 @@ export class AddEditComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private apiHelper: ApiHelperService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location :Location
     ) {}
     
-  @Input() displayItem: Product | Client | Supplier | Invoice;
+  // @Input() displayItem: Product | Client | Supplier | Invoice = null;
+  @Input() displayItem: Invoice = null;
     
   Title: string = "NO-ID";
   itemProperties;
@@ -43,17 +46,35 @@ export class AddEditComponent implements OnInit {
     // console.log("this.displayItem.constructor.name", this.displayItem.constructor.name );
     // console.log("Object.keys(this.displayItem)", Object.keys(this.displayItem));
     // console.log("Object.keys(Product)", Object.keys(new Product()));
+    const newINvoive = new Invoice();
+    const invoiceTestType =  newINvoive;
+    console.log("typeof newINvoive", newINvoive.constructor.name);
+    console.log(
+      "typeof invoiceTestType", invoiceTestType.constructor.name
+    );
+    
+    console.log("Location",this.location);
+    this.route.params.subscribe(p => {
+      if (isNaN(+p['id'])) {
+        console.log("is NAN");
+        
+        this.displayItem = this.apiHelper.InitializeType(p["id"]);
+      } else {
+        console.log("! is NAN");
+        this.displayItem = this.apiHelper.getInvoiceById(p["id"]);
+        
 
-    console.log("Item is",this.route.snapshot.paramMap.get("item"));
+      }
+    })
     console.log("this.route.snapshot.data", this.route);
     
-    const itemIndex :string =  this.route.snapshot.paramMap.get("item")
+    // const itemIndex :string =  this.route.snapshot.paramMap.get("item")
     
-    if (isNaN(+itemIndex)) {
-      this.displayItem = this.apiHelper.InitializeType(itemIndex);
-    } else {
-      this.displayItem = this.apiHelper.getInvoiceById(itemIndex);
-    }
+    // if (isNaN(+itemIndex)) {
+    //   this.displayItem = this.apiHelper.InitializeType(itemIndex);
+    // } else {
+    //   this.displayItem = this.apiHelper.getInvoiceById(itemIndex);
+    // }
       
     console.log("this.displayItem", this.displayItem);
 
@@ -156,6 +177,8 @@ export class AddEditComponent implements OnInit {
     // console.log("this.itemform.controls.client", this.itemform.controls.client);
     // console.log("this.itemform", this.itemform);
     // console.log("this.selectInputData", this.selectInputData);
+
+    document.documentElement.style.setProperty("--grd_col", "span 2");
   }
 
   onSubmit() {
@@ -178,6 +201,10 @@ export class AddEditComponent implements OnInit {
   //to dinamically change the material dialoge title
   getType(object) {
     // Object.keys(object).
+  }
+
+  Cancel(){
+    this.location.back();
   }
 
   AddClient() {

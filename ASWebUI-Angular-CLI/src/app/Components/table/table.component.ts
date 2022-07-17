@@ -13,7 +13,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort} from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
 import { Client } from "src/app/Models/client.model";
 import { Identification } from "src/app/Models/Identification.interface";
@@ -93,7 +93,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   displayDialog: MatDialogRef<DisplayModalComponent<T>, T>;
 
   displayedColumnFilters: any[];
-  constructor(private dialog: MatDialog, private api: ApiHelperService,private router : Router) {
+  constructor(private dialog: MatDialog, private api: ApiHelperService,private router : Router, private actRout : ActivatedRoute) {
     //this.tableDataItems = new TableDataSource(this.tableData);
   }
 
@@ -301,156 +301,22 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   
 
   AddRecord() {
-    // if(this.componentName !== "Invoice"){
-    //   let dialogObject: T = this.InitializeType();
-    //   console.log("dialogObject", dialogObject);
+    
 
-    //   this.openDialog(dialogObject);
-
-    //   this.displayDialog.afterClosed().subscribe(
-    //     (result) => {
-    //       if (!this.objectIsEmpty(result)) {
-    //         console.log("result is", result);
-    //         const resultingData = this.tableDataItems.DATA$.value;
-    //         result.id = String(+resultingData[resultingData.length - 1].id + 1);
-    //         resultingData.push(result);
-    //         this.tableDataItems.DATA$.next(resultingData);
-    //         //this.tableDataItems = new TableDataSource(this.tableDataItems.data);
-    //         //this.tableDataItems.paginator = this.matPaginator;
-    //         //this.tableDataItems.sort = this.matSort;
-    //         //this.table.dataSource = this.tableDataSource;
-    //       } else {
-    //         console.log(`result is empty`);
-    //       }
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // }else{
-    //   // this.tableDataItems.DATA$ = new BehaviorSubject<SaleDetail[]>();
-    //   // const saledetails : SaleDetail[] = [
-    //   //   {
-    //   //     id: "1004",
-    //   //     quantity: 10,
-    //   //     product: {
-    //   //       productName : "NewProduct",
-    //   //       description: "Added From Angular",
-    //   //       quantityInStock: 10,
-    //   //       id: "999",
-    //   //       isTaxable: false,
-    //   //       retailPrice: 9999
-    //   //     },
-    //   //   },
-    //   //   {
-    //   //     id: "1005",
-    //   //     quantity: 10,
-    //   //     product: {
-    //   //       productName : "NewProduct",
-    //   //       description: "Added From Angular",
-    //   //       quantityInStock: 10,
-    //   //       id: "999",
-    //   //       isTaxable: false,
-    //   //       retailPrice: 9999
-    //   //     },
-    //   //   },
-    //   //   {
-    //   //     id: "1006",
-    //   //     quantity: 10,
-    //   //     product: {
-    //   //       productName : "NewProduct",
-    //   //       description: "Added From Angular",
-    //   //       quantityInStock: 10,
-    //   //       id: "999",
-    //   //       isTaxable: false,
-    //   //       retailPrice: 9999
-    //   //     },
-    //   //   },
-    //   //   {
-    //   //     id: "1007",
-    //   //     quantity: 10,
-    //   //     product: {
-    //   //       productName : "NewProduct",
-    //   //       description: "Added From Angular",
-    //   //       quantityInStock: 10,
-    //   //       id: "999",
-    //   //       isTaxable: false,
-    //   //       retailPrice: 9999
-    //   //     },
-    //   //   },
-    //   //   {
-    //   //     id: "1008",
-    //   //     quantity: 10,
-    //   //     product: {
-    //   //       productName : "NewProduct",
-    //   //       description: "Added From Angular",
-    //   //       quantityInStock: 10,
-    //   //       id: "999",
-    //   //       isTaxable: false,
-    //   //       retailPrice: 9999
-    //   //     },
-    //   //   },
-    //   //   {
-    //   //     id: "1009",
-    //   //     quantity: 10,
-    //   //     product: {
-    //   //       productName : "NewProduct",
-    //   //       description: "Added From Angular",
-    //   //       quantityInStock: 10,
-    //   //       id: "999",
-    //   //       isTaxable: false,
-    //   //       retailPrice: 9999
-    //   //     },
-    //   //   },
-    //   // ];
-    //   // this.tableDataItems = new TableDataSource(saledetails)
-    //   // console.log("this.tableDataItems", this.tableDataItems);
-    //   // this.tableDataItems.DATA$.next(saledetails)
-      
-    //   // this.router.navigate(["AddEdit", this.InitializeType() ]);
-    //   this.router.navigate([
-    //     "AddEdit",
-    //     { item: 0 },
-    //   ]);
-    // }
-
-      this.router.navigate([
-        "AddEdit",
-        { item: this.componentName },
-      ]);
+    this.router.navigate(["./AddEdit", this.componentName],
+     {
+      relativeTo: this.actRout
+     }
+    );
   }
 
   edit(item: T) {
-    // console.log("item", item);
     
-    // if (!this.objectIsEmpty(item)) {
-    //   let converteditem = this.InitializeType(item);
-    //   this.openDialog(converteditem);
-
-    //   this.displayDialog.afterClosed().subscribe(
-    //     (result) => {
-    //       if (!this.objectIsEmpty(result)) {
-    //         console.log("result is", result);
-    //         const resultingData = this.tableDataItems.DATA$.value.map(
-    //           (data) => {
-    //             if (data.id == result.id) {
-    //               data = result;
-    //             }
-    //             return data;
-    //           }
-    //         );
-    //         this.tableDataItems.DATA$.next(resultingData);
-    //       }
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // } else {
-    //   return;
-    //   console.log("item is empty");
-    // }
-    this.router.navigate(["AddEdit", { item: item.id }]);
+    this.router.navigate(["./AddEdit", item.id], 
+    {
+      relativeTo: this.actRout,
+    }
+    );
 
   }
 

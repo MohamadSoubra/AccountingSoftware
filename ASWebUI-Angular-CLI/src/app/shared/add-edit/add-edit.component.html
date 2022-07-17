@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <div >
+    <div>
 
         <form [formGroup]="itemform" (ngSubmit)="onSubmit()" class="form">
             <div *ngFor=" let prop of itemProperties;let i=index">
@@ -88,7 +88,7 @@
     </div>
 
     <div class="dialog-actions">
-        <button mat-stroked-button>Cancel</button>
+        <button mat-stroked-button (click)="Cancel()">Cancel</button>
         <button mat-stroked-button class="ml" type="submit" (click)="onSubmit()"
             color="primary">Save</button>
     </div>

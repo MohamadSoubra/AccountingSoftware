@@ -12,19 +12,44 @@ import { AddEditComponent } from "./Shared/add-edit/add-edit.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent, canActivate: [AuthGuard] },
-  { path: "products", component: ProductsComponent, canActivate: [AuthGuard] },
-  { path: "clients", component: ClientsComponent, canActivate: [AuthGuard] },
+  {
+    path: "products",
+    component: ProductsComponent,
+    canActivate: [AuthGuard],
+    // ,children: [
+    //   {path: "AddEdit", component: AddEditComponent},
+    //   {path: "AddEdit/:id", component: AddEditComponent},
+    // ]
+  },
+  {
+    path: "clients",
+    component: ClientsComponent,
+    canActivate: [AuthGuard],
+    // ,children: [
+    //   {path: "AddEdit", component: AddEditComponent},
+    //   {path: "AddEdit/:id", component: AddEditComponent},
+    // ]
+  },
   {
     path: "suppliers",
     component: SuppliersComponent,
     canActivate: [AuthGuard],
+    // children:[
+    //   {path: "AddEdit", component: AddEditComponent},
+    //   {path: "AddEdit/:id", component: AddEditComponent},
+    // ]
   },
-  { path: "invoices", component: InvoicesComponent, canActivate: [AuthGuard],},
-  {path: "AddEdit", component: AddEditComponent}
+  {
+    path: "invoices",
+    component: InvoicesComponent,
+    canActivate: [AuthGuard],
+  },
+  // { path: "AddEdit/:id", component: AddEditComponent },
 ];
  
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {enableTracing: false}), AuthModule],
+  // imports: [RouterModule.forRoot(routes, {enableTracing: true}), AuthModule],
+  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

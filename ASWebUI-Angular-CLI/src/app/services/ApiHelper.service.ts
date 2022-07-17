@@ -701,8 +701,21 @@ export class ApiHelperService {
   }
 
   getInvoiceById(ID: any): Invoice {
-    const invoice = this.fakeInvoices.find((invoice) => invoice.id === ID);
+    const invoice: Invoice = new Invoice (this.fakeInvoices.find((invoice) => invoice.id === ID));
+    console.log("invoice.constructor.name",invoice.constructor.name);
     return invoice;
+  }
+
+  getProductById(ID: any): Product {
+    const product: Product = new Product (this.fakeProducts.find((product) => product.id === ID));
+    console.log("product.constructor.name",product.constructor.name);
+    return product;
+  }
+
+  getclientById(ID: any): Client {
+    const client: Client = new Client (this.fakeClients.find((client) => client.id === ID));
+    console.log("client.constructor.name",client.constructor.name);
+    return client;
   }
 
   //getToken(user:User){
