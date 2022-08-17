@@ -1,22 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { Invoice } from 'src/app/Models/invoice.model';
-import { Client } from 'src/app/Models/client.model';
-import { ApiHelperService } from 'src/app/services/ApiHelper.service';
-import { TableColumn } from '../table/table.component';
-import { ClientsComponent } from '../clients/clients.component';
-import { InvoiceDBModel } from 'src/app/Models/invoice-dbmodel.model';
-import { Sale } from 'src/app/Models/sale.model';
-import { SaleDetail } from 'src/app/Models/sale-detail.model';
+import { Component, OnInit } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
+import { Invoice } from "src/app/Models/invoice.model";
+import { Client } from "src/app/Models/client.model";
+import { ApiHelperService } from "src/app/services/ApiHelper.service";
+import { TableColumn } from "../../Components/table/table.component";
 
 @Component({
-  selector: "app-invoices",
-  templateUrl: "./invoices.component.html",
-  styleUrls: ["./invoices.component.scss"],
+  selector: "app-invoice",
+  templateUrl: "./invoice.component.html",
+  styleUrls: ["./invoice.component.scss"],
 })
-export class InvoicesComponent implements OnInit {
+export class InvoiceComponent implements OnInit {
   InvoiceList = [];
   invoice: Invoice;
   productsTableColumns: TableColumn[];
@@ -128,23 +124,22 @@ export class InvoicesComponent implements OnInit {
     ];
     const InvoicestoDisplay = this.api.getInvoices();
 
-    if(!this.editmode){
+    if (!this.editmode) {
       this.InvoiceList = InvoicestoDisplay.map((invoice) => {
-          return {
-            id: invoice.id,
-            clientId: invoice.clientId,
-            amountDue: invoice.amountDue,
-            description: invoice.description,
-            invoiceDate: invoice.invoiceDate,
-            invoiceNumber: invoice.invoiceNumber,
-            paymentDueDate: invoice.paymentDueDate,
-            status: invoice.status,
-          };
+        return {
+          id: invoice.id,
+          clientId: invoice.clientId,
+          amountDue: invoice.amountDue,
+          description: invoice.description,
+          invoiceDate: invoice.invoiceDate,
+          invoiceNumber: invoice.invoiceNumber,
+          paymentDueDate: invoice.paymentDueDate,
+          status: invoice.status,
+        };
       });
-    }else{
+    } else {
       this.InvoiceList = saledetails;
     }
-    
 
     // InvoicestoDisplay.forEach(invoice => {
     //   this.InvoiceList.push(
@@ -298,14 +293,12 @@ export class InvoicesComponent implements OnInit {
     console.log("this.InvoiceList AFTER DELETE", this.InvoiceList);
   }
 
-  toggleEditmode(){
-    if(this.editmode === true){
+  toggleEditmode() {
+    if (this.editmode === true) {
       this.editmode = false;
-    }else{
+    } else {
       this.editmode = true;
     }
     console.log(this.editmode);
-    
   }
-
 }

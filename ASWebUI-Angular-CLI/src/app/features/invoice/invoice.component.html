@@ -1,0 +1,9 @@
+<button (click)="toggleEditmode()">Edit</button>
+<div class="container-fluid" *ngIf="InvoiceList">
+    <app-table [tableData]="InvoiceList" [tableColumns]="productsTableColumns" [isPageable]="true"
+        [isFilterable]="false" [paginationSizes]="" [defaultPageSize]="" [hasActionColumn]="true"
+        [hasCheckboxColumn]="false" [componentName]="componentName" (actionEdit)="edit($event)"
+        (actionDelete)="delete($event)">
+    </app-table>
+    <!-- <button (click)="getProducts()">Get Products</button> -->
+</div>

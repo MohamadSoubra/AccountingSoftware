@@ -7,8 +7,8 @@ import { LoginComponent } from "./auth/components/login/login.component";
 import { ProductsComponent } from "./components/products/products.component";
 import { ClientsComponent } from "./components/clients/clients.component";
 import { SuppliersComponent } from "./components/suppliers/suppliers.component";
-import { InvoicesComponent } from "./components/invoices/invoices.component";
 import { AddEditComponent } from "./Shared/add-edit/add-edit.component";
+import { AddEditModule } from "./shared/add-edit/add-edit.module";
 
 const routes: Routes = [
   { path: "", component: HomeComponent, canActivate: [AuthGuard] },
@@ -41,15 +41,15 @@ const routes: Routes = [
   },
   {
     path: "invoices",
-    component: InvoicesComponent,
     canActivate: [AuthGuard],
+    loadChildren: () => import('./features/invoice/invoice-routing.module').then(mod => mod.InvoiceRoutingModule),
   },
   // { path: "AddEdit/:id", component: AddEditComponent },
 ];
  
 @NgModule({
   // imports: [RouterModule.forRoot(routes, {enableTracing: true}), AuthModule],
-  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
+  imports: [RouterModule.forRoot(routes, {enableTracing: true}), AddEditModule],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

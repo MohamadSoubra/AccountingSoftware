@@ -27,11 +27,11 @@ import { DataPropertyGetterPipe } from "./components/table/data-property-getter/
 import { TesttableComponent } from "./testtable/testtable.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { DisplayModalComponent } from "./shared/modal/displayModal.component";
-import { InvoicesComponent } from "./components/invoices/invoices.component";
 import { ClientFormComponent } from './components/clients/client-form/client-form.component';
 import { SaleDetailComponent } from './components/sale-detail/sale-detail.component';
 import { AddEditModule } from "./shared/add-edit/add-edit.module";
 import { AngularMaterialModule } from "./shared/angular-material/angular-material.module";
+import { InvoiceModule } from "./features/invoice/invoice.module";
 
 @NgModule({
   declarations: [
@@ -45,7 +45,6 @@ import { AngularMaterialModule } from "./shared/angular-material/angular-materia
     DataPropertyGetterPipe,
     TesttableComponent,
     DisplayModalComponent,
-    InvoicesComponent,
     ClientFormComponent,
     SaleDetailComponent,
     //LoadingSpinnerComponent
@@ -64,7 +63,7 @@ import { AngularMaterialModule } from "./shared/angular-material/angular-materia
     AngularMaterialModule,
     
   ],
-  exports: [MatTableModule, MatDialogModule, AngularMaterialModule],
+  exports: [MatTableModule, MatDialogModule, AngularMaterialModule, TableComponent],
   providers: [
     AuthService,
     AuthGuard,
