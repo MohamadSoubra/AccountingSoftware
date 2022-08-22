@@ -32,6 +32,7 @@ import { SaleDetailComponent } from './components/sale-detail/sale-detail.compon
 import { AddEditModule } from "./shared/add-edit/add-edit.module";
 import { AngularMaterialModule } from "./shared/angular-material/angular-material.module";
 import { InvoiceModule } from "./features/invoice/invoice.module";
+import { TableModule } from "./shared/table/table.module";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import { InvoiceModule } from "./features/invoice/invoice.module";
     AngularMaterialModule,
     
   ],
-  exports: [MatTableModule, MatDialogModule, AngularMaterialModule, TableComponent],
+  exports: [MatTableModule, MatDialogModule, AngularMaterialModule, TableModule],
   providers: [
     AuthService,
     AuthGuard,

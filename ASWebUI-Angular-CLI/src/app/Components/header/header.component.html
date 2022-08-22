@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-primary p-4">
+<!-- <nav class="navbar navbar-expand-md navbar-dark bg-primary p-4">
   <a class="navbar-brand" [routerLink]="['/']" routerLinkActive="active"
     >Accounting Software</a
   >
@@ -69,8 +69,75 @@
       </li>
     </ul>
   </div>
-</nav>
+</nav> -->
 
 <!-- <app-home></app-home> -->
 
 <!-- <app-login></app-login> -->
+
+
+<mat-toolbar color="primary">
+  <span>Accounting Software</span>
+  <div class="navbarLinks" id="navbarLinks">
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a
+        class="nav-link"
+        [routerLink]="['products']"
+        routerLinkActive="active"
+        >Products</a
+        >
+      </li>
+      <li class="nav-item ">
+        <a  class="nav-link " 
+        [routerLink]="['clients']" 
+        routerLinkActive="active"
+        >Clients</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+        class="nav-link"
+        [routerLink]="['suppliers']"
+        routerLinkActive="active"
+        >Suppliers</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['invoices']" routerLinkActive="active">Invoices</a>
+      </li>
+    </ul>
+    <span class="spacer"></span>
+    <ul class="nav-auth" *ngIf="!isLoggedIn">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['login']" routerLinkActive="active"
+        >Login</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+        class="nav-link accent-bg roundBorders"
+        [routerLink]="['register']"
+        routerLinkActive="active"
+        >Resgister</a
+        >
+      </li>
+    </ul>
+    <!-- <span class="spacer"></span> -->
+    <ul class="navbar-nav" *ngIf="isLoggedIn">
+      <li class="nav-item">
+        <span class="navbar-text"
+        >Welcome <strong>{{ loggedInUser }}</strong>
+        </span>
+      </li>
+      <li class="nav-item cursorPointer">
+        <a class="nav-link" (click)="onlogout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+  <!-- <span class="spacer"></span> -->
+  <button mat-icon-button class="expander-icon" aria-label="icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  
+</mat-toolbar>
