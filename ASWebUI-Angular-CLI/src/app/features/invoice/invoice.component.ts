@@ -5,7 +5,7 @@ import { map, startWith } from "rxjs/operators";
 import { Invoice } from "src/app/Models/invoice.model";
 import { Client } from "src/app/Models/client.model";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
-import { TableColumn } from "../../Components/table/table.component";
+// import { TableColumn } from "../../Components/table/table.component";
 
 @Component({
   selector: "app-invoice",
@@ -15,7 +15,7 @@ import { TableColumn } from "../../Components/table/table.component";
 export class InvoiceComponent implements OnInit {
   InvoiceList = [];
   invoice: Invoice;
-  productsTableColumns: TableColumn[];
+  productsTableColumns = [];
   paginationSizes: any[];
   defaultPageSize: number;
   componentName: string = "Invoice";

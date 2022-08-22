@@ -20,10 +20,10 @@ import { SuppliersComponent } from "./components/suppliers/suppliers.component";
 import { RouterModule } from "@angular/router";
 import { HeaderComponent } from "./components/header/header.component";
 import { LoadingSpinnerComponent } from "./shared/loading-Spinner/loading-spoinner.component";
-import { TableComponent } from "./components/table/table.component";
+// import { TableComponent } from "./components/table/table.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatTableModule } from "@angular/material/table";
-import { DataPropertyGetterPipe } from "./components/table/data-property-getter/data-property-getter-pipe";
+// import { DataPropertyGetterPipe } from "./components/table/data-property-getter/data-property-getter-pipe";
 import { TesttableComponent } from "./testtable/testtable.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { DisplayModalComponent } from "./shared/modal/displayModal.component";
@@ -42,8 +42,8 @@ import { TableModule } from "./shared/table/table.module";
     ClientsComponent,
     SuppliersComponent,
     HeaderComponent,
-    TableComponent,
-    DataPropertyGetterPipe,
+    // TableComponent,
+    // DataPropertyGetterPipe,
     TesttableComponent,
     DisplayModalComponent,
     ClientFormComponent,
@@ -62,9 +62,10 @@ import { TableModule } from "./shared/table/table.module";
     FormsModule,
     ReactiveFormsModule,
     AngularMaterialModule,
+    TableModule,
     
   ],
-  exports: [MatTableModule, MatDialogModule, AngularMaterialModule, TableModule],
+  exports: [MatTableModule, MatDialogModule, TableModule],
   providers: [
     AuthService,
     AuthGuard,
