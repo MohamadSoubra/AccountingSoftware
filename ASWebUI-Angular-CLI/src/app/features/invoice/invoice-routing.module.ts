@@ -9,7 +9,7 @@ const routes: Routes = [
     redirectTo: "invoices"
   },
   {
-    path: "invoices",
+    path: "",
     component: InvoiceComponent,
   }
 ];
