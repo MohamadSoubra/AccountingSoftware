@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: "",
     component: InvoiceComponent,
+  },
+  {
+    path: "/:id",
+    loadChildren: () => import('../../shared/add-edit/add-edit.module').then(mod => mod.AddEditModule),
   }
 ];
 

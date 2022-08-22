@@ -304,7 +304,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   edit(item: T) {
-    this.router.navigate(["./AddEdit", item.id], {
+    this.router.navigate([`./${item.id}`, item.id], {
       relativeTo: this.actRout,
     });
   }
