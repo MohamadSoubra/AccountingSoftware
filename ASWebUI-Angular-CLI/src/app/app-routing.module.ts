@@ -49,7 +49,7 @@ const routes: Routes = [
  
 @NgModule({
   // imports: [RouterModule.forRoot(routes, {enableTracing: true}), AuthModule],
-  imports: [RouterModule.forRoot(routes, {enableTracing: true}), AddEditModule],
+  imports: [RouterModule.forRoot(routes, {enableTracing: false}), AddEditModule],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
