@@ -10,6 +10,6 @@ import { TableModule } from 'src/app/shared/table/table.module';
 @NgModule({
   declarations: [InvoiceComponent],
   imports: [CommonModule, TableModule],
-  exports: [InvoiceComponent],
+  // exports: [InvoiceComponent],
 })
 export class InvoiceModule {}

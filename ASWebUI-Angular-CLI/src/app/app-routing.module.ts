@@ -39,10 +39,15 @@ const routes: Routes = [
     //   {path: "AddEdit/:id", component: AddEditComponent},
     // ]
   },
+  // {
+  //   path: "invoices",
+  //   canActivate: [AuthGuard],
+  //   loadChildren: () => import('./features/invoice/invoice-routing.module').then(mod => mod.InvoiceRoutingModule),
+  // },
   {
     path: "invoices",
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./features/invoice/invoice-routing.module').then(mod => mod.InvoiceRoutingModule),
+    // canActivate: [AuthGuard],
+    loadChildren: () => import('./features/invoice/invoice.module').then(mod => mod.InvoiceModule),
   },
   // { path: "AddEdit/:id", component: AddEditComponent },
 ];
