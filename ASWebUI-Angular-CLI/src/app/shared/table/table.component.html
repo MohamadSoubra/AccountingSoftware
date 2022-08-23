@@ -57,7 +57,7 @@
         </div>
         <div class="tableScroll">
             <!-- Table -->
-            <table mat-table matSort #table multiTemplateDataRows class="mt-0">
+            <table mat-table [dataSource]="newTableDataSource" matSort multiTemplateDataRows class="mt-0">
 
                 <ng-container [matColumnDef]="CheckboxColumn" *ngIf="hasCheckboxColumn">
                     <th mat-header-cell *matHeaderCellDef>

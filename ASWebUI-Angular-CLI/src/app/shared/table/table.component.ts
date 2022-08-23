@@ -49,7 +49,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   @ViewChild(MatSort, { static: true }) matSort: MatSort;
   //@ViewChild(MatSort) matSort: MatSort;
 
-  @ViewChild(MatTable) table: MatTable<T>;
+  // @ViewChild(MatTable) table: MatTable<T>;
 
   @Input() isPageable = false;
   @Input() isSortable = false;
@@ -84,6 +84,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ActionColumn: string;
   CheckboxColumn: string;
 
+  newTableDataSource: TableDataSource<T>;
+
   emptyFilters = true;
 
   displayDialog: MatDialogRef<DisplayModalComponent<T>, T>;
@@ -96,23 +98,35 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     private actRout: ActivatedRoute
   ) {
     //this.tableDataItems = new TableDataSource(this.tableData);
+    // this.table.dataSource = new TableDataSource(this.tableData);
+    this.newTableDataSource = new TableDataSource(this.tableData)
+    console.log("this.newTableDataSource",this.newTableDataSource);
+    
   }
 
   ngOnInit(): void {
-    //console.log("this.tableData ngoninit", this.tableData);
-    console.log("this is ngOnIninit");
+    // console.log("this.tableData ngoninit", this.tableData);
+    // const testtabledatasource = new TableDataSource(this.tableData);
+    // console.log("testtabledatasource ngoninit", testtabledatasource);
 
-    this.tableDataItems = new TableDataSource(this.tableData);
+    // console.log("this is ngOnIninit");
+
+    // this.tableDataItems = new TableDataSource(this.tableData);
+    // this.table.dataSource = new TableDataSource([]);
+    // this.table.dataSource = new TableDataSource(this.tableData);
     console.log("this.tableDataItems NGONINIT", this.tableDataItems);
-    this.tableDataItems.sort = this.matSort;
-
+    // this.tableDataItems.sort = this.matSort;
+    // this.tableDataItems.paginator = this.matPaginator;
+    
     this.InitialzeColumns();
+    // this.table.dataSource = this.tableDataItems;
   }
 
   // we need this, in order to make pagination work with *ngIf
   ngAfterViewInit() {
-    this.tableDataItems.paginator = this.matPaginator;
-    this.table.dataSource = this.tableDataItems;
+    this.newTableDataSource.paginator = this.matPaginator;
+    this.newTableDataSource.sort = this.matSort;
+    // this.table.dataSource = this.tableDataItems;
 
     ///https://stackoverflow.com/questions/62710052/mat-sort-ascending-with-null-values-to-last
     ///For moving null values always to the bottom
@@ -125,7 +139,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
   prindData() {
     console.log(this.tableDataItems);
-    console.log(this.table);
+    // console.log(this.table);
   }
 
   // edit(element: any) {
@@ -304,7 +318,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   edit(item: T) {
-    this.router.navigate([`./${item.id}`, item.id], {
+    this.router.navigate([`./`, item.id], {
       relativeTo: this.actRout,
     });
   }

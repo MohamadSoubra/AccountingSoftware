@@ -12,6 +12,8 @@ import { Identification } from "src/app/Models/Identification.interface";
  */
 export class TableDataSource<T extends Identification> extends DataSource<any> {
   public data: any;
+  // paginator: MatPaginator;
+  // sort: MatSort;
   paginator: MatPaginator;
   sort: MatSort;
   filterChange$: BehaviorSubject<any> = new BehaviorSubject<any>("");
@@ -37,18 +39,31 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
   connect(): Observable<T[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
-    const dataMutations = [
-      // observableOf(this.data),
-      this.DATA$,
-      this.paginator.page,
-      this.sort.sortChange,
-      this.filterChange$,
-    ];
+    // let dataMutations = [
+    //   // observableOf(this.data),
+    //   this.DATA$,
+    //   this.filterChange$,
+    // ];
+
+    let dataMutations;
+
+    if(this.paginator && this.sort ){
+      dataMutations = [this.DATA$, this.filterChange$, this.paginator.page, this.sort.sortChange];
+    }else{
+      dataMutations = [this.DATA$, this.filterChange$];
+    }
+
+    // if(this.sort){
+    //   dataMutations.push(this.sort.sortChange);
+    // }
+
+
+
 
     return merge(...dataMutations).pipe(
       map(() => {
         return this.getPagedData(
-          this.getFilteredData(this.getSortedData([...this.DATA$.value]))
+          this.getSortedData(this.getFilteredData([...this.DATA$.value]))
         );
       })
     );
