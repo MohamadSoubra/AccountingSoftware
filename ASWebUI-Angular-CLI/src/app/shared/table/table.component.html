@@ -230,7 +230,8 @@
         </div>
 
         <!-- Pagination -->
-        <mat-paginator *ngIf="isPageable" #matPaginator [length]="tableDataItems.data?.length"
+        <!-- *ngIf="isPageable" -->
+        <mat-paginator  #matPaginator [length]="tableDataItems.data?.length"
             [pageSizeOptions]="paginationSizes" [pageSize]="defaultPageSize" showFirstLastButtons>
             <!-- (page)="pageEvent = handlePage($event)" -->
         </mat-paginator>

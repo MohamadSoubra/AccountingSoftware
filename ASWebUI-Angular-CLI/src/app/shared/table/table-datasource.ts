@@ -23,11 +23,11 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
   // columnName: string;
   // filterObject: any;
 
-  constructor(datasource: T[]) {
+  constructor(datasource?: T[]) {
     super();
     //this.data = datasource;
     //this.DATA$ = new BehaviorSubject(datasource);
-    this.DATA$.next(datasource);
+    
     // this._changedetectorref.detectChanges();
   }
 
@@ -39,19 +39,21 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
   connect(): Observable<T[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
-    // let dataMutations = [
-    //   // observableOf(this.data),
-    //   this.DATA$,
-    //   this.filterChange$,
-    // ];
+    let dataMutations = [
+      // observableOf(this.data),
+      this.DATA$,
+      // this.filterChange$,
+      this.paginator.page, 
+      // this.sort.sortChange
+    ];
 
-    let dataMutations;
+    // let dataMutations;
 
-    if(this.paginator && this.sort ){
-      dataMutations = [this.DATA$, this.filterChange$, this.paginator.page, this.sort.sortChange];
-    }else{
-      dataMutations = [this.DATA$, this.filterChange$];
-    }
+    // if(this.paginator && this.sort ){
+    //   dataMutations = [this.DATA$, this.filterChange$, this.paginator.page, this.sort.sortChange];
+    // }else{
+    //   dataMutations = [this.DATA$, this.filterChange$];
+    // }
 
     // if(this.sort){
     //   dataMutations.push(this.sort.sortChange);
@@ -60,13 +62,22 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
 
 
 
+    // return merge(...dataMutations).pipe(
+    //   map(() => {
+        
+    //       return this.getPagedData(
+    //         this.getFilteredData(this.getSortedData([...this.DATA$.value])))
+    //   }))
+
+
     return merge(...dataMutations).pipe(
       map(() => {
-        return this.getPagedData(
-          this.getSortedData(this.getFilteredData([...this.DATA$.value]))
-        );
-      })
-    );
+        
+          return this.getPagedData([...this.DATA$.value])
+      }))
+
+
+
   }
 
   /**
@@ -80,8 +91,9 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    * this would be replaced by requesting the appropriate data from the server.
    */
   private getPagedData(data: T[]) {
-    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-    // console.log(`this.paginator is ${this.paginator}`);
+
+      const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+      // console.log(`this.paginator is ${this.paginator}`);
     // console.log(`this.paginator.pageSize is ${this.paginator.pageSize}`);
     // console.log(`this.paginator.pageIndex is  ${this.paginator.pageIndex}`);
     // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
@@ -93,28 +105,30 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
       // console.log(`diff is ${diff}`);
       // console.log(`startIndex is ${startIndex}`);
       // console.log(`data.length is ${data.length}`);
-
+      
       for (let i = 0; i < diff; i++) {
         data.push(Object.create(null));
       }
     }
-
+    
     // console.log(`this.paginator.pageIndex is AFTER ${this.paginator.pageIndex}`);
-
+    
     // console.log(JSON.stringify(data));
     return data.splice(startIndex, this.paginator.pageSize);
+  
   }
-
+  
   /**
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
   private getSortedData(data: T[]) {
-    if (!this.sort.active || this.sort.direction === "") {
-      return data; //?
-    }
 
-    return data.sort((a, b) => {
+      if (!this.sort.active || this.sort.direction === "") {
+        return data; //?
+      }
+      
+      return data.sort((a, b) => {
       let keyName = this.sort.active;
       // console.log(keyName);
       //console.log(a[keyName]);
@@ -122,9 +136,10 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
         a[keyName],
         b[keyName],
         this.sort.direction === "asc"
-      );
-    });
+        );
+      });
   }
+  
 
   filterPredicate(data, filter): boolean {
     return true;
@@ -137,7 +152,9 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     //console.log(this.filterChange$.value);
 
     if (!this.filterChange$.value || this.filterChange$.value === "") {
-      this.paginator.length = data.length;
+      if(this.paginator){
+        this.paginator.length = data.length;
+      }
       return data;
     }
 
@@ -182,6 +199,11 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     //   )
     // );
   }
+
+  setData(data: T[]) {
+    this.DATA$.next(data);
+  }
+
   /** Simple sort comparator (for client-side sorting). */
   compare(a: string | number, b: string | number, isAsc: boolean) {
     return (

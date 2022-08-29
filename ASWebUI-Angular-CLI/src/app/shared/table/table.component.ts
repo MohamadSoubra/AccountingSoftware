@@ -46,6 +46,12 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   public displayedColumns: string[];
 
   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
+  set paginator(value: MatPaginator) {
+    if (this.newTableDataSource){
+      this.newTableDataSource.paginator = value;
+    }
+  }
+
   @ViewChild(MatSort, { static: true }) matSort: MatSort;
   //@ViewChild(MatSort) matSort: MatSort;
 
@@ -84,7 +90,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ActionColumn: string;
   CheckboxColumn: string;
 
-  newTableDataSource: TableDataSource<T>;
+  newTableDataSource : TableDataSource<T>;
 
   emptyFilters = true;
 
@@ -99,8 +105,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ) {
     //this.tableDataItems = new TableDataSource(this.tableData);
     // this.table.dataSource = new TableDataSource(this.tableData);
-    this.newTableDataSource = new TableDataSource(this.tableData)
-    console.log("this.newTableDataSource",this.newTableDataSource);
+    // this.newTableDataSource = new TableDataSource(this.tableData);
+    // console.log("this.newTableDataSource",this.newTableDataSource);
     
   }
 
@@ -112,20 +118,22 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // console.log("this is ngOnIninit");
 
     // this.tableDataItems = new TableDataSource(this.tableData);
-    // this.table.dataSource = new TableDataSource([]);
-    // this.table.dataSource = new TableDataSource(this.tableData);
+    // this.newTableDataSource.setData(this.tableData)
     console.log("this.tableDataItems NGONINIT", this.tableDataItems);
     // this.tableDataItems.sort = this.matSort;
     // this.tableDataItems.paginator = this.matPaginator;
     
     this.InitialzeColumns();
     // this.table.dataSource = this.tableDataItems;
+    // this.newTableDataSource = new TableDataSource(this.tableData);
   }
-
+  
   // we need this, in order to make pagination work with *ngIf
   ngAfterViewInit() {
+    // this.table.dataSource = new TableDataSource(this.tableData);
     this.newTableDataSource.paginator = this.matPaginator;
     this.newTableDataSource.sort = this.matSort;
+    this.newTableDataSource = new TableDataSource(this.tableData);
     // this.table.dataSource = this.tableDataItems;
 
     ///https://stackoverflow.com/questions/62710052/mat-sort-ascending-with-null-values-to-last
