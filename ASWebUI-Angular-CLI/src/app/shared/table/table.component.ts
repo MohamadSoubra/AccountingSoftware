@@ -42,17 +42,32 @@ export interface TableColumn {
 })
 export class TableComponent<T extends Identification> implements OnInit, AfterViewInit
 {
-  public tableDataItems = new TableDataSource<T>([]);
+  // public tableDataItems = new TableDataSource<T>([]);
   public displayedColumns: string[];
 
-  @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
-  set paginator(value: MatPaginator) {
-    if (this.newTableDataSource){
-      this.newTableDataSource.paginator = value;
-    }
-  }
+ 
+  // this property needs to have a setter, to dynamically get changes from parent component
+  // @Input() set tableData(data: any[]) {
+  //   this.setTableDataSource(data);
+  // }
 
-  @ViewChild(MatSort, { static: true }) matSort: MatSort;
+  // @ViewChild('matPaginator') set paginator(matPaginator:MatPaginator) {
+  //   if (matPaginator) this.newTableDataSource.paginator = matPaginator;
+  //     console.log("this.newTableDataSource from setting paginator",this.newTableDataSource);
+
+  // }
+
+   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
+  // set paginator(value: MatPaginator) {
+  //   if (this.newTableDataSource){
+  //     this.newTableDataSource.paginator = value;
+  //   }
+  //   console.log("this.newTableDataSource from setting paginator",this.newTableDataSource);
+    
+  // }
+
+
+  @ViewChild(MatSort, { static: false }) matSort: MatSort;
   //@ViewChild(MatSort) matSort: MatSort;
 
   // @ViewChild(MatTable) table: MatTable<T>;
@@ -73,10 +88,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   @Output() actionEdit: EventEmitter<any> = new EventEmitter<any>();
   @Output() actionDelete: EventEmitter<any> = new EventEmitter<any>();
 
-  // this property needs to have a setter, to dynamically get changes from parent component
-  // @Input() set tableData(data: any[]) {
-  //   //this.setTableDataSource(data);
-  // }
+  
 
   @Input() tableData: T[];
 
@@ -90,7 +102,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ActionColumn: string;
   CheckboxColumn: string;
 
-  newTableDataSource : TableDataSource<T>;
+  newTableDataSource : MatTableDataSource<T>;
 
   emptyFilters = true;
 
@@ -107,6 +119,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // this.table.dataSource = new TableDataSource(this.tableData);
     // this.newTableDataSource = new TableDataSource(this.tableData);
     // console.log("this.newTableDataSource",this.newTableDataSource);
+    // this.newTableDataSource = new TableDataSource();
     
   }
 
@@ -114,30 +127,71 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // console.log("this.tableData ngoninit", this.tableData);
     // const testtabledatasource = new TableDataSource(this.tableData);
     // console.log("testtabledatasource ngoninit", testtabledatasource);
-
+      // console.log(this.newTableDataSource);
+    // this.newTableDataSource.paginator = this.matPaginator;
+      
     // console.log("this is ngOnIninit");
-
+    // this.newTableDataSource.DATA$.next(this.tableData);
     // this.tableDataItems = new TableDataSource(this.tableData);
     // this.newTableDataSource.setData(this.tableData)
-    console.log("this.tableDataItems NGONINIT", this.tableDataItems);
+    // console.log("this.tableDataItems NGONINIT", this.tableDataItems);
+    console.log("this.matPaginator",this.matPaginator);
+    console.log("this.newTableDataSource NGONINIT", this.newTableDataSource);
     // this.tableDataItems.sort = this.matSort;
     // this.tableDataItems.paginator = this.matPaginator;
     
     this.InitialzeColumns();
     // this.table.dataSource = this.tableDataItems;
     // this.newTableDataSource = new TableDataSource(this.tableData);
+    // this.newTableDataSource = new TableDataSource(this.tableData);
+    this.newTableDataSource = new MatTableDataSource(this.tableData);
   }
   
   // we need this, in order to make pagination work with *ngIf
   ngAfterViewInit() {
-    // this.table.dataSource = new TableDataSource(this.tableData);
+    // this.newTableDataSource.mutateData();
+      console.log("this.matPaginator",this.matPaginator);
+    // this.matPaginator.
     this.newTableDataSource.paginator = this.matPaginator;
     this.newTableDataSource.sort = this.matSort;
-    this.newTableDataSource = new TableDataSource(this.tableData);
-    // this.table.dataSource = this.tableDataItems;
+    // // this.table.dataSource = this.tableDataItems;
+    // console.log("this.newTableDataSource", this.newTableDataSource);
+    
+
+    console.log("this.newTableDataSource ngAfterViewInit", this.newTableDataSource);
 
     ///https://stackoverflow.com/questions/62710052/mat-sort-ascending-with-null-values-to-last
     ///For moving null values always to the bottom
+  }
+
+  private fillDataPaginator(data: T[]) {
+
+    const startIndex = this.matPaginator.pageIndex * this.matPaginator.pageSize;
+    // console.log(`this.paginator is ${this.paginator}`);
+    // console.log(`this.paginator.pageSize is ${this.paginator.pageSize}`);
+    // console.log(`this.paginator.pageIndex is  ${this.paginator.pageIndex}`);
+    // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
+    if (
+      data.length - startIndex < this.matPaginator.pageSize &&
+      data.length > this.matPaginator.pageSize) 
+      {
+      let diff = this.matPaginator.pageSize - (data.length - startIndex);
+      // console.log(`diff is ${diff}`);
+      // console.log(`startIndex is ${startIndex}`);
+      // console.log(`data.length is ${data.length}`);
+      
+      for (let i = 0; i < diff; i++) {
+        data.push(Object.create(null));
+      }
+    }
+  
+    // console.log(`this.paginator.pageIndex is AFTER ${this.paginator.pageIndex}`);
+    
+    // console.log(JSON.stringify(data));
+    const test = data.splice(startIndex, this.matPaginator.pageSize);
+    console.log('test',test);
+    
+    return test;
   }
 
   getSortingOrder = (order, a, b) => {
@@ -146,7 +200,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   };
 
   prindData() {
-    console.log(this.tableDataItems);
+    // console.log(this.tableDataItems);
     // console.log(this.table);
   }
 
@@ -157,24 +211,26 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   delete(element) {
     console.log(element);
 
-    let data: any = this.tableDataItems.DATA$.value.filter(
-      (el) => el != element
-    );
-    this.tableDataItems.DATA$.next(data);
-    this.tableDataItems.paginator = this.matPaginator;
-    if (this.matPaginator.pageIndex >= this.matPaginator.getNumberOfPages()) {
-      this.matPaginator.previousPage();
-    }
+    // let data: any = this.tableDataItems.DATA$.value.filter(
+    //   (el) => el != element
+    // );
+    // this.tableDataItems.DATA$.next(data);
+    // this.tableDataItems.paginator = this.matPaginator;
+    // if (this.matPaginator.pageIndex >= this.matPaginator.getNumberOfPages()) {
+    //   this.matPaginator.previousPage();
+    // }
   }
 
-  // setTableDataSource(data: any[]) {
-  //   this.tableDataItems.sort = this.matSort;
-  //   this.table.dataSource = this.tableDataItems;
-  //   console.log("this.tableDataItems", this.tableDataItems);
-  // }
+  setTableDataSource(data: any[]) {
+    // this.newTableDataSource = new TableDataSource(data);
+    // this.newTableDataSource.sort = new MatSort();
+    console.log("this.matPaginator",this.matPaginator);
+    
+    console.log("this.newTableDataSource", this.newTableDataSource);
+  }
 
   clearFilters() {
-    this.tableDataItems.filterChange$.next("");
+    // this.tableDataItems.filterChange$.next("");
     console.log(this.filterInputs);
     this.filterInputs = {};
     this.emptyFilters = true;
@@ -187,10 +243,10 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
         (input) => this.filterInputs[input] == ""
       )
     ) {
-      this.tableDataItems.filterChange$.next("");
+      // this.tableDataItems.filterChange$.next("");
       this.emptyFilters = true;
     } else {
-      this.tableDataItems.filterChange$.next(JSON.stringify(this.filterInputs));
+      // this.tableDataItems.filterChange$.next(JSON.stringify(this.filterInputs));
       this.emptyFilters = false;
     }
   }
@@ -200,21 +256,21 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     console.log(column);
 
     return;
-    this.tableDataItems.filterPredicate = (
-      d: MatTableDataSource<any>,
-      filter: string
-    ) => {
-      //console.log(column);
-      //console.log(d.retailPrice.toString());
-      if (d[column] != undefined || d[column] != null) {
-        const textToSearch =
-          (d[column].toString() && d[column].toString().toLowerCase()) || "";
-        return textToSearch.indexOf(filter) !== -1;
-      } else {
-        //console.log("undefined");
-      }
-      //console.log(textToSearch.indexOf(filter) !== -1);
-    };
+    // this.tableDataItems.filterPredicate = (
+    //   d: MatTableDataSource<any>,
+    //   filter: string
+    // ) => {
+    //   //console.log(column);
+    //   //console.log(d.retailPrice.toString());
+    //   if (d[column] != undefined || d[column] != null) {
+    //     const textToSearch =
+    //       (d[column].toString() && d[column].toString().toLowerCase()) || "";
+    //     return textToSearch.indexOf(filter) !== -1;
+    //   } else {
+    //     //console.log("undefined");
+    //   }
+    //   //console.log(textToSearch.indexOf(filter) !== -1);
+    // };
 
     //this.tableDataSource.columnName = column;
   }
@@ -225,10 +281,10 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
         (input) => this.filterInputs[input] == ""
       )
     ) {
-      this.tableDataItems.filterChange$.next("");
+      // this.tableDataItems.filterChange$.next("");
       this.emptyFilters = true;
     } else {
-      this.tableDataItems.filterChange$.next(JSON.stringify(this.filterInputs));
+      // this.tableDataItems.filterChange$.next(JSON.stringify(this.filterInputs));
       this.emptyFilters = false;
     }
   }
@@ -245,7 +301,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // console.log(this.tableData);
 
     const numSelected = this.selection.selected.length;
-    let numRows = this.tableDataItems.DATA$.value.length;
+    // let numRows = this.newTableDataSource.DATA$.value.length;
+    let numRows = this.newTableDataSource.data.length;
     //console.log(`num Rows ${numRows}`);
     //console.log(this.tableDataSource);
 
@@ -259,14 +316,15 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
       this.selection.clear();
       return;
     }
-    this.selection.select(...this.tableDataItems.DATA$.value);
+    this.selection.select(...this.newTableDataSource.data);
   }
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: TableColumn): string {
     // return
     if (!row) {
-      return `${this.isAllSelected() ? "deselect" : "select"} all`;
+      return 
+      // `${this.isAllSelected() ? "deselect" : "select"} all`;
     }
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row ${
       row.position + 1
@@ -286,14 +344,15 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   batchDelete() {
-    const DeletionResult = this.tableDataItems.DATA$.value.filter(
-      (item) => !this.selection.selected.includes(item)
-    );
-    this.tableDataItems.DATA$.next(DeletionResult);
-    this.selection.clear();
-    if (this.matPaginator.pageIndex >= this.matPaginator.getNumberOfPages()) {
-      this.matPaginator.previousPage();
-    }
+    return;
+    // const DeletionResult = this.tableDataItems.DATA$.value.filter(
+    //   (item) => !this.selection.selected.includes(item)
+    // );
+    // this.tableDataItems.DATA$.next(DeletionResult);
+    // this.selection.clear();
+    // if (this.matPaginator.pageIndex >= this.matPaginator.getNumberOfPages()) {
+    //   this.matPaginator.previousPage();
+    // }
   }
 
   // getPagedDataSource(data: any): MatTableDataSource<any> {

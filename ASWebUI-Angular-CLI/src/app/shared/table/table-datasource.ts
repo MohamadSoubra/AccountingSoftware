@@ -4,6 +4,7 @@ import { MatSort } from "@angular/material/sort";
 import { map } from "rxjs/operators";
 import { Observable, of as observableOf, merge, BehaviorSubject } from "rxjs";
 import { Identification } from "src/app/Models/Identification.interface";
+import { MatTableDataSource } from "@angular/material/table";
 
 /**
  * Data source for the Testtable view. This class should
@@ -12,6 +13,7 @@ import { Identification } from "src/app/Models/Identification.interface";
  */
 export class TableDataSource<T extends Identification> extends DataSource<any> {
   public data: any;
+  test : MatTableDataSource<T>;
   // paginator: MatPaginator;
   // sort: MatSort;
   paginator: MatPaginator;
@@ -27,6 +29,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     super();
     //this.data = datasource;
     //this.DATA$ = new BehaviorSubject(datasource);
+    this.DATA$.next(datasource)
     
     // this._changedetectorref.detectChanges();
   }
@@ -37,15 +40,17 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    * @returns A stream of the items to be rendered.
    */
   connect(): Observable<T[]> {
+    return this.DATA$;
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
-    let dataMutations = [
-      // observableOf(this.data),
-      this.DATA$,
-      // this.filterChange$,
-      this.paginator.page, 
-      // this.sort.sortChange
-    ];
+
+    // let dataMutations = [
+    //   // observableOf(this.data),
+    //   this.DATA$,
+    //   this.filterChange$,
+    //   this.paginator.page, 
+    //   this.sort.sortChange
+    // ];
 
     // let dataMutations;
 
@@ -59,8 +64,13 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     //   dataMutations.push(this.sort.sortChange);
     // }
 
+    // if(this.paginator){
+    //   dataMutations.push(this.paginator.page);
+    // }
 
 
+    // console.log("dataMutations",dataMutations);
+    
 
     // return merge(...dataMutations).pipe(
     //   map(() => {
@@ -69,13 +79,36 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     //         this.getFilteredData(this.getSortedData([...this.DATA$.value])))
     //   }))
 
+    // console.log("this.paginator",this.paginator);
 
+    // console.log("this.DATA$.value",this.DATA$.value);
+    
+    
+    // return merge(...dataMutations).pipe(
+    //   map(() => {
+    //       return this.getPagedData(this.getFilteredData(this.getSortedData([...this.DATA$.value])))
+    //   }))
+
+
+
+
+  }
+
+  mutateData(): Observable<T[]>{
+
+    let dataMutations = [
+      // observableOf(this.data),
+      this.DATA$,
+      this.filterChange$,
+      this.paginator.page, 
+      this.sort.sortChange
+    ];
+
+    
     return merge(...dataMutations).pipe(
       map(() => {
-        
-          return this.getPagedData([...this.DATA$.value])
+          return this.getPagedData(this.getFilteredData(this.getSortedData([...this.DATA$.value])))
       }))
-
 
 
   }
@@ -99,8 +132,8 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
     if (
       data.length - startIndex < this.paginator.pageSize &&
-      data.length > this.paginator.pageSize
-    ) {
+      data.length > this.paginator.pageSize) 
+      {
       let diff = this.paginator.pageSize - (data.length - startIndex);
       // console.log(`diff is ${diff}`);
       // console.log(`startIndex is ${startIndex}`);
