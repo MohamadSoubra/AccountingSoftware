@@ -102,7 +102,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ActionColumn: string;
   CheckboxColumn: string;
 
-  newTableDataSource : MatTableDataSource<T>;
+  newTableDataSource : any;
 
   emptyFilters = true;
 
@@ -144,16 +144,16 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // this.table.dataSource = this.tableDataItems;
     // this.newTableDataSource = new TableDataSource(this.tableData);
     // this.newTableDataSource = new TableDataSource(this.tableData);
-    this.newTableDataSource = new MatTableDataSource(this.tableData);
   }
   
   // we need this, in order to make pagination work with *ngIf
   ngAfterViewInit() {
-    // this.newTableDataSource.mutateData();
-      console.log("this.matPaginator",this.matPaginator);
+    this.newTableDataSource = new TableDataSource(this.tableData);
+    console.log("this.matPaginator",this.matPaginator);
     // this.matPaginator.
     this.newTableDataSource.paginator = this.matPaginator;
     this.newTableDataSource.sort = this.matSort;
+    this.newTableDataSource.mutateData();
     // // this.table.dataSource = this.tableDataItems;
     // console.log("this.newTableDataSource", this.newTableDataSource);
     
@@ -222,8 +222,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   setTableDataSource(data: any[]) {
-    // this.newTableDataSource = new TableDataSource(data);
-    // this.newTableDataSource.sort = new MatSort();
+    this.newTableDataSource = new TableDataSource(data);
+    this.newTableDataSource.sort = new MatSort();
     console.log("this.matPaginator",this.matPaginator);
     
     console.log("this.newTableDataSource", this.newTableDataSource);

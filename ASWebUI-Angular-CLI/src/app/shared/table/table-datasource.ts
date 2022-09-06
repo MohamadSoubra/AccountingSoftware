@@ -25,7 +25,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
   // columnName: string;
   // filterObject: any;
 
-  constructor(datasource?: T[]) {
+  constructor(datasource: T[] = []) {
     super();
     //this.data = datasource;
     //this.DATA$ = new BehaviorSubject(datasource);
@@ -40,17 +40,17 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    * @returns A stream of the items to be rendered.
    */
   connect(): Observable<T[]> {
-    return this.DATA$;
+    // return this.DATA$;
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
 
-    // let dataMutations = [
-    //   // observableOf(this.data),
-    //   this.DATA$,
-    //   this.filterChange$,
-    //   this.paginator.page, 
-    //   this.sort.sortChange
-    // ];
+    let dataMutations = [
+      // observableOf(this.data),
+      this.DATA$,
+      this.filterChange$,
+      this.paginator.page, 
+      this.sort.sortChange
+    ];
 
     // let dataMutations;
 
@@ -84,10 +84,10 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     // console.log("this.DATA$.value",this.DATA$.value);
     
     
-    // return merge(...dataMutations).pipe(
-    //   map(() => {
-    //       return this.getPagedData(this.getFilteredData(this.getSortedData([...this.DATA$.value])))
-    //   }))
+    return merge(...dataMutations).pipe(
+      map(() => {
+          return this.getPagedData(this.getFilteredData(this.getSortedData([...this.DATA$.value])))
+      }))
 
 
 
