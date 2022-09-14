@@ -5,7 +5,10 @@
   
   background-color: var(--primary);
   padding: 0.5rem 1.5rem;
-  
+  .navbar-brand{
+    color: white;
+    text-decoration: none;
+  }
   .navbarLinks {
     // display: flex;
     display: flex;
