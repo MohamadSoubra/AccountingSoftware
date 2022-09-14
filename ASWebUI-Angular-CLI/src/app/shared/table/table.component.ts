@@ -168,7 +168,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     ///https://stackoverflow.com/questions/62710052/mat-sort-ascending-with-null-values-to-last
     ///For moving null values always to the bottom
 
-    //Added changedecetorref for the error ExpressionChangedAfterItHasBeenCheckedError
+    //Added ChangeDetectorRef for the error ExpressionChangedAfterItHasBeenCheckedError
     //got this error after assigning data to the datasource in NgAfterViewInit function
     //since paginator only get initialized in NgAfterViewInit
     this.cd.detectChanges();
@@ -311,8 +311,15 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // console.log(this.tableData);
 
     const numSelected = this.selection.selected.length;
-    // let numRows = this.newTableDataSource.DATA$.value.length;
-    let numRows = this.newTableDataSource.data.length;
+    let numRows
+
+    if (this.newTableDataSource && this.newTableDataSource.Data$){
+
+      numRows = this.newTableDataSource.Data$.value.length;
+    }else{
+      numRows = 0;
+    }
+    // let numRows = this.newTableDataSource.data.length;
     //console.log(`num Rows ${numRows}`);
     //console.log(this.tableDataSource);
 
@@ -326,15 +333,14 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
       this.selection.clear();
       return;
     }
-    this.selection.select(...this.newTableDataSource.data);
+    this.selection.select(...this.newTableDataSource.Data$.value);
   }
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: TableColumn): string {
     // return
     if (!row) {
-      return 
-      // `${this.isAllSelected() ? "deselect" : "select"} all`;
+      return `${this.isAllSelected() ? "deselect" : "select"} all`;
     }
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row ${
       row.position + 1
@@ -389,7 +395,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   AddRecord() {
-    this.router.navigate(["./AddEdit", this.componentName], {
+    this.router.navigate(["./", 0], {
       relativeTo: this.actRout,
     });
   }

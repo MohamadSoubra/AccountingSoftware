@@ -51,11 +51,12 @@ import { TableModule } from "./shared/table/table.module";
     //LoadingSpinnerComponent
   ],
   imports: [
-    AppRoutingModule,
     HttpClientModule,
     AuthModule,
+    AppRoutingModule,
     AlertModule.forRoot(),
     RouterModule,
+    InvoiceModule,
     AddEditModule,
     BrowserAnimationsModule,
     BrowserModule,

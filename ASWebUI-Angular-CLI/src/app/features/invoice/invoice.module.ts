@@ -9,7 +9,7 @@ import { TableModule } from 'src/app/shared/table/table.module';
 
 @NgModule({
   declarations: [InvoiceComponent],
-  imports: [CommonModule, TableModule],
+  imports: [CommonModule, InvoiceRoutingModule, TableModule],
   // exports: [InvoiceComponent],
 })
 export class InvoiceModule {}

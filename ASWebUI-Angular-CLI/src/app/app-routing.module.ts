@@ -49,6 +49,12 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
     loadChildren: () => import('./features/invoice/invoice.module').then(mod => mod.InvoiceModule),
   },
+  {
+    path: "addEdit",
+    // canActivate: [AuthGuard],
+    loadChildren: () => import('./shared/add-edit/add-edit.module').then(mod => mod.AddEditModule),
+  },
+  
   // { path: "AddEdit/:id", component: AddEditComponent },
 ];
  

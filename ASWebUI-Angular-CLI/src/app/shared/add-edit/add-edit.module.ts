@@ -11,10 +11,10 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
   declarations: [AddEditComponent],
   imports: [
     CommonModule,
-    AddEditRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     AngularMaterialModule,
+    AddEditRoutingModule,
   ],
   exports: [AddEditComponent],
 })
