@@ -4,10 +4,10 @@ import { InvoiceComponent } from './invoice.component';
 import { InvoiceModule } from './invoice.module';
 
 const routes: Routes = [
-  // {
-  //   path: "",
-  //   redirectTo: "invoices"
-  // },
+  {
+    path: "",
+    redirectTo: "invoices"
+  },
   {
     path: "invoices",
     component: InvoiceComponent,

@@ -231,7 +231,7 @@
 
         <!-- Pagination -->
         <!-- *ngIf="isPageable" -->
-        <mat-paginator *ngIf="isPageable"  #matPaginator [length]="5"
+        <mat-paginator  #matPaginator [length]="5"
             [pageSizeOptions]="paginationSizes" [pageSize]="defaultPageSize" showFirstLastButtons>
             <!-- (page)="pageEvent = handlePage($event)" -->
         </mat-paginator>

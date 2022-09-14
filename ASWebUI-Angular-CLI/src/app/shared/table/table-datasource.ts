@@ -86,7 +86,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     
     return merge(...dataMutations).pipe(
       map(() => {
-          return this.getPagedData(this.getFilteredData(this.getSortedData([...this.DATA$.value])))
+        return this.getSortedData(this.getPagedData(this.getFilteredData([...this.DATA$.value])))
       }))
 
 
@@ -94,24 +94,24 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
 
   }
 
-  mutateData(): Observable<T[]>{
+  // mutateData(): Observable<T[]>{
 
-    let dataMutations = [
-      // observableOf(this.data),
-      this.DATA$,
-      this.filterChange$,
-      this.paginator.page, 
-      this.sort.sortChange
-    ];
+  //   let dataMutations = [
+  //     // observableOf(this.data),
+  //     this.DATA$,
+  //     this.filterChange$,
+  //     this.paginator.page, 
+  //     this.sort.sortChange
+  //   ];
 
     
-    return merge(...dataMutations).pipe(
-      map(() => {
-          return this.getPagedData(this.getFilteredData(this.getSortedData([...this.DATA$.value])))
-      }))
+  //   return merge(...dataMutations).pipe(
+  //     map(() => {
+  //         return this.getPagedData(this.getFilteredData(this.getSortedData([...this.DATA$.value])))
+  //     }))
 
 
-  }
+  // }
 
   /**
    *  Called when the table is being destroyed. Use this function, to clean up

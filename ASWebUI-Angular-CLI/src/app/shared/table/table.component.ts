@@ -2,6 +2,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -113,7 +114,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     private dialog: MatDialog,
     private api: ApiHelperService,
     private router: Router,
-    private actRout: ActivatedRoute
+    private actRout: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {
     //this.tableDataItems = new TableDataSource(this.tableData);
     // this.table.dataSource = new TableDataSource(this.tableData);
@@ -149,11 +151,14 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   // we need this, in order to make pagination work with *ngIf
   ngAfterViewInit() {
     this.newTableDataSource = new TableDataSource(this.tableData);
+    
     console.log("this.matPaginator",this.matPaginator);
     // this.matPaginator.
+
+    
     this.newTableDataSource.paginator = this.matPaginator;
     this.newTableDataSource.sort = this.matSort;
-    this.newTableDataSource.mutateData();
+    // this.newTableDataSource.mutateData();
     // // this.table.dataSource = this.tableDataItems;
     // console.log("this.newTableDataSource", this.newTableDataSource);
     
@@ -162,6 +167,11 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
     ///https://stackoverflow.com/questions/62710052/mat-sort-ascending-with-null-values-to-last
     ///For moving null values always to the bottom
+
+    //Added changedecetorref for the error ExpressionChangedAfterItHasBeenCheckedError
+    //got this error after assigning data to the datasource in NgAfterViewInit function
+    //since paginator only get initialized in NgAfterViewInit
+    this.cd.detectChanges();
   }
 
   private fillDataPaginator(data: T[]) {
