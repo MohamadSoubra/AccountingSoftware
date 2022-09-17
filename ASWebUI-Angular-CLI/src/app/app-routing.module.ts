@@ -9,6 +9,7 @@ import { ClientsComponent } from "./components/clients/clients.component";
 import { SuppliersComponent } from "./components/suppliers/suppliers.component";
 import { AddEditComponent } from "./Shared/add-edit/add-edit.component";
 import { AddEditModule } from "./shared/add-edit/add-edit.module";
+import { InvoiceComponent } from "./features/invoice/invoice.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent, canActivate: [AuthGuard] },
@@ -46,8 +47,9 @@ const routes: Routes = [
   // },
   {
     path: "invoices",
+    component: InvoiceComponent,
     // canActivate: [AuthGuard],
-    loadChildren: () => import('./features/invoice/invoice.module').then(mod => mod.InvoiceModule),
+    // loadChildren: () => import('./features/invoice/invoice.module').then(mod => mod.InvoiceModule),
   },
   {
     path: "addEdit",
