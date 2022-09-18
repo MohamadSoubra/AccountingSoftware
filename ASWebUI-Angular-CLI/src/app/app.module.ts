@@ -53,7 +53,6 @@ import { TableModule } from "./shared/table/table.module";
   imports: [
     HttpClientModule,
     AuthModule,
-    AppRoutingModule,
     AlertModule.forRoot(),
     RouterModule,
     InvoiceModule,
@@ -64,9 +63,9 @@ import { TableModule } from "./shared/table/table.module";
     ReactiveFormsModule,
     AngularMaterialModule,
     TableModule,
+    AppRoutingModule,
     
   ],
-  exports: [MatTableModule, MatDialogModule, TableModule],
   providers: [
     AuthService,
     AuthGuard,
