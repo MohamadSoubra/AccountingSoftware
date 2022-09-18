@@ -25,8 +25,8 @@ export class AddEditComponent implements OnInit {
     private location :Location
     ) {}
     
-  // @Input() displayItem: Product | Client | Supplier | Invoice = null;
-  @Input() displayItem: Invoice = null;
+  @Input() displayItem: Product | Client | Supplier | Invoice = null;
+  // @Input() displayItem: Invoice = null;
     
   Title: string = "NO-ID";
   itemProperties;
@@ -42,31 +42,35 @@ export class AddEditComponent implements OnInit {
   ngOnInit(): void {
     //console.log(Object.entries(this.displayItem));
     //this.displayItem = this.data.map((value) => String(value));
-    // console.log("this.displayItem.id", this.displayItem.id);
+    console.log("this.displayItem AddEdit", this.displayItem);
     // console.log("this.displayItem.constructor.name", this.displayItem.constructor.name );
     // console.log("Object.keys(this.displayItem)", Object.keys(this.displayItem));
     // console.log("Object.keys(Product)", Object.keys(new Product()));
-    const newINvoive = new Invoice();
-    const invoiceTestType =  newINvoive;
-    console.log("typeof newINvoive", newINvoive.constructor.name);
-    console.log(
-      "typeof invoiceTestType", invoiceTestType.constructor.name
-    );
+    // const newINvoive = new Invoice();
+    // const invoiceTestType =  newINvoive;
+    // console.log("typeof newINvoive", newINvoive.constructor.name);
+    // console.log(
+    //   "typeof invoiceTestType", invoiceTestType.constructor.name
+    // );
     
-    console.log("Location",this.location);
+    // console.log("Location",this.location);
     this.route.params.subscribe(p => {
-      if (isNaN(+p['id'])) {
+      console.log("p",p);
+      
+      if (+p['id'] == 0) {
         console.log("is NAN");
         
-        this.displayItem = this.apiHelper.InitializeType(p["id"]);
+        this.displayItem = this.apiHelper.InitializeType(p[""]);
       } else {
         console.log("! is NAN");
-        this.displayItem = this.apiHelper.getInvoiceById(p["id"]);
+        this.displayItem = this.apiHelper.getByID(p[""],p["id"]);
         
-
+        
       }
+      
     })
-    console.log("this.route.snapshot.data", this.route);
+    console.log("this.displayItem AddEdit After PARAM", this.displayItem);
+    // console.log("this.route.snapshot.data", this.route);
     
     // const itemIndex :string =  this.route.snapshot.paramMap.get("item")
     

@@ -137,8 +137,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // this.tableDataItems = new TableDataSource(this.tableData);
     // this.newTableDataSource.setData(this.tableData)
     // console.log("this.tableDataItems NGONINIT", this.tableDataItems);
-    console.log("this.matPaginator",this.matPaginator);
-    console.log("this.newTableDataSource NGONINIT", this.newTableDataSource);
+    // console.log("this.matPaginator",this.matPaginator);
+    // console.log("this.newTableDataSource NGONINIT", this.newTableDataSource);
     // this.tableDataItems.sort = this.matSort;
     // this.tableDataItems.paginator = this.matPaginator;
     
@@ -152,7 +152,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ngAfterViewInit() {
     this.newTableDataSource = new TableDataSource(this.tableData);
     
-    console.log("this.matPaginator",this.matPaginator);
+    // console.log("this.matPaginator",this.matPaginator);
     // this.matPaginator.
 
     
@@ -163,7 +163,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // console.log("this.newTableDataSource", this.newTableDataSource);
     
 
-    console.log("this.newTableDataSource ngAfterViewInit", this.newTableDataSource);
+    // console.log("this.newTableDataSource ngAfterViewInit", this.newTableDataSource);
 
     ///https://stackoverflow.com/questions/62710052/mat-sort-ascending-with-null-values-to-last
     ///For moving null values always to the bottom
@@ -448,7 +448,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     } else {
       this.displayedColumnFilters = [];
     }
-    console.log("tableColumns", this.tableColumns);
+    // console.log("tableColumns", this.tableColumns);
   }
 
   objectIsEmpty(object) {
