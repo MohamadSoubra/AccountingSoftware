@@ -4,7 +4,7 @@ import { AddEditComponent } from './add-edit.component';
 import { AddEditModule } from './add-edit.module';
 
 const routes: Routes = [
-  { path: "invoices/:id", component: AddEditComponent },
+  { path: ":/:id", component: AddEditComponent },
 ];
 
 @NgModule({
