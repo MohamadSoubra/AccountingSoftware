@@ -56,7 +56,7 @@
 
                 <ng-container *ngIf="prop.needDatePicker">
 
-                    <mat-form-field appearance="outline">
+                    <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label>{{ prop.labelsText }}</mat-label>
                         <input matInput [matDatepicker]="picker1" [formControlName]="prop.formControlName">
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
