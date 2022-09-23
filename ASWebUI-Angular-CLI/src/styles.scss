@@ -41,6 +41,7 @@
   --primary: #{cmt.$primary};
   --primary-light: #{cmt.$primary-light};
   --accent: #{cmt.$accent};
+  --top-space: 3rem;
 
 }
 //$background: cmt.get-color;
@@ -60,6 +61,7 @@ html,
 body,
 .approot {
   // overflow: auto;
+  // margin-top: var(--top-space);
    background-color: var(--primary-light);
 }
  

@@ -7,10 +7,11 @@
 .modal {
     --flex-size: 100%;
     background-color: white;
-    padding: 1rem 5rem;
+    padding: 1rem 2.5rem;
     // width: 60vw;
     z-index: 2;
-    margin: auto;
+    margin-inline: auto;
+    margin-top: var(--top-space);
     // padding: 0;
     display: flex;
     flex-direction: column;
@@ -41,14 +42,16 @@
     form {
         // display: grid;
         width: 100%;
-        align-content: center;
-        align-items: center;
+        // align-content: space-between;
+        // align-items: space-between;
         gap: 1rem;
         // grid-template-columns: repeat(3,1fr);
         // overflow: auto;
         // margin: auto;
         display: flex;
         flex-wrap: wrap;
+        justify-content: space-between;
+        // flex
         // width: max-content;
 
         // .firstName & {
@@ -69,7 +72,7 @@
     }
 
     .form>* {
-        width: 50%;
+        width: 47%;
         // flex: 1;
         // flex-wrap: wrap;
         // flex-shrink: 1;
@@ -89,11 +92,11 @@
 
     }
     .form>*:has(.invoiceDate) {
-        width: 48.35%;
+        // width: 50%;
         // background-color: orange;
     }
     .form>*:has(.paymentDueDate) {
-        width: 48.35%;
+        // width:50%;
         // background-color: orange;
     }
 
