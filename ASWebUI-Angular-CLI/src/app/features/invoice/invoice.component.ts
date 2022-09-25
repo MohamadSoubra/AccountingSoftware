@@ -15,6 +15,7 @@ import { ApiHelperService } from "src/app/services/ApiHelper.service";
 export class InvoiceComponent implements OnInit {
   InvoiceList = [];
   invoice: Invoice;
+  client: Client;
   productsTableColumns = [];
   paginationSizes: any[];
   defaultPageSize: number;
@@ -126,9 +127,13 @@ export class InvoiceComponent implements OnInit {
 
     if (!this.editmode) {
       this.InvoiceList = InvoicestoDisplay.map((invoice) => {
+        let invoiceClient;
+        if(invoice.client){
+           invoiceClient = this.Clients.find(cl => cl.id === invoice.client["id"])
+        }
         return {
           id: invoice.id,
-          clientId: invoice.clientId,
+          client: invoiceClient,
           amountDue: invoice.amountDue,
           description: invoice.description,
           invoiceDate: invoice.invoiceDate,
@@ -247,7 +252,7 @@ export class InvoiceComponent implements OnInit {
         },
         {
           name: "Client",
-          dataKey: "clientId",
+          dataKey: "client",
           isFilterable: true,
           nestedProperty: "firstName",
         },

@@ -30,5 +30,12 @@ export class Client implements Identification {
     this.emailAddress = emailAddress;
     this.phoneNumber = phoneNumber;
     this.address = address;
+
+    
   }
+
+  public getFullName(): string{
+    return `${this.firstName} ${this.lastName}`
+  }
+
 }

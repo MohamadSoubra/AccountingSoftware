@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsComponent } from 'src/app/components/clients/clients.component';
 import { Client } from 'src/app/Models/client.model';
 import { Invoice } from 'src/app/Models/invoice.model';
@@ -22,6 +22,7 @@ export class AddEditComponent implements OnInit {
     private dialog: MatDialog,
     private apiHelper: ApiHelperService,
     private route: ActivatedRoute,
+    private router: Router,
     private location :Location
     ) {}
     
@@ -37,9 +38,12 @@ export class AddEditComponent implements OnInit {
   selectValue = false;
   selectInputData: any;
   selectInputValue: any;
+  previousRoute: string;
   // autoCompleteValue: any;
 
   ngOnInit(): void {
+    
+    
     //console.log(Object.entries(this.displayItem));
     //this.displayItem = this.data.map((value) => String(value));
     console.log("this.displayItem AddEdit", this.displayItem);
@@ -53,9 +57,11 @@ export class AddEditComponent implements OnInit {
     //   "typeof invoiceTestType", invoiceTestType.constructor.name
     // );
     
-    // console.log("Location",this.location);
+    console.log("this.route", this.route.snapshot.firstChild);
     this.route.params.subscribe(p => {
       console.log("p",p);
+
+      this.previousRoute = p[""];
       
       if (+p['id'] == 0) {
         console.log("is NAN");
@@ -69,7 +75,8 @@ export class AddEditComponent implements OnInit {
       }
       
     })
-    console.log("this.displayItem AddEdit After PARAM", this.displayItem);
+
+   
     // console.log("this.route.snapshot.data", this.route);
     
     // const itemIndex :string =  this.route.snapshot.paramMap.get("item")
@@ -108,9 +115,20 @@ export class AddEditComponent implements OnInit {
           new FormControl(this.displayItem[prop].toString())
         );
       } else {
-        if (prop === "client") {
+        if (prop.includes("client")) {
           needSelectInput = true;
+          console.log("this.displayItem in need select input", this.displayItem);
+          console.log("this.displayItem[prop] in need select input BEFORE ASSIGNING IT", this.displayItem[prop]);
           this.selectInputData = this.apiHelper.getClients();
+          if (this.displayItem[prop]["id"] !== ""){
+            console.log(true);
+            
+            this.displayItem[prop] = this.selectInputData.find(cl => cl.id === this.displayItem[prop]["id"]);
+          }
+          console.log("this.selectInputData.find(cl => cl.id === this.displayItem[prop] )", this.selectInputData.find(cl => cl.id === this.displayItem[prop]?.id));
+          console.log("this.displayItem[prop] in need select input", this.displayItem[prop]);
+          console.log("prop", prop);
+          
         }
 
         if (prop.toLowerCase().includes("date")) {
@@ -187,7 +205,10 @@ export class AddEditComponent implements OnInit {
 
   onSubmit() {
     console.log("this.itemform", this.itemform);
-    console.log(this.itemform.value);
+    console.log("this.itemform.value",this.itemform.value);
+    this.apiHelper.saveInvoice(this.itemform.value);
+    this.router.navigate([`./${this.previousRoute}`]);
+
   }
 
   formatText(text: string) {
@@ -198,7 +219,7 @@ export class AddEditComponent implements OnInit {
   }
 
   displayFn(client: Client): string {
-    return client && client.firstName ? client.firstName : "";
+    return client && client.firstName ? `${client.firstName} ${client.lastName}` : "";
   }
 
   //this methos is for getting the type of the object injected into this class
@@ -208,7 +229,13 @@ export class AddEditComponent implements OnInit {
   }
 
   Cancel(){
-    this.location.back();
+    // console.log(this.location);
+    
+    // this.location.back();
+    // console.log("this.route.children", this.route.children);
+    this.router.navigate([`./${this.previousRoute}`]);
+
+    
   }
 
   AddClient() {
@@ -233,7 +260,7 @@ export class AddEditComponent implements OnInit {
       return;
     } else {
       let formControlValue = this.itemform.get(prop.formControlName).value;
-      if (typeof formControlValue === "object") {
+      if (typeof formControlValue === "object" && formControlValue !== null) {
         return this.objectHasEmptyProperties(formControlValue);
       }
     }
@@ -244,7 +271,7 @@ export class AddEditComponent implements OnInit {
   }
 
   objectHasEmptyProperties(object) {
-    if (Object.values(object).every((x) => x === null || x === "")) {
+    if (Object.values(object).every((x) => x === null || x === "" || x === undefined)) {
       return true;
     } else {
       return false;

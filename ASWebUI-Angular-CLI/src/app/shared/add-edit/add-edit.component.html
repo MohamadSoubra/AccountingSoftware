@@ -30,13 +30,13 @@
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label>{{prop.labelsText}}</mat-label>
-                        <input type="text" matInput [formControlName]="prop.formControlName" [matAutocomplete]="auto">
+                        <input type="text" matInput [formControlName]="prop.formControlName" [value]="prop.value" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                             <!-- <mat-option value="{}">
                     </mat-option> -->
                             <mat-option (click)="AddClient()">Add Client</mat-option>
                             <mat-option *ngFor="let data of selectInputData" [value]="data">
-                                {{data.firstName}}
+                                {{data.firstName +" "+ data.lastName}}
                             </mat-option>
                         </mat-autocomplete>
                         <button type="button" *ngIf="!autoCompleteIsEmpty(prop)" matSuffix mat-icon-button

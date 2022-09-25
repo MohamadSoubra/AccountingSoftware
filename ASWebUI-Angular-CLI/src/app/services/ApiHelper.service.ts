@@ -379,14 +379,14 @@ export class ApiHelperService {
       address: "12345678910lmooganp@sogou",
       phoneNumber: "12345678910",
     },
-  ];
+  ] as Client[];
   fakeInvoices = [
     {
       id: "1",
       invoiceNumber: "QQI67RKH5HD",
-      clientId: "24",
+      client: new Client( {id:"24"}),
       description:
-        "sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer",
+        "This is a fake Invoice if you couldn't tell",
       invoiceDate: "2022-04-23 03:16:01",
       paymentDueDate: "2023-01-10 16:56:32",
       amountDue: 490,
@@ -395,7 +395,7 @@ export class ApiHelperService {
     {
       id: "2",
       invoiceNumber: "HCE84CZB6DB",
-      clientId: "10",
+      client: new Client( {id:"10"}),
       description: "odio a purus. Duis elementum,",
       invoiceDate: "2022-06-21 09:41:25",
       paymentDueDate: "2022-12-11 15:00:04",
@@ -405,7 +405,7 @@ export class ApiHelperService {
     {
       id: "3",
       invoiceNumber: "MNM97JGN9RN",
-      clientId: "6",
+      client: new Client( {id:"6"}),
       description:
         "adipiscing elit. Curabitur sed tortor. Integer aliquam adipiscing lacus. Ut nec urna",
       invoiceDate: "2021-07-18 09:43:33",
@@ -416,7 +416,7 @@ export class ApiHelperService {
     {
       id: "4",
       invoiceNumber: "TQG64VSN6TI",
-      clientId: "3",
+      client: new Client( {id:"3"}),
       description: "nec quam. Curabitur vel lectus.",
       invoiceDate: "2022-06-23 22:35:23",
       paymentDueDate: "2021-08-31 06:18:08",
@@ -426,7 +426,7 @@ export class ApiHelperService {
     {
       id: "5",
       invoiceNumber: "BWI75KXO1KD",
-      clientId: "6",
+      client: new Client( {id:"6"}),
       description:
         "non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam",
       invoiceDate: "2021-12-10 16:32:27",
@@ -437,7 +437,7 @@ export class ApiHelperService {
     {
       id: "6",
       invoiceNumber: "MZR94WPY1QG",
-      clientId: "17",
+      client: new Client( {id:"17"}),
       description:
         "Duis at lacus. Quisque purus sapien, gravida non, sollicitudin a, malesuada id, erat.",
       invoiceDate: "2022-10-03 21:48:32",
@@ -448,7 +448,7 @@ export class ApiHelperService {
     {
       id: "7",
       invoiceNumber: "GQS04IUJ6HG",
-      clientId: "22",
+      client: new Client( {id:"22"}),
       description: "",
       invoiceDate: "2022-04-10 16:36:21",
       paymentDueDate: "2021-03-25 07:01:35",
@@ -458,7 +458,7 @@ export class ApiHelperService {
     {
       id: "8",
       invoiceNumber: "CNY78QLX6LB",
-      clientId: "13",
+      client: new Client( {id:"13"}),
       description:
         "urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce",
       invoiceDate: "2023-01-26 23:15:30",
@@ -469,7 +469,7 @@ export class ApiHelperService {
     {
       id: "9",
       invoiceNumber: "TSE54WKL9SX",
-      clientId: "15",
+      client: new Client( {id:"15"}),
       description:
         "Morbi neque tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce feugiat.",
       invoiceDate: "2021-12-12 15:30:23",
@@ -480,7 +480,7 @@ export class ApiHelperService {
     {
       id: "10",
       invoiceNumber: "CSR51QIW4DC",
-      clientId: "17",
+      client: new Client( {id:"17"}),
       description:
         "risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam.",
       invoiceDate: "2022-11-13 12:40:00",
@@ -491,7 +491,7 @@ export class ApiHelperService {
     {
       id: "11",
       invoiceNumber: "WPU58RNB3LU",
-      clientId: "18",
+      client: new Client( {id:"18"}),
       description: "imperdiet non, vestibulum nec, euismod in, dolor. Fusce",
       invoiceDate: "2022-04-13 10:08:19",
       paymentDueDate: "2022-05-12 14:13:35",
@@ -501,7 +501,7 @@ export class ApiHelperService {
     {
       id: "12",
       invoiceNumber: "JGZ35KJQ5BW",
-      clientId: "19",
+      client: new Client( {id:"19"}),
       description:
         "mauris ut mi. Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque tellus, imperdiet non, vestibulum",
       invoiceDate: "2021-05-06 12:23:15",
@@ -512,7 +512,7 @@ export class ApiHelperService {
     {
       id: "13",
       invoiceNumber: "RLJ41KBI3YW",
-      clientId: "21",
+      client: new Client( {id:"21"}),
       description: "enim nisl elementum",
       invoiceDate: "2022-09-05 11:51:02",
       paymentDueDate: "2022-02-07 06:05:07",
@@ -522,7 +522,7 @@ export class ApiHelperService {
     {
       id: "14",
       invoiceNumber: "NJN27UMR1BA",
-      clientId: "20",
+      client: new Client( {id:"20"}),
       description:
         "iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla.",
       invoiceDate: "2022-09-23 12:24:40",
@@ -533,7 +533,7 @@ export class ApiHelperService {
     {
       id: "15",
       invoiceNumber: "AIL17UMU4QG",
-      clientId: "22",
+      client: new Client( {id:"22"}),
       description:
         "faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu.",
       invoiceDate: "2021-09-19 16:05:31",
@@ -544,7 +544,7 @@ export class ApiHelperService {
     {
       id: "16",
       invoiceNumber: "QGH34SVC4HO",
-      clientId: "24",
+      client: new Client( {id:"24"}),
       description: "sodales purus, in molestie tortor",
       invoiceDate: "2022-04-29 04:42:22",
       paymentDueDate: "2021-03-05 23:20:12",
@@ -554,7 +554,7 @@ export class ApiHelperService {
     {
       id: "17",
       invoiceNumber: "KQM59JXW1XK",
-      clientId: "25",
+      client: new Client( {id:"25"}),
       description: "a ultricies adipiscing, enim mi tempor lorem,",
       invoiceDate: "2022-06-02 03:44:02",
       paymentDueDate: "2021-07-23 01:13:54",
@@ -564,7 +564,7 @@ export class ApiHelperService {
     {
       id: "18",
       invoiceNumber: "DWC60TNQ1RN",
-      clientId: "25",
+      client: new Client( {id:"25"}),
       description:
         "orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada",
       invoiceDate: "2022-08-07 23:37:52",
@@ -575,7 +575,7 @@ export class ApiHelperService {
     {
       id: "19",
       invoiceNumber: "BTK20KXS0DR",
-      clientId: "1",
+      client: new Client( {id:"1"}),
       description:
         "sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet,",
       invoiceDate: "2021-03-11 22:03:14",
@@ -586,7 +586,7 @@ export class ApiHelperService {
     {
       id: "20",
       invoiceNumber: "JCD66DQT4LS",
-      clientId: "2",
+      client: new Client( {id:"2"}),
       description: "adipiscing fringilla,",
       invoiceDate: "2021-08-09 11:05:38",
       paymentDueDate: "2022-07-04 18:24:02",
@@ -799,6 +799,12 @@ export class ApiHelperService {
     // );
   }
 
+  saveInvoice(invoice : Invoice){
+    let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
+    this.update(invoiceToUpdate, invoice);
+
+  }
+
   getClients(): Client[] {
     return this.fakeClients;
 
@@ -855,8 +861,9 @@ export class ApiHelperService {
   }
 
   getInvoiceById(ID: any): Invoice {
-    const invoice: Invoice = new Invoice (this.fakeInvoices.find((invoice) => invoice.id === ID));
+    const invoice: Invoice = this.fakeInvoices.find((invoice) => invoice.id === ID);
     console.log("invoice.constructor.name",invoice.constructor.name);
+    console.log(invoice);
     return invoice;
   }
 
@@ -867,9 +874,9 @@ export class ApiHelperService {
   }
 
   getclientById(ID: any): Client {
-    const client: Client = new Client (this.fakeClients.find((client) => client.id === ID));
-    console.log("client.constructor.name",client.constructor.name);
-    return client;
+    const temp: Client = new Client (this.fakeClients.find((client) => client.id === ID));
+    console.log("client.constructor.name", temp.constructor.name);
+    return temp;
   }
   
   getsupplierById(ID: any): Supplier {
@@ -927,6 +934,44 @@ export class ApiHelperService {
     }
 
     return false;
+  }
+
+  update(targetObject, obj) {
+    if (!targetObject || !obj){
+      console.log("no target or object");
+      
+      return;
+    }
+    Object.keys(obj).forEach(key => {
+
+      // delete property if set to undefined or null
+      if (undefined === obj[key] || null === obj[key]) {
+        // delete targetObject[key]
+      }
+
+      // property value is object, so recurse
+      else if (
+        'object' === typeof obj[key]
+        && !Array.isArray(obj[key])
+      ) {
+
+        // target property not object, overwrite with empty object
+        if (
+          !('object' === typeof targetObject[key]
+            && !Array.isArray(targetObject[key]))
+        ) {
+          targetObject[key] = {}
+        }
+
+        // recurse
+        this.update(targetObject[key], obj[key])
+      }
+
+      // set target property to update property
+      else {
+        targetObject[key] = obj[key]
+      }
+    })
   }
 
   InitializeType(object?: any) {
