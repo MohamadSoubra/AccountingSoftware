@@ -55,7 +55,7 @@ export class SuppliersComponent implements OnInit {
   constructor(private api: ApiHelperService) {}
 
   ngOnInit() {
-    this.suppliersList = this.getDummyClients();
+    this.suppliersList = this.api.getSuppliers();
   }
 
   getDummyClients() {
