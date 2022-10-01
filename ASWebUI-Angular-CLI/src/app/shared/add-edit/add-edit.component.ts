@@ -46,7 +46,7 @@ export class AddEditComponent implements OnInit {
     
     //console.log(Object.entries(this.displayItem));
     //this.displayItem = this.data.map((value) => String(value));
-    console.log("this.displayItem AddEdit", this.displayItem);
+    // console.log("this.displayItem AddEdit", this.displayItem);
     // console.log("this.displayItem.constructor.name", this.displayItem.constructor.name );
     // console.log("Object.keys(this.displayItem)", Object.keys(this.displayItem));
     // console.log("Object.keys(Product)", Object.keys(new Product()));
@@ -57,19 +57,20 @@ export class AddEditComponent implements OnInit {
     //   "typeof invoiceTestType", invoiceTestType.constructor.name
     // );
     
-    console.log("this.route", this.route.snapshot.firstChild);
-    this.route.params.subscribe(p => {
-      console.log("p",p);
+    
+    // console.log("this.route", this.route.snapshot.firstChild);
+    this.route.params.subscribe(params => {
+      // console.log("p",p);
 
-      this.previousRoute = p[""];
+      this.previousRoute = params[""];
       
-      if (+p['id'] == 0) {
-        console.log("is NAN");
+      if (+params['id'] == 0) {
+        // console.log("is NAN");
         
-        this.displayItem = this.apiHelper.InitializeType(p[""]);
+        this.displayItem = this.apiHelper.InitializeType(params[""]);
       } else {
-        console.log("! is NAN");
-        this.displayItem = this.apiHelper.getByID(p[""],p["id"]);
+        // console.log("! is NAN");
+        this.displayItem = this.apiHelper.getByID(params[""],params["id"]);
         
         
       }
@@ -87,7 +88,7 @@ export class AddEditComponent implements OnInit {
     //   this.displayItem = this.apiHelper.getInvoiceById(itemIndex);
     // }
       
-    console.log("this.displayItem", this.displayItem);
+    // console.log("this.displayItem", this.displayItem);
 
     if (this.displayItem.id != undefined) {
       if (this.displayItem.id == "") {
@@ -117,17 +118,17 @@ export class AddEditComponent implements OnInit {
       } else {
         if (prop.includes("client")) {
           needSelectInput = true;
-          console.log("this.displayItem in need select input", this.displayItem);
-          console.log("this.displayItem[prop] in need select input BEFORE ASSIGNING IT", this.displayItem[prop]);
+          // console.log("this.displayItem in need select input", this.displayItem);
+          // console.log("this.displayItem[prop] in need select input BEFORE ASSIGNING IT", this.displayItem[prop]);
           this.selectInputData = this.apiHelper.getClients();
           if (this.displayItem[prop]["id"] !== ""){
             console.log(true);
             
             this.displayItem[prop] = this.selectInputData.find(cl => cl.id === this.displayItem[prop]["id"]);
           }
-          console.log("this.selectInputData.find(cl => cl.id === this.displayItem[prop] )", this.selectInputData.find(cl => cl.id === this.displayItem[prop]?.id));
-          console.log("this.displayItem[prop] in need select input", this.displayItem[prop]);
-          console.log("prop", prop);
+          // console.log("this.selectInputData.find(cl => cl.id === this.displayItem[prop] )", this.selectInputData.find(cl => cl.id === this.displayItem[prop]?.id));
+          // console.log("this.displayItem[prop] in need select input", this.displayItem[prop]);
+          // console.log("prop", prop);
           
         }
 
@@ -204,9 +205,13 @@ export class AddEditComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("this.itemform", this.itemform);
-    console.log("this.itemform.value",this.itemform.value);
-    this.apiHelper.saveInvoice(this.itemform.value);
+    // console.log("this.itemform", this.itemform);
+    // console.log("this.itemform.value",this.itemform.value);
+    let aRecord = this.apiHelper.InitializeType(this.previousRoute)
+    Object.keys(aRecord).forEach(key => {
+      aRecord[key] = this.itemform.value[key]
+    })
+    this.apiHelper.saveRecord(aRecord);
     this.router.navigate([`./${this.previousRoute}`]);
 
   }
