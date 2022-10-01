@@ -161,7 +161,7 @@ export class ApiHelperService {
       quantityInStock: 3280,
       isTaxable: false,
     },
-  ];
+  ] as Product[];
   fakeClients = [
     {
       id: "1",
@@ -593,7 +593,7 @@ export class ApiHelperService {
       amountDue: 504,
       status: "Paid",
     },
-  ];
+  ] as Invoice[] ;
   fakeSuppliers = [
     {
       id: "1",
@@ -747,7 +747,7 @@ export class ApiHelperService {
       country: "Netherlands",
       city: "Kielce",
     },
-  ];
+  ] as Supplier[] ;
 
   getProducts() {
     return this.fakeProducts;
@@ -802,7 +802,58 @@ export class ApiHelperService {
   saveInvoice(invoice : Invoice){
     let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
     this.update(invoiceToUpdate, invoice);
+  }
+  saveProduct(product : Product){
+    let productToUpdate = this.fakeProducts.find(inv => inv.id === product.id)
+    this.update(productToUpdate, product);
+  }
+  saveClient(client : Client){
+    let clientToUpdate = this.fakeClients.find(inv => inv.id === client.id)
+    this.update(clientToUpdate, client);
+  }
+  saveSupplier(supplier : Supplier){
+    let supplierToUpdate = this.fakeSuppliers.find(inv => inv.id === supplier.id)
+    this.update(supplierToUpdate, supplier);
+  }
 
+  saveRecord(object: any) {
+    // let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
+    // this.update(invoiceToUpdate, object);
+    console.log(object);
+    
+    console.log("object.constructor.name", object.constructor.name);
+    switch (object.constructor.name) {
+      case "Product":
+        // object = new Product(object);
+        console.log("Product");
+        this.saveProduct(object);
+        break;
+        case "Client":
+        console.log("Client");
+        this.saveClient(object);
+        // object = new Client(object);
+        break;
+        case "Supplier":
+        this.saveSupplier(object);
+        console.log("Supplier");
+        // object = new Supplier(object);
+        break;
+        case "Invoice":
+        this.saveInvoice(object);
+        console.log("Invoice");
+        // object = new Invoice(object);
+        break;
+      default:
+        {
+          console.log("default");
+        }
+        break;
+    }
+
+  }
+
+  getSuppliers(): Supplier[] {
+    return this.fakeSuppliers;
   }
 
   getClients(): Client[] {
@@ -891,6 +942,7 @@ export class ApiHelperService {
 
   getByID(object, ID){
     console.log("object getByID", object);
+    console.log("object.constructor.name", object.constructor.name);
     
     switch (object) {
       case "products":
@@ -972,6 +1024,24 @@ export class ApiHelperService {
         targetObject[key] = obj[key]
       }
     })
+  }
+
+  isOfType(obj1, obj2): boolean{
+    let result = false;
+    console.log(obj1.constructor.name);
+    console.log(obj2.constructor.name);
+
+    if (obj1.constructor.name === obj2.constructor.name){
+      result = true;
+    }
+    
+    // Object.keys(obj1).forEach(key => {
+    //   Object.keys(obj2).forEach(key2 =>{
+    //     key === key2;
+    //   })
+    //   result = true;
+    // })
+    return result
   }
 
   InitializeType(object?: any) {
