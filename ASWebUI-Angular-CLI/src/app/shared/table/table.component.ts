@@ -313,9 +313,9 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     const numSelected = this.selection.selected.length;
     let numRows
 
-    if (this.newTableDataSource && this.newTableDataSource.Data$){
+    if (this.newTableDataSource && this.newTableDataSource.DATA$){
 
-      numRows = this.newTableDataSource.Data$.value.length;
+      numRows = this.newTableDataSource.DATA$.value.length;
     }else{
       numRows = 0;
     }
@@ -333,7 +333,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
       this.selection.clear();
       return;
     }
-    this.selection.select(...this.newTableDataSource.Data$.value);
+    this.selection.select(...this.newTableDataSource.DATA$.value);
   }
 
   /** The label for the checkbox on the passed row */

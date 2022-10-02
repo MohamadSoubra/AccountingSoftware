@@ -26,6 +26,15 @@
                     </mat-form-field>
                 </ng-container>
 
+                <ng-container *ngIf="prop.needTable">
+                    <app-table [tableData]="prop" [tableColumns]="prop" [isPageable]="true"
+                     [hasActionColumn]="true" [hasCheckboxColumn]="true">
+                        <!-- (actionEdit)="edit($event)"
+                        (actionDelete)="delete($event)" -->
+                    </app-table>
+
+                </ng-container>
+
                 <ng-container *ngIf="prop.needSelectInput">
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
@@ -65,8 +74,7 @@
 
                 </ng-container>
 
-                <ng-container
-                    *ngIf="!prop.isBoolean && !prop.needTextArea && prop.formControlName != 'id' && !prop.needSelectInput && !prop.needDatePicker">
+                <ng-container *ngIf="!prop.isBoolean && !prop.needTextArea && prop.formControlName != 'id' && !prop.needSelectInput && !prop.needDatePicker">
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label> {{ prop.labelsText }} </mat-label>
