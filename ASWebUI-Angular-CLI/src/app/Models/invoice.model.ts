@@ -1,4 +1,5 @@
 import { Client } from "./client.model";
+import { SaleDetail } from "./sale-detail.model";
 import { Sale } from "./sale.model";
 
 // interface ClientName{
@@ -16,16 +17,19 @@ export class Invoice {
   paymentDueDate: string;
   amountDue: number;
   status: string;
+  saleDetails: SaleDetail[];
+
 
   constructor({
     id = "",
     invoiceNumber = "",
-    client = new Client,
+    client = new Client(),
     description = "",
     invoiceDate = "",
     paymentDueDate = "",
     amountDue = 0,
     status = "Pending",
+    saleDetails = [],
   } = {}) {
     this.id = id;
     this.invoiceNumber = invoiceNumber;
@@ -35,5 +39,6 @@ export class Invoice {
     this.paymentDueDate = paymentDueDate;
     this.amountDue = amountDue;
     this.status = status;
+    this.saleDetails = saleDetails;
   }
 }

@@ -9,6 +9,7 @@ import { Invoice } from 'src/app/Models/invoice.model';
 import { Product } from 'src/app/Models/product.model';
 import { Supplier } from 'src/app/Models/supplier.model';
 import { ApiHelperService } from 'src/app/services/ApiHelper.service';
+import { TableColumn } from '../table/table.component';
 // import { DisplayModalComponent } from '../modal/displayModal.component';
 
 @Component({
@@ -39,6 +40,8 @@ export class AddEditComponent implements OnInit {
   selectInputData: any;
   selectInputValue: any;
   previousRoute: string;
+  saledetailscolumns: TableColumn[];
+  saleDetailsData ;
   // autoCompleteValue: any;
 
   ngOnInit(): void {
@@ -177,6 +180,56 @@ export class AddEditComponent implements OnInit {
           break;
       }
 
+      this.saledetailscolumns = [
+        {
+          name: "Product Name",
+          dataKey: "productName",
+          isSortable: true,
+          isFilterable: true,
+          position: "right"
+        },
+        {
+          name: "Description",
+          dataKey: "description",
+          isFilterable: true,
+        },
+        {
+          name: "Quantity",
+          dataKey: "quantity",
+          isSortable: true,
+          isFilterable: true,
+        },
+        {
+          name: "Unit Price",
+          dataKey: "unitPrice",
+          isSortable: true,
+          isFilterable: true,
+        },
+        {
+          name: "Total Price",
+          dataKey: "totalPrice",
+          isFilterable: false,
+        },
+  
+      ]
+
+      
+      let needTable = false;
+      if(prop === "saleDetails"){
+        needTable = true;
+        
+        // console.log("this.displayItem[prop]",this.displayItem[prop]);
+        // Object.keys(this.displayItem[prop])
+
+        // this.saledetailscolumns.map(col => {
+        //   col.name = this.displayItem[prop]
+        // })
+        this.saleDetailsData = this.displayItem[prop]
+        
+      }
+
+      
+
       // this.formControlsArray.push({this.itemform. : this.fb.control("")});
       return {
         labelsText: this.formatText(prop),
@@ -186,6 +239,7 @@ export class AddEditComponent implements OnInit {
         needTextArea: needTextArea,
         needSelectInput: needSelectInput,
         needDatePicker: needDatePicker,
+        needTable: needTable,
         width: width,
       };
     });
@@ -281,5 +335,13 @@ export class AddEditComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  edit(event){
+
+  }
+
+  delete(event){
+
   }
 }

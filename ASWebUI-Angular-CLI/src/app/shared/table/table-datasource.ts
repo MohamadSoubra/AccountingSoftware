@@ -1,10 +1,11 @@
 import { DataSource } from "@angular/cdk/collections";
 import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
+import { MatSort, Sort } from "@angular/material/sort";
 import { map } from "rxjs/operators";
 import { Observable, of as observableOf, merge, BehaviorSubject } from "rxjs";
 import { Identification } from "src/app/Models/Identification.interface";
 import { MatTableDataSource } from "@angular/material/table";
+import { EventEmitter } from "@angular/core";
 
 /**
  * Data source for the Testtable view. This class should
@@ -44,13 +45,12 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
 
-    let dataMutations = [
-      // observableOf(this.data),
-      this.DATA$,
-      this.filterChange$,
-      this.paginator.page, 
-      this.sort.sortChange
-    ];
+    // let dataMutations = [
+    //   // observableOf(this.data),
+    //   this.DATA$,
+    //   this.filterChange$,
+    //   this.sort?.sortChange
+    // ];
 
     // let dataMutations;
 
@@ -59,14 +59,36 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     // }else{
     //   dataMutations = [this.DATA$, this.filterChange$];
     // }
+    let dataMutations ;
 
-    // if(this.sort){
-    //   dataMutations.push(this.sort.sortChange);
-    // }
+    if(this.sort && this.paginator){
+      dataMutations = [
+        // observableOf(this.data),
+        this.DATA$,
+        this.filterChange$,
+        this.sort.sortChange,
+        this.paginator.page
+      ];
+    }else if(!this.sort || this.paginator){
+      dataMutations = [
+        // observableOf(this.data),
+        this.DATA$,
+        this.filterChange$,
+        this.paginator.page
+      ];
 
-    // if(this.paginator){
-    //   dataMutations.push(this.paginator.page);
-    // }
+    }else if(!this.paginator || this.sort ){
+      dataMutations = [
+        // observableOf(this.data),
+        this.DATA$,
+        this.filterChange$,
+        this.sort.sortChange,
+      ];
+    }
+
+    if(this.paginator){
+      dataMutations.push(new BehaviorSubject(this.paginator.page));
+    }
 
 
     // console.log("dataMutations",dataMutations);
@@ -124,30 +146,32 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    * this would be replaced by requesting the appropriate data from the server.
    */
   private getPagedData(data: T[]) {
+    if(this.paginator){
 
-      const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-      // console.log(`this.paginator is ${this.paginator}`);
-    // console.log(`this.paginator.pageSize is ${this.paginator.pageSize}`);
-    // console.log(`this.paginator.pageIndex is  ${this.paginator.pageIndex}`);
-    // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
-    if (
-      data.length - startIndex < this.paginator.pageSize &&
-      data.length > this.paginator.pageSize) 
-      {
-      let diff = this.paginator.pageSize - (data.length - startIndex);
-      // console.log(`diff is ${diff}`);
-      // console.log(`startIndex is ${startIndex}`);
-      // console.log(`data.length is ${data.length}`);
-      
-      for (let i = 0; i < diff; i++) {
-        data.push(Object.create(null));
+        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+        // console.log(`this.paginator is ${this.paginator}`);
+      // console.log(`this.paginator.pageSize is ${this.paginator.pageSize}`);
+      // console.log(`this.paginator.pageIndex is  ${this.paginator.pageIndex}`);
+      // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
+      if (
+        data.length - startIndex < this.paginator.pageSize &&
+        data.length > this.paginator.pageSize) 
+        {
+        let diff = this.paginator.pageSize - (data.length - startIndex);
+        // console.log(`diff is ${diff}`);
+        // console.log(`startIndex is ${startIndex}`);
+        // console.log(`data.length is ${data.length}`);
+        
+        for (let i = 0; i < diff; i++) {
+          data.push(Object.create(null));
+        }
       }
+      
+      // console.log(`this.paginator.pageIndex is AFTER ${this.paginator.pageIndex}`);
+      
+      // console.log(JSON.stringify(data));
+      return data.splice(startIndex, this.paginator.pageSize);
     }
-    
-    // console.log(`this.paginator.pageIndex is AFTER ${this.paginator.pageIndex}`);
-    
-    // console.log(JSON.stringify(data));
-    return data.splice(startIndex, this.paginator.pageSize);
   
   }
   
@@ -156,21 +180,23 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    * this would be replaced by requesting the appropriate data from the server.
    */
   private getSortedData(data: T[]) {
+    if(this.sort){
 
       if (!this.sort.active || this.sort.direction === "") {
         return data; //?
       }
       
       return data.sort((a, b) => {
-      let keyName = this.sort.active;
-      // console.log(keyName);
-      //console.log(a[keyName]);
-      return this.compare(
-        a[keyName],
-        b[keyName],
-        this.sort.direction === "asc"
-        );
-      });
+        let keyName = this.sort.active;
+        // console.log(keyName);
+        //console.log(a[keyName]);
+        return this.compare(
+          a[keyName],
+          b[keyName],
+          this.sort.direction === "asc"
+          );
+        });
+      }
   }
   
 

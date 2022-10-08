@@ -7,6 +7,7 @@ import { AuthService } from "../auth/auth.service";
 import { Client } from "../Models/client.model";
 import { Invoice } from "../Models/invoice.model";
 import { Supplier } from "../Models/supplier.model";
+import { SaleDetail } from "../Models/sale-detail.model";
 
 @Injectable({
   providedIn: "root",
@@ -391,6 +392,28 @@ export class ApiHelperService {
       paymentDueDate: "2023-01-10 16:56:32",
       amountDue: 490,
       status: "Pending",
+      saleDetails: [
+        {
+          id: "1",
+          productName: "magna.",
+          description:
+              "elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet",
+          quantity: 85,
+          unitPrice: 850,
+          totalPrice: 806,
+          tax: 210,
+      },
+      {
+          id: "2",
+          productName: "aliquet",
+          description:
+              "elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis",
+          quantity: 86,
+          unitPrice: 520,
+          totalPrice: 546,
+          tax: 195,
+      }
+      ]
     },
     {
       id: "2",
@@ -401,6 +424,18 @@ export class ApiHelperService {
       paymentDueDate: "2022-12-11 15:00:04",
       amountDue: 212,
       status: "Pending",
+      saleDetails: [
+        {
+          id: "3",
+          productName: "tellus.",
+          description:
+              "sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis",
+          quantity: 93,
+          unitPrice: 57,
+          totalPrice: 92,
+          tax: 496,
+      }
+      ]
     },
     {
       id: "3",
@@ -412,6 +447,37 @@ export class ApiHelperService {
       paymentDueDate: "2021-05-25 21:37:16",
       amountDue: 46,
       status: "Paid",
+      saleDetails: [
+        {
+          id: "4",
+          productName: "Donec",
+          description:
+              "ut nisi a odio semper cursus. Integer mollis. Integer tincidunt",
+          quantity: 33,
+          unitPrice: 275,
+          totalPrice: 181,
+          tax: 186,
+      },
+      {
+          id: "5",
+          productName: "elit.",
+          description:
+              "ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem",
+          quantity: 48,
+          unitPrice: 861,
+          totalPrice: 869,
+          tax: 860,
+      },
+      {
+          id: "6",
+          productName: "Sed",
+          description: "porta elit, a feugiat tellus lorem eu metus. In lorem.",
+          quantity: 11,
+          unitPrice: 648,
+          totalPrice: 703,
+          tax: 631,
+      }
+      ]
     },
     {
       id: "4",
@@ -422,6 +488,18 @@ export class ApiHelperService {
       paymentDueDate: "2021-08-31 06:18:08",
       amountDue: 331,
       status: "Pending",
+      saleDetails: [
+        {
+          id: "7",
+          productName: "Vivamus",
+          description:
+              "parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique",
+          quantity: 54,
+          unitPrice: 104,
+          totalPrice: 720,
+          tax: 607,
+      }
+      ]
     },
     {
       id: "5",
@@ -433,6 +511,47 @@ export class ApiHelperService {
       paymentDueDate: "2021-07-26 09:33:52",
       amountDue: 168,
       status: "Pending",
+      saleDetails: [
+        {
+          id: "8",
+          productName: "ornare,",
+          description:
+              "tristique pellentesque, tellus sem mollis dui, in sodales elit erat",
+          quantity: 80,
+          unitPrice: 445,
+          totalPrice: 314,
+          tax: 990,
+      },
+      {
+          id: "9",
+          productName: "lobortis",
+          description:
+              "netus et malesuada fames ac turpis egestas. Fusce aliquet magna",
+          quantity: 60,
+          unitPrice: 576,
+          totalPrice: 511,
+          tax: 76,
+      },
+      {
+          id: "10",
+          productName: "montes,",
+          description:
+              "eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula.",
+          quantity: 24,
+          unitPrice: 952,
+          totalPrice: 56,
+          tax: 662,
+      },
+    {
+          id: 10,
+          productName: "magna.",
+          description: "elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet",
+          quantity: 85,
+          unitPrice: 850,
+          totalPrice: 806,
+          tax: 210
+      }
+      ]
     },
     {
       id: "6",
@@ -444,6 +563,17 @@ export class ApiHelperService {
       paymentDueDate: "2021-08-16 04:46:05",
       amountDue: 850,
       status: "Paid",
+      saleDetails: [
+        {
+          id: 11,
+          productName: "aliquet",
+          description: "elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis",
+          quantity: 86,
+          unitPrice: 520,
+          totalPrice: 546,
+          tax: 195
+      }
+      ]
     },
     {
       id: "7",
@@ -454,17 +584,38 @@ export class ApiHelperService {
       paymentDueDate: "2021-03-25 07:01:35",
       amountDue: 914,
       status: "Paid",
+      saleDetails:[
+        {
+          id: 12,
+          productName: "tellus.",
+          description: "sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis",
+          quantity: 93,
+          unitPrice: 57,
+          totalPrice: 92,
+          tax: 496
+      }
+      ]
     },
     {
       id: "8",
       invoiceNumber: "CNY78QLX6LB",
       client: new Client( {id:"13"}),
-      description:
-        "urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce",
+      description: "urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce",
       invoiceDate: "2023-01-26 23:15:30",
       paymentDueDate: "2021-09-28 21:15:45",
       amountDue: 781,
       status: "Paid",
+      saleDetails: [
+        {
+          id: 13,
+          productName: "Donec",
+          description: "ut nisi a odio semper cursus. Integer mollis. Integer tincidunt",
+          quantity: 33,
+          unitPrice: 275,
+          totalPrice: 181,
+          tax: 186
+      }
+      ]
     },
     {
       id: "9",
@@ -476,6 +627,17 @@ export class ApiHelperService {
       paymentDueDate: "2022-07-27 04:31:39",
       amountDue: 570,
       status: "Pending",
+      saleDetails: [
+        {
+          id: 14,
+          productName: "elit.",
+          description: "ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem",
+          quantity: 48,
+          unitPrice: 861,
+          totalPrice: 869,
+          tax: 860
+      }
+      ]
     },
     {
       id: "10",
@@ -487,6 +649,53 @@ export class ApiHelperService {
       paymentDueDate: "2023-02-18 10:23:31",
       amountDue: 758,
       status: "Paid",
+      saleDetails: [
+        {
+          id: 15,
+          productName: "Sed",
+          description: "porta elit, a feugiat tellus lorem eu metus. In lorem.",
+          quantity: 11,
+          unitPrice: 648,
+          totalPrice: 703,
+          tax: 631
+      },
+      {
+          id: 16,
+          productName: "Vivamus",
+          description: "parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique",
+          quantity: 54,
+          unitPrice: 104,
+          totalPrice: 720,
+          tax: 607
+      },
+      {
+          id: 17,
+          productName: "ornare,",
+          description: "tristique pellentesque, tellus sem mollis dui, in sodales elit erat",
+          quantity: 80,
+          unitPrice: 445,
+          totalPrice: 314,
+          tax: 990
+      },
+      {
+          id: 18,
+          productName: "lobortis",
+          description: "netus et malesuada fames ac turpis egestas. Fusce aliquet magna",
+          quantity: 60,
+          unitPrice: 576,
+          totalPrice: 511,
+          tax: 76
+      },
+      {
+          id: 19,
+          productName: "montes,",
+          description: "eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula.",
+          quantity: 24,
+          unitPrice: 952,
+          totalPrice: 56,
+          tax: 662
+      }
+      ]
     },
     {
       id: "11",
@@ -749,6 +958,7 @@ export class ApiHelperService {
     },
   ] as Supplier[] ;
 
+
   getProducts() {
     return this.fakeProducts;
     // return this.http.get(`${this.rootUrl}/api/product`).pipe(
@@ -896,6 +1106,7 @@ export class ApiHelperService {
   }
 
   getInvoices() {
+
     return this.fakeInvoices;
     // return this.http.get(`${this.rootUrl}/api/invoice`).pipe(
     //   map((invoices: Invoice[]) => {

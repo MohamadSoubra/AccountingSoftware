@@ -91,6 +91,11 @@
         // background-color: orange;
 
     }
+    .form>*:has(.saleDetails) {
+        width: 100%;
+        // background-color: orange;
+
+    }
     .form>*:has(.invoiceDate) {
         // width: 50%;
         // background-color: orange;

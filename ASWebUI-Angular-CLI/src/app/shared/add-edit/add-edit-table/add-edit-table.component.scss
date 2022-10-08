@@ -1,0 +1,192 @@
+// @use "../../../mixins.scss" as mix;
+// @use "src/customMaterialTheme.scss" as cmt;
+
+  
+  .table-actions {
+    display: flex;
+    justify-content: center;
+  
+    button {
+      margin: 0.25rem;
+    }
+  }
+  
+  .mat-form-field > .mat-form-field-wrapper {
+    margin-bottom: -1.25em;
+    padding: 0;
+    background-color: black !important;
+  }
+  
+  .tableContainer {
+    background-color: white;
+    margin-top: var(--top-space);
+  }
+  
+  .tableScroll {
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+    table-layout: auto;
+    margin: 0;
+    overflow: auto;
+  }
+  
+  table,
+  .tableContainer {
+    border-radius: 0.5rem;
+  }
+  
+  .mat-row {
+    td {
+      overflow: hidden;
+      width: auto;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  
+  .mat-row {
+    td {
+      max-width: 200px;
+      width: fit-content;
+      min-width: 10px;
+      flex-grow: 1;
+      flex-shrink: 1;
+      padding: 0 1rem;
+  
+      &:first-child {
+        margin-left: 0;
+        text-align: left;
+        padding-left: 1rem;
+      }
+  
+      &:last-child {
+        // background-color: yellow;
+        margin-right: 0;
+        padding: 0 0.5rem;
+      }
+    }
+  }
+  
+  
+  
+  .mat-header-row {
+    th {
+      padding: 0 1rem;
+  
+      
+      &:first-child {
+        
+        padding-left: 1rem;
+      }
+  
+      
+    }
+  
+    .filterInputs {
+      padding: 0 0.25rem;
+      flex-direction: row;
+  
+      
+      &:first-child {
+        
+        padding-left: 0.5rem;
+      }
+      
+      .clearButton {
+        display: block;
+        margin: 0 auto;
+      }
+  
+      mat-form-field {
+        display: flex;
+      }
+    }
+  }
+  
+  th {
+    button {
+      min-width: 5px;
+      padding: 0.1rem 0.7rem;
+    }
+  }
+  
+  // mat-form-field{
+  //   flex-grow: 1;
+  // }
+  
+  .mat-row:nth-child(2n + 1) {
+    background-color: lighten(gray, 40%); //lighten(cmt.$accent, 40%);
+  }
+
+  
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  tr.mat-row:hover {
+    visibility: inherit;
+    // background-color: lighten(cmt.$accent, 40%);
+  }
+  
+  // #tabledataheight {
+  //   //min-height: 100px;
+  //   //height: 105px;
+  //   //height: calc(100vh - 155px);
+  //   //background-color: red;
+  //   //background-color: yellow;
+  //   //border: 20px solid blue;
+  // }
+  
+  mat-paginator {
+    
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+  .text-right {
+    text-align: right !important;
+  }
+  
+  .text-center {
+    text-align: center !important;
+  }
+  
+  @media (min-width: 768px) {
+    .mat-row {
+      max-width: 100px;
+    }
+  
+    .action-buttons {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0;
+      padding-right: 1rem;
+  
+      button {
+        &:not(:first-child) {
+          margin-left: 0.5rem;
+        }
+      }
+    }
+    .input-container {
+      .invoiceInfo {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+  
+      .invoiceInfo > :first-child {
+        align-self: flex-start;
+        margin-right: auto;
+      }
+  
+      .invoiceInfo > * {
+        // width: 200px;
+        flex-grow: 0;
+      }
+    }
+  }
+  

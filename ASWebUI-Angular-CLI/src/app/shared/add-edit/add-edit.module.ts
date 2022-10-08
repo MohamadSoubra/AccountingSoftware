@@ -5,18 +5,18 @@ import { AddEditRoutingModule } from './add-edit-routing.module';
 import { AddEditComponent } from './add-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
-import { TableModule } from '../table/table.module';
+import { AddEditTableComponent } from './add-edit-table/add-edit-table.component';
+import { DataPropertyGetterPipeAddEdit } from './data-property-getter-add-edit/data-property-getter-pipe-add-edit';
 
 
 @NgModule({
-  declarations: [AddEditComponent],
+  declarations: [AddEditComponent, AddEditTableComponent, DataPropertyGetterPipeAddEdit],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     AngularMaterialModule,
     AddEditRoutingModule,
-    TableModule
   ],
   exports: [AddEditComponent],
 })

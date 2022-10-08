@@ -15,70 +15,46 @@ import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
+import { BehaviorSubject } from "rxjs";
+import { Client } from "src/app/Models/client.model";
 import { Identification } from "src/app/Models/Identification.interface";
+import { Invoice } from "src/app/Models/invoice.model";
+import { Product } from "src/app/Models/product.model";
+import { SaleDetail } from "src/app/Models/sale-detail.model";
+import { Supplier } from "src/app/Models/supplier.model";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
 import { DisplayModalComponent } from "src/app/shared/modal/displayModal.component";
-import { TableDataSource } from "./table-datasource";
-
-export interface TableColumn {
-  name: string; // column name
-  dataKey: string; // name of key of the actual data in this column
-  nestedProperty?: string; //name of the property if data contains nested ojects
-  position?: "right" | "left" | "center"; // should it be right-aligned or left-aligned?
-  isSortable?: boolean; // can a column be sorted?
-  isFilterable?: boolean; // can a column be filterd?
-}
+import { TableDataSource } from "../../table/table-datasource";
+import { TableColumn } from "../../table/table.component";
+// import { DataPropertyGetterPipe } from "./data-property-getter/data-property-getter-pipe";
+// import { TableDataSource } from "./table-datasource";
 
 @Component({
-  selector: "app-table",
-  templateUrl: "./table.component.html",
-  styleUrls: ["./table.component.scss"],
+  selector: 'app-add-edit-table',
+  templateUrl: './add-edit-table.component.html',
+  styleUrls: ['./add-edit-table.component.scss']
 })
-export class TableComponent<T extends Identification> implements OnInit, AfterViewInit
-{
-  // public tableDataItems = new TableDataSource<T>([]);
+export class AddEditTableComponent<T extends Identification> implements OnInit {
+  
   public displayedColumns: string[];
 
- 
-  // this property needs to have a setter, to dynamically get changes from parent component
-  // @Input() set tableData(data: any[]) {
-  //   this.setTableDataSource(data);
-  // }
 
-  // @ViewChild('matPaginator') set paginator(matPaginator:MatPaginator) {
-  //   if (matPaginator) this.newTableDataSource.paginator = matPaginator;
-  //     console.log("this.newTableDataSource from setting paginator",this.newTableDataSource);
-
-  // }
-
-   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
-  // set paginator(value: MatPaginator) {
-  //   if (this.newTableDataSource){
-  //     this.newTableDataSource.paginator = value;
-  //   }
-  //   console.log("this.newTableDataSource from setting paginator",this.newTableDataSource);
+  @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
     
-  // }
-
 
   @ViewChild(MatSort, { static: false }) matSort: MatSort;
-  //@ViewChild(MatSort) matSort: MatSort;
-
-  // @ViewChild(MatTable) table: MatTable<T>;
+    
 
   @Input() isPageable = false;
   @Input() isSortable = false;
   @Input() isFilterable = false;
   @Input() tableColumns: TableColumn[];
-  // @Input() rowActionIcon: string;
-  // @Input() CheckboxColumn: string;
   @Input() hasActionColumn = false;
   @Input() hasCheckboxColumn = false;
   @Input() paginationSizes = [5, 10, 15];
   @Input() defaultPageSize = this.paginationSizes[0];
   @Input() componentName: string;
 
-  //@Output() sort: EventEmitter<Sort> = new EventEmitter();
   @Output() actionEdit: EventEmitter<any> = new EventEmitter<any>();
   @Output() actionDelete: EventEmitter<any> = new EventEmitter<any>();
 
@@ -86,7 +62,6 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
   @Input() tableData: T[];
 
-  //@Output() pageevent: PageEvent;
 
   filterInputs = {};
   filterObject: any;
@@ -110,57 +85,36 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     private actRout: ActivatedRoute,
     private cd: ChangeDetectorRef
   ) {
-    //this.tableDataItems = new TableDataSource(this.tableData);
-    // this.table.dataSource = new TableDataSource(this.tableData);
-    // this.newTableDataSource = new TableDataSource(this.tableData);
-    // console.log("this.newTableDataSource",this.newTableDataSource);
-    // this.newTableDataSource = new TableDataSource();
+    
     
   }
 
   ngOnInit(): void {
-    // console.log("this.tableData ngoninit", this.tableData);
-    // const testtabledatasource = new TableDataSource(this.tableData);
-    // console.log("testtabledatasource ngoninit", testtabledatasource);
-      // console.log(this.newTableDataSource);
-    // this.newTableDataSource.paginator = this.matPaginator;
-      
-    // console.log("this is ngOnIninit");
-    // this.newTableDataSource.DATA$.next(this.tableData);
-    // this.tableDataItems = new TableDataSource(this.tableData);
-    // this.newTableDataSource.setData(this.tableData)
-    // console.log("this.tableDataItems NGONINIT", this.tableDataItems);
-    // console.log("this.matPaginator",this.matPaginator);
-    // console.log("this.newTableDataSource NGONINIT", this.newTableDataSource);
-    // this.tableDataItems.sort = this.matSort;
-    // this.tableDataItems.paginator = this.matPaginator;
-    
+
+
     this.InitialzeColumns();
-    // this.table.dataSource = this.tableDataItems;
-    // this.newTableDataSource = new TableDataSource(this.tableData);
-    // this.newTableDataSource = new TableDataSource(this.tableData);
+    console.log("this.tableData",this.tableData);
+    
   }
   
-  // we need this, in order to make pagination work with *ngIf
+  
   ngAfterViewInit() {
+
     this.newTableDataSource = new TableDataSource(this.tableData);
-    
-    // console.log("this.matPaginator",this.matPaginator);
-    // this.matPaginator.
+    if(this.isPageable){
 
-    
-    this.newTableDataSource.paginator = this.matPaginator;
-    this.newTableDataSource.sort = this.matSort;
-    // this.newTableDataSource.mutateData();
-    // // this.table.dataSource = this.tableDataItems;
-    // console.log("this.newTableDataSource", this.newTableDataSource);
-    
+      this.newTableDataSource.paginator = this.matPaginator;
+      this.cd.detectChanges();
+    }
 
-    // console.log("this.newTableDataSource ngAfterViewInit", this.newTableDataSource);
-
+    if(this.isSortable){
+      this.newTableDataSource.sort = this.matSort;
+    }
+    
+    
     ///https://stackoverflow.com/questions/62710052/mat-sort-ascending-with-null-values-to-last
     ///For moving null values always to the bottom
-
+    
     //Added ChangeDetectorRef for the error ExpressionChangedAfterItHasBeenCheckedError
     //got this error after assigning data to the datasource in NgAfterViewInit function
     //since paginator only get initialized in NgAfterViewInit
@@ -170,27 +124,18 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   private fillDataPaginator(data: T[]) {
 
     const startIndex = this.matPaginator.pageIndex * this.matPaginator.pageSize;
-    // console.log(`this.paginator is ${this.paginator}`);
-    // console.log(`this.paginator.pageSize is ${this.paginator.pageSize}`);
-    // console.log(`this.paginator.pageIndex is  ${this.paginator.pageIndex}`);
-    // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
+    
     if (
       data.length - startIndex < this.matPaginator.pageSize &&
       data.length > this.matPaginator.pageSize) 
       {
       let diff = this.matPaginator.pageSize - (data.length - startIndex);
-      // console.log(`diff is ${diff}`);
-      // console.log(`startIndex is ${startIndex}`);
-      // console.log(`data.length is ${data.length}`);
       
       for (let i = 0; i < diff; i++) {
         data.push(Object.create(null));
       }
     }
-  
-    // console.log(`this.paginator.pageIndex is AFTER ${this.paginator.pageIndex}`);
     
-    // console.log(JSON.stringify(data));
     const test = data.splice(startIndex, this.matPaginator.pageSize);
     console.log('test',test);
     
@@ -364,21 +309,6 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // }
   }
 
-  // getPagedDataSource(data: any): MatTableDataSource<any> {
-  //   //this.pagedData = new MatTableDataSource<any>(data);
-  //   //this.pagedData.paginator = this.matPaginator;
-  //   console.log(data);
-
-  //   const startIndex = this.matPaginator.pageIndex * this.matPaginator.pageSize;
-  //   if (data.length - startIndex < this.matPaginator.pageSize) {
-  //     let diff = this.matPaginator.pageSize - (data.length - startIndex);
-  //     for (let i = 0; i < diff; i++) {
-  //       data.push(Object.create(null));
-  //     }
-  //   }
-  //   data = data.data.splice(startIndex, this.matPaginator.pageSize);
-  //   return data;
-  // }
 
   openDialog(data: T) {
     this.displayDialog = this.dialog.open(DisplayModalComponent, {
@@ -400,6 +330,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   InitialzeColumns() {
+    console.log("this.tableColumns" , this.tableColumns);
+    
     const columnNames = this.tableColumns.map(
       (tableColumn: TableColumn) => tableColumn.name
     );
@@ -464,3 +396,4 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     return false;
   }
 }
+
