@@ -8,9 +8,9 @@ import {
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { isEmpty } from "rxjs/operators";
 import { ClientsComponent } from "src/app/components/clients/clients.component";
-import { Client } from "src/app/Models/client.model";
-import { Identification } from "src/app/Models/Identification.interface";
-import { Product } from "src/app/Models/product.model";
+import { Client } from "src/app/models/client.model";
+import { Identification } from "src/app/models/Identification.interface";
+import { Product } from "src/app/models/product.model";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
 
 @Component({

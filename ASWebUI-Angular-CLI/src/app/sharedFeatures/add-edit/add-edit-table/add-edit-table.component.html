@@ -41,7 +41,8 @@
 
                         <td mat-cell *matCellDef="let record" class="cursor-pointer"
                             (click)="!hasCheckboxColumn ? $event.stopPropagation() : selection.toggle(record)">
-                            {{ record | dataPropertyGetter: tableColumn.dataKey : tableColumn.nestedProperty }}
+                            
+                            {{ record | recordPropertyGetter: tableColumn.dataKey : tableColumn.nestedProperty }}
                         </td>
                     </ng-container>
 

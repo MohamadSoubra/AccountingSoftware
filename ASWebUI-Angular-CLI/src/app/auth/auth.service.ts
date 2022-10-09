@@ -8,9 +8,9 @@ import {
   observable,
   Subscription,
 } from "rxjs";
-import { authUser } from "src/app/Models/authUser.model";
-import { Token } from "../Models/token.model";
-import { User } from "../Models/User.model";
+import { authUser } from "src/app/models/authUser.model";
+import { Token } from "../models/token.model";
+import { User } from "../models/User.model";
 import { mapTo, tap, catchError, count } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { AuthResponse } from "./auth-response.model";

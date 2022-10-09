@@ -5,8 +5,8 @@ import {
   AfterViewInit,
 } from "@angular/core";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
-import { User } from "src/app/Models/User.model";
-import { authUser } from "src/app/Models/authUser.model";
+import { User } from "src/app/models/User.model";
+import { authUser } from "src/app/models/authUser.model";
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HomeComponent } from "src/app/Components/home/home.component";

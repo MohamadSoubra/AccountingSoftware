@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
-import { Product } from "src/app/Models/product.model";
+import { Product } from "src/app/models/product.model";
 // import { TableColumn } from "../table/table.component";
 import { CurrencyPipe, DecimalPipe } from "@angular/common";
 

@@ -27,7 +27,7 @@
                 </ng-container>
                 <!-- ||| Table ||| -->
                 <ng-container *ngIf="prop.needTable">
-                    <app-add-edit-table [ngClass]="prop.formControlName" [tableData]="saleDetailsData" [tableColumns]="saledetailscolumns" [isPageable]="true"
+                    <app-add-edit-table *ngIf="hasSailDetails" [ngClass]="prop.formControlName" [tableData]="saleDetailsData" [tableColumns]="saledetailscolumns" [isPageable]="false"
                     [isFilterable]="false" [hasActionColumn]="true" [isSortable]="false"
                     [hasCheckboxColumn]="false"  (actionEdit)="edit($event)"
                     (actionDelete)="delete($event)"> </app-add-edit-table>

@@ -8,7 +8,7 @@ import { ResetPasswordComponent } from "./components/reset-password/reset-passwo
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
-import { LoadingSpinnerComponent } from "../shared/loading-Spinner/loading-spoinner.component";
+import { LoadingSpinnerComponent } from "../sharedFeatures/loading-Spinner/loading-spoinner.component";
 
 @NgModule({
   declarations: [

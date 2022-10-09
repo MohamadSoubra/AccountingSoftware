@@ -1,15 +1,12 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./components/home/home.component";
-import { AuthModule } from "./auth/auth.module";
 import { AuthGuard } from "./auth/auth.guard";
-import { LoginComponent } from "./auth/components/login/login.component";
 import { ProductsComponent } from "./components/products/products.component";
 import { ClientsComponent } from "./components/clients/clients.component";
 import { SuppliersComponent } from "./components/suppliers/suppliers.component";
-import { AddEditComponent } from "./Shared/add-edit/add-edit.component";
-import { AddEditModule } from "./shared/add-edit/add-edit.module";
 import { InvoiceComponent } from "./features/invoice/invoice.component";
+import { AddEditModule } from "./sharedFeatures/add-edit/add-edit.module";
 
 const routes: Routes = [
   { path: "", component: HomeComponent, canActivate: [AuthGuard] },
@@ -54,7 +51,7 @@ const routes: Routes = [
   {
     path: "addEdit",
     // canActivate: [AuthGuard],
-    loadChildren: () => import('./shared/add-edit/add-edit.module').then(mod => mod.AddEditModule),
+    loadChildren: () => import('./sharedFeatures/add-edit/add-edit.module').then(mod => mod.AddEditModule),
   },
   
   // { path: "AddEdit/:id", component: AddEditComponent },

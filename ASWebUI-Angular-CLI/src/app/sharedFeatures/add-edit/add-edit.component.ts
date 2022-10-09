@@ -4,10 +4,10 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsComponent } from 'src/app/components/clients/clients.component';
-import { Client } from 'src/app/Models/client.model';
-import { Invoice } from 'src/app/Models/invoice.model';
-import { Product } from 'src/app/Models/product.model';
-import { Supplier } from 'src/app/Models/supplier.model';
+import { Client } from 'src/app/models/client.model';
+import { Invoice } from 'src/app/models/invoice.model';
+import { Product } from 'src/app/models/product.model';
+import { Supplier } from 'src/app/models/supplier.model';
 import { ApiHelperService } from 'src/app/services/ApiHelper.service';
 import { TableColumn } from '../table/table.component';
 // import { DisplayModalComponent } from '../modal/displayModal.component';
@@ -42,6 +42,7 @@ export class AddEditComponent implements OnInit {
   previousRoute: string;
   saledetailscolumns: TableColumn[];
   saleDetailsData ;
+  hasSailDetails: boolean = false;
   // autoCompleteValue: any;
 
   ngOnInit(): void {
@@ -224,7 +225,14 @@ export class AddEditComponent implements OnInit {
         // this.saledetailscolumns.map(col => {
         //   col.name = this.displayItem[prop]
         // })
-        this.saleDetailsData = this.displayItem[prop]
+        this.saleDetailsData = this.displayItem[prop];
+
+        if(this.saleDetailsData.length < 1){
+          this.hasSailDetails = false;
+        }else{
+          this.hasSailDetails = true;
+
+        }
         
       }
 

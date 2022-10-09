@@ -14,25 +14,23 @@ import { AuthModule } from "./auth/auth.module";
 import { AuthService } from "./auth/auth.service";
 import { AuthGuard } from "./auth/auth.guard";
 import { TokenInterceptorService } from "./auth/token-interceptor.service";
-import { ProductsComponent } from "./components/products/products.component";
 import { ClientsComponent } from "./components/clients/clients.component";
 import { SuppliersComponent } from "./components/suppliers/suppliers.component";
 import { RouterModule } from "@angular/router";
 import { HeaderComponent } from "./components/header/header.component";
-import { LoadingSpinnerComponent } from "./shared/loading-Spinner/loading-spoinner.component";
 // import { TableComponent } from "./components/table/table.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatTableModule } from "@angular/material/table";
-// import { DataPropertyGetterPipe } from "./components/table/data-property-getter/data-property-getter-pipe";
 import { TesttableComponent } from "./testtable/testtable.component";
 import { MatDialogModule } from "@angular/material/dialog";
-import { DisplayModalComponent } from "./shared/modal/displayModal.component";
 import { ClientFormComponent } from './components/clients/client-form/client-form.component';
 import { SaleDetailComponent } from './components/sale-detail/sale-detail.component';
-import { AddEditModule } from "./shared/add-edit/add-edit.module";
-import { AngularMaterialModule } from "./shared/angular-material/angular-material.module";
 import { InvoiceModule } from "./features/invoice/invoice.module";
-import { TableModule } from "./shared/table/table.module";
+import { DisplayModalComponent } from "./sharedFeatures/modal/displayModal.component";
+import { AddEditModule } from "./sharedFeatures/add-edit/add-edit.module";
+import { AngularMaterialModule } from "./sharedFeatures/angular-material/angular-material.module";
+import { TableModule } from "./sharedFeatures/table/table.module";
+import { ProductsComponent } from "./components/products/products.component";
 
 @NgModule({
   declarations: [
@@ -42,8 +40,6 @@ import { TableModule } from "./shared/table/table.module";
     ClientsComponent,
     SuppliersComponent,
     HeaderComponent,
-    // TableComponent,
-    // DataPropertyGetterPipe,
     TesttableComponent,
     DisplayModalComponent,
     ClientFormComponent,
@@ -66,6 +62,9 @@ import { TableModule } from "./shared/table/table.module";
     AppRoutingModule,
     
   ],
+  
+  exports: [],
+
   providers: [
     AuthService,
     AuthGuard,

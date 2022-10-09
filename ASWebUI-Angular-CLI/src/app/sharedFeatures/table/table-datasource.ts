@@ -3,7 +3,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort, Sort } from "@angular/material/sort";
 import { map } from "rxjs/operators";
 import { Observable, of as observableOf, merge, BehaviorSubject } from "rxjs";
-import { Identification } from "src/app/Models/Identification.interface";
+import { Identification } from "src/app/models/Identification.interface";
 import { MatTableDataSource } from "@angular/material/table";
 import { EventEmitter } from "@angular/core";
 
@@ -49,7 +49,8 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     //   // observableOf(this.data),
     //   this.DATA$,
     //   this.filterChange$,
-    //   this.sort?.sortChange
+    //   this.sort?.sortChange,
+    //   this.paginator.page
     // ];
 
     // let dataMutations;
@@ -59,6 +60,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     // }else{
     //   dataMutations = [this.DATA$, this.filterChange$];
     // }
+    
     let dataMutations ;
 
     if(this.sort && this.paginator){
@@ -86,17 +88,17 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
       ];
     }
 
-    if(this.paginator){
-      dataMutations.push(new BehaviorSubject(this.paginator.page));
-    }
+    // if(this.paginator){
+    //   dataMutations.push(new BehaviorSubject(this.paginator.page));
+    // }
 
 
     // console.log("dataMutations",dataMutations);
-    
+
 
     // return merge(...dataMutations).pipe(
     //   map(() => {
-        
+
     //       return this.getPagedData(
     //         this.getFilteredData(this.getSortedData([...this.DATA$.value])))
     //   }))
@@ -104,12 +106,32 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     // console.log("this.paginator",this.paginator);
 
     // console.log("this.DATA$.value",this.DATA$.value);
+
+
+
+    if(this.sort && this.paginator){
+      return merge(...dataMutations).pipe(
+        map(() => {
+          return this.getSortedData(this.getPagedData(this.getFilteredData([...this.DATA$.value])))
+        }))
+    }else if(!this.sort || this.paginator){
+      return merge(...dataMutations).pipe(
+        map(() => {
+          return this.getPagedData(this.getFilteredData([...this.DATA$.value]))
+        }))
+
+    }else if(!this.paginator || this.sort ){
+      return merge(...dataMutations).pipe(
+        map(() => {
+          return this.getSortedData(this.getFilteredData([...this.DATA$.value]))
+        }))
+    }
     
     
-    return merge(...dataMutations).pipe(
-      map(() => {
-        return this.getSortedData(this.getPagedData(this.getFilteredData([...this.DATA$.value])))
-      }))
+    // return merge(...dataMutations).pipe(
+    //   map(() => {
+    //     return this.getSortedData(this.getPagedData(this.getFilteredData([...this.DATA$.value])))
+    //   }))
 
 
 
@@ -146,7 +168,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    * this would be replaced by requesting the appropriate data from the server.
    */
   private getPagedData(data: T[]) {
-    if(this.paginator){
+    // if(this.paginator){
 
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         // console.log(`this.paginator is ${this.paginator}`);
@@ -171,7 +193,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
       
       // console.log(JSON.stringify(data));
       return data.splice(startIndex, this.paginator.pageSize);
-    }
+    // }
   
   }
   
@@ -180,7 +202,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    * this would be replaced by requesting the appropriate data from the server.
    */
   private getSortedData(data: T[]) {
-    if(this.sort){
+    // if(this.sort){
 
       if (!this.sort.active || this.sort.direction === "") {
         return data; //?
@@ -196,7 +218,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
           this.sort.direction === "asc"
           );
         });
-      }
+      // }
   }
   
 

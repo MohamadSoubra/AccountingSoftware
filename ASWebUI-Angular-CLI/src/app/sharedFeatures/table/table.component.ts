@@ -15,9 +15,9 @@ import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Identification } from "src/app/Models/Identification.interface";
+import { Identification } from "src/app/models/Identification.interface";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
-import { DisplayModalComponent } from "src/app/shared/modal/displayModal.component";
+// import { DisplayModalComponent } from "src/app/shared/modal/displayModal.component";
 import { TableDataSource } from "./table-datasource";
 
 export interface TableColumn {
@@ -100,7 +100,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
   emptyFilters = true;
 
-  displayDialog: MatDialogRef<DisplayModalComponent<T>, T>;
+  // displayDialog: MatDialogRef<DisplayModalComponent<T>, T>;
 
   displayedColumnFilters: any[];
   constructor(
@@ -380,12 +380,12 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   //   return data;
   // }
 
-  openDialog(data: T) {
-    this.displayDialog = this.dialog.open(DisplayModalComponent, {
-      data: data,
-      panelClass: "DisplayModal",
-    });
-  }
+  // openDialog(data: T) {
+  //   this.displayDialog = this.dialog.open(DisplayModalComponent, {
+  //     data: data,
+  //     panelClass: "DisplayModal",
+  //   });
+  // }
 
   AddRecord() {
     this.router.navigate(["./", 0], {

@@ -16,17 +16,15 @@ import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
-import { Client } from "src/app/Models/client.model";
-import { Identification } from "src/app/Models/Identification.interface";
-import { Invoice } from "src/app/Models/invoice.model";
-import { Product } from "src/app/Models/product.model";
-import { SaleDetail } from "src/app/Models/sale-detail.model";
-import { Supplier } from "src/app/Models/supplier.model";
+import { Client } from "src/app/models/client.model";
+import { Identification } from "src/app/models/Identification.interface";
+import { Invoice } from "src/app/models/invoice.model";
+import { Product } from "src/app/models/product.model";
+import { SaleDetail } from "src/app/models/sale-detail.model";
+import { Supplier } from "src/app/models/supplier.model";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
-import { DisplayModalComponent } from "src/app/shared/modal/displayModal.component";
 import { TableDataSource } from "../../table/table-datasource";
 import { TableColumn } from "../../table/table.component";
-// import { DataPropertyGetterPipe } from "./data-property-getter/data-property-getter-pipe";
 // import { TableDataSource } from "./table-datasource";
 
 @Component({
@@ -75,7 +73,7 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
 
   emptyFilters = true;
 
-  displayDialog: MatDialogRef<DisplayModalComponent<T>, T>;
+  // displayDialog: MatDialogRef<DisplayModalComponent<T>, T>;
 
   displayedColumnFilters: any[];
   constructor(
@@ -100,7 +98,8 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
   
   ngAfterViewInit() {
 
-    this.newTableDataSource = new TableDataSource(this.tableData);
+    this.newTableDataSource = new MatTableDataSource(this.tableData);
+    // this.newTableDataSource = new TableDataSource(this.tableData);
     if(this.isPageable){
 
       this.newTableDataSource.paginator = this.matPaginator;
@@ -249,14 +248,15 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
     // console.log(this.tableData);
 
     const numSelected = this.selection.selected.length;
-    let numRows
+    let numRows = 0
 
-    if (this.newTableDataSource && this.newTableDataSource.DATA$){
+    // if (this.newTableDataSource && this.newTableDataSource.DATA$){
 
-      numRows = this.newTableDataSource.DATA$.value.length;
-    }else{
-      numRows = 0;
-    }
+    //   numRows = this.newTableDataSource.DATA$.value.length;
+    // }else{
+    //   numRows = 0;
+    // }
+
     // let numRows = this.newTableDataSource.data.length;
     //console.log(`num Rows ${numRows}`);
     //console.log(this.tableDataSource);
@@ -271,7 +271,7 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
       this.selection.clear();
       return;
     }
-    this.selection.select(...this.newTableDataSource.DATA$.value);
+    // this.selection.select(...this.newTableDataSource.DATA$.value);
   }
 
   /** The label for the checkbox on the passed row */
@@ -310,12 +310,12 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
   }
 
 
-  openDialog(data: T) {
-    this.displayDialog = this.dialog.open(DisplayModalComponent, {
-      data: data,
-      panelClass: "DisplayModal",
-    });
-  }
+  // openDialog(data: T) {
+  //   this.displayDialog = this.dialog.open(DisplayModalComponent, {
+  //     data: data,
+  //     panelClass: "DisplayModal",
+  //   });
+  // }
 
   AddRecord() {
     this.router.navigate(["./", 0], {

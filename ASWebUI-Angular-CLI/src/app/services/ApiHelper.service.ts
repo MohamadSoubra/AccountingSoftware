@@ -2,12 +2,12 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, tap, mapTo, map, exhaustMap, take } from "rxjs/operators";
 import { throwError, of } from "rxjs";
-import { Product } from "../Models/product.model";
+import { Product } from "../models/product.model";
 import { AuthService } from "../auth/auth.service";
-import { Client } from "../Models/client.model";
-import { Invoice } from "../Models/invoice.model";
-import { Supplier } from "../Models/supplier.model";
-import { SaleDetail } from "../Models/sale-detail.model";
+import { Client } from "../models/client.model";
+import { Invoice } from "../models/invoice.model";
+import { Supplier } from "../models/supplier.model";
+import { SaleDetail } from "../models/sale-detail.model";
 
 @Injectable({
   providedIn: "root",
@@ -387,7 +387,7 @@ export class ApiHelperService {
       invoiceNumber: "QQI67RKH5HD",
       client: new Client( {id:"24"}),
       description:
-        "This is a fake Invoice if you couldn't tell",
+        "This is a fake Invoice",
       invoiceDate: "2022-04-23 03:16:01",
       paymentDueDate: "2023-01-10 16:56:32",
       amountDue: 490,
@@ -1123,9 +1123,9 @@ export class ApiHelperService {
   }
 
   getInvoiceById(ID: any): Invoice {
-    const invoice: Invoice = this.fakeInvoices.find((invoice) => invoice.id === ID);
+    const invoice: Invoice = new Invoice(this.fakeInvoices.find((invoice) => invoice.id === ID));
     console.log("invoice.constructor.name",invoice.constructor.name);
-    console.log(invoice);
+    console.log("invoice", invoice);
     return invoice;
   }
 
@@ -1143,7 +1143,7 @@ export class ApiHelperService {
   
   getsupplierById(ID: any): Supplier {
     const supplier: Supplier = new Supplier (this.fakeSuppliers.find((supplier) => supplier.id === ID));
-    console.log("client.constructor.name",supplier.constructor.name);
+    console.log("supplier.constructor.name",supplier.constructor.name);
     return supplier;
   }
 

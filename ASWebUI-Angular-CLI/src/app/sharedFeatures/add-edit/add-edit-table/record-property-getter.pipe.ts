@@ -1,29 +1,31 @@
-import { PipeTransform, Pipe } from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: "dataPropertyGetter",
+  name: 'recordPropertyGetter'
 })
-export class DataPropertyGetterPipeAddEdit implements PipeTransform {
+export class RecordPropertyGetterPipe implements PipeTransform {
+
   transform(object: any, keyName: string, nestedProperty: string, ...args: unknown[]): unknown {
     if (!object || object[keyName] === undefined) {
       return;
     }
-    if(nestedProperty){
-      if(object[keyName][nestedProperty] === undefined){
+    if (nestedProperty) {
+      if (object[keyName][nestedProperty] === undefined) {
         console.log(`nestedProperty ${nestedProperty} was not detected make sure you spelled it right (it's case sensitive)`);
-        if (object[keyName]){
+        if (object[keyName]) {
           return object[keyName];
-        } else{
+        } else {
           return {};
         }
-      }else if (object[keyName][nestedProperty] === null){
-          return "";
-      }else{
+      } else if (object[keyName][nestedProperty] === null) {
+        return "";
+      } else {
         return object[keyName][nestedProperty];
-      }  
-      
-    }else{
+      }
+
+    } else {
       return object[keyName];
     }
   }
+
 }

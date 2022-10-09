@@ -17,7 +17,7 @@ import {
   filter,
 } from "rxjs/operators";
 import { throwError } from "rxjs";
-import { User } from "../Models/User.model";
+import { User } from "../models/User.model";
 
 @Injectable({
   providedIn: "root",

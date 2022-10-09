@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
-import { Invoice } from "src/app/Models/invoice.model";
-import { Client } from "src/app/Models/client.model";
+import { Invoice } from "src/app/models/invoice.model";
+import { Client } from "src/app/models/client.model";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
 // import { TableColumn } from "../../Components/table/table.component";
 

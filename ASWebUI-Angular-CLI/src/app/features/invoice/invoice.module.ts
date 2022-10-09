@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { InvoiceComponent } from './invoice.component';
 import { InvoiceRoutingModule } from './invoice-routing.module';
+import { TableModule } from 'src/app/sharedFeatures/table/table.module';
 // import { TableComponent } from 'src/app/components/table/table.component';
-import { TableModule } from 'src/app/shared/table/table.module';
 
 
 @NgModule({
