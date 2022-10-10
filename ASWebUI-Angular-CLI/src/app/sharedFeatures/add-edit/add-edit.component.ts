@@ -210,7 +210,7 @@ export class AddEditComponent implements OnInit {
           name: "Total Price",
           dataKey: "totalPrice",
           isFilterable: false,
-        },
+        }
   
       ]
 
@@ -267,7 +267,9 @@ export class AddEditComponent implements OnInit {
   }
 
   onSubmit() {
-    // console.log("this.itemform", this.itemform);
+    let submitted = this.formatDate(this.itemform.value);
+    // console.log("this.itemform.value", this.itemform.value);
+    console.log("submitted", submitted);
     // console.log("this.itemform.value",this.itemform.value);
     let aRecord = this.apiHelper.InitializeType(this.previousRoute)
     Object.keys(aRecord).forEach(key => {
@@ -351,5 +353,15 @@ export class AddEditComponent implements OnInit {
 
   delete(event){
 
+  }
+
+  formatDate(object){
+    if(Object.keys(object).forEach)
+     Object.keys(object).map(prop => {
+      if (prop.toLowerCase().includes("date")) {
+        object[prop] = new Date(object[prop]).toDateString()
+      }
+    })
+    return object;
   }
 }
