@@ -1124,26 +1124,26 @@ export class ApiHelperService {
 
   getInvoiceById(ID: any): Invoice {
     const invoice: Invoice = new Invoice(this.fakeInvoices.find((invoice) => invoice.id === ID));
-    console.log("invoice.constructor.name",invoice.constructor.name);
-    console.log("invoice", invoice);
+    // console.log("invoice.constructor.name",invoice.constructor.name);
+    // console.log("invoice", invoice);
     return invoice;
   }
 
   getProductById(ID: any): Product {
     const product: Product = new Product (this.fakeProducts.find((product) => product.id === ID));
-    console.log("product.constructor.name",product.constructor.name);
+    // console.log("product.constructor.name",product.constructor.name);
     return product;
   }
 
   getclientById(ID: any): Client {
     const temp: Client = new Client (this.fakeClients.find((client) => client.id === ID));
-    console.log("client.constructor.name", temp.constructor.name);
+    // console.log("client.constructor.name", temp.constructor.name);
     return temp;
   }
   
   getsupplierById(ID: any): Supplier {
     const supplier: Supplier = new Supplier (this.fakeSuppliers.find((supplier) => supplier.id === ID));
-    console.log("supplier.constructor.name",supplier.constructor.name);
+    // console.log("supplier.constructor.name",supplier.constructor.name);
     return supplier;
   }
 
@@ -1152,8 +1152,8 @@ export class ApiHelperService {
   //}
 
   getByID(object, ID){
-    console.log("object getByID", object);
-    console.log("object.constructor.name", object.constructor.name);
+    // console.log("object getByID", object);
+    // console.log("object.constructor.name", object.constructor.name);
     
     switch (object) {
       case "products":
@@ -1270,6 +1270,9 @@ export class ApiHelperService {
         break;
       case "invoices":
         object = new Invoice(object);
+        break;
+      case "saleDetails":
+        object = new SaleDetail(object);
         break;
       default:
         {

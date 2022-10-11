@@ -62,24 +62,22 @@ export class AddEditComponent implements OnInit {
     // );
     
     
-    // console.log("this.route", this.route.snapshot.firstChild);
+    console.log("this.route", this.route);
+
+    
     this.route.params.subscribe(params => {
-      // console.log("p",p);
+      console.log("params", params);
 
       this.previousRoute = params[""];
       
       if (+params['id'] == 0) {
-        // console.log("is NAN");
-        
         this.displayItem = this.apiHelper.InitializeType(params[""]);
       } else {
-        // console.log("! is NAN");
         this.displayItem = this.apiHelper.getByID(params[""],params["id"]);
-        
-        
       }
-      
+
     })
+
 
    
     // console.log("this.route.snapshot.data", this.route);

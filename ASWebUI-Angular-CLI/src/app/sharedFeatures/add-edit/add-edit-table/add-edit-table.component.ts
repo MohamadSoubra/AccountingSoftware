@@ -91,7 +91,7 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
 
 
     this.InitialzeColumns();
-    console.log("this.tableData",this.tableData);
+    // console.log("this.tableData",this.tableData);
     
   }
   
@@ -324,13 +324,11 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
   }
 
   edit(item: T) {
-    this.router.navigate([`./`, item.id], {
-      relativeTo: this.actRout,
-    });
+    this.router.navigate([`saleDetails`, item.id]);
   }
 
   InitialzeColumns() {
-    console.log("this.tableColumns" , this.tableColumns);
+    // console.log("this.tableColumns" , this.tableColumns);
     
     const columnNames = this.tableColumns.map(
       (tableColumn: TableColumn) => tableColumn.name

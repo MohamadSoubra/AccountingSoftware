@@ -10,17 +10,22 @@ export class SaleDetail implements Identification {
   unitPrice: number;
   totalPrice: number;
   tax?: number;
+  
+  constructor({
+    id = "",
+    productName = "",
+    description = "",
+    quantity = 0,
+    unitPrice = 0,
+    totalPrice = 0,
+    tax = 0,
+  } = {}) {
+    this.id = id;
+    this.productName = productName;
+    this.description = description;
+    this.quantity = quantity;
+    this.unitPrice = unitPrice;
+    this.totalPrice = totalPrice;
+    this.tax = tax;
+  }
 }
-
-
-// export class SaleDetail implements Identification {
-//   id?: string;
-//   invoiceId: string;
-//   productId: string;
-//   saleId: string;
-//   quantity: number;
-//   price: number;
-//   purchasePrice: number;
-//   amount: number;
-//   tax: number;
-// }
