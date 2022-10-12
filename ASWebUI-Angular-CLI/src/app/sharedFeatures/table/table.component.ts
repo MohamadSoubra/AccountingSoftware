@@ -150,6 +150,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
     
     this.newTableDataSource.paginator = this.matPaginator;
+    this.cd.detectChanges();
+
     this.newTableDataSource.sort = this.matSort;
     // this.newTableDataSource.mutateData();
     // // this.table.dataSource = this.tableDataItems;

@@ -98,8 +98,8 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
   
   ngAfterViewInit() {
 
-    this.newTableDataSource = new MatTableDataSource(this.tableData);
-    // this.newTableDataSource = new TableDataSource(this.tableData);
+    // this.newTableDataSource = new MatTableDataSource(this.tableData);
+    this.newTableDataSource = new TableDataSource(this.tableData);
     if(this.isPageable){
 
       this.newTableDataSource.paginator = this.matPaginator;
@@ -318,9 +318,9 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
   // }
 
   AddRecord() {
-    this.router.navigate(["./", 0], {
-      relativeTo: this.actRout,
-    });
+    // this.router.navigate(["./", 0], {
+    //   relativeTo: this.actRout,
+    // });
   }
 
   edit(item: T) {

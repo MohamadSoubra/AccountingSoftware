@@ -14,7 +14,7 @@ import { EventEmitter } from "@angular/core";
  */
 export class TableDataSource<T extends Identification> extends DataSource<any> {
   public data: any;
-  test : MatTableDataSource<T>;
+  test: MatTableDataSource<T>;
   // paginator: MatPaginator;
   // sort: MatSort;
   paginator: MatPaginator;
@@ -31,7 +31,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     //this.data = datasource;
     //this.DATA$ = new BehaviorSubject(datasource);
     this.DATA$.next(datasource)
-    
+
     // this._changedetectorref.detectChanges();
   }
 
@@ -60,32 +60,49 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     // }else{
     //   dataMutations = [this.DATA$, this.filterChange$];
     // }
-    
-    let dataMutations ;
 
-    if(this.sort && this.paginator){
+    let dataMutations;
+
+    if (this.sort && this.paginator) {
       dataMutations = [
-        // observableOf(this.data),
         this.DATA$,
         this.filterChange$,
         this.sort.sortChange,
-        this.paginator.page
-      ];
-    }else if(!this.sort || this.paginator){
-      dataMutations = [
-        // observableOf(this.data),
-        this.DATA$,
-        this.filterChange$,
-        this.paginator.page
+        this.paginator.page,
       ];
 
-    }else if(!this.paginator || this.sort ){
-      dataMutations = [
-        // observableOf(this.data),
-        this.DATA$,
-        this.filterChange$,
-        this.sort.sortChange,
-      ];
+      return merge(...dataMutations).pipe(
+        map(() => {
+          return this.getSortedData(
+            this.getPagedData(this.getFilteredData([...this.DATA$.value]))
+          );
+        })
+      );
+    } else if (!this.sort && this.paginator) {
+      dataMutations = [this.DATA$, this.filterChange$, this.paginator.page];
+      return merge(...dataMutations).pipe(
+        map(() => {
+          return this.getPagedData(this.getFilteredData([...this.DATA$.value]));
+        })
+      );
+    } else if (!this.paginator && this.sort) {
+      dataMutations = [this.DATA$, this.filterChange$, this.sort.sortChange];
+
+      return merge(...dataMutations).pipe(
+        map(() => {
+          return this.getSortedData(
+            this.getFilteredData([...this.DATA$.value])
+          );
+        })
+      );
+    } else if (!this.paginator && !this.sort) {
+      dataMutations = [this.DATA$, this.filterChange$];
+
+      return merge(...dataMutations).pipe(
+        map(() => {
+          return this.getFilteredData([...this.DATA$.value]);
+        })
+      );
     }
 
     // if(this.paginator){
@@ -109,25 +126,8 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
 
 
 
-    if(this.sort && this.paginator){
-      return merge(...dataMutations).pipe(
-        map(() => {
-          return this.getSortedData(this.getPagedData(this.getFilteredData([...this.DATA$.value])))
-        }))
-    }else if(!this.sort || this.paginator){
-      return merge(...dataMutations).pipe(
-        map(() => {
-          return this.getPagedData(this.getFilteredData([...this.DATA$.value]))
-        }))
 
-    }else if(!this.paginator || this.sort ){
-      return merge(...dataMutations).pipe(
-        map(() => {
-          return this.getSortedData(this.getFilteredData([...this.DATA$.value]))
-        }))
-    }
-    
-    
+
     // return merge(...dataMutations).pipe(
     //   map(() => {
     //     return this.getSortedData(this.getPagedData(this.getFilteredData([...this.DATA$.value])))
@@ -148,7 +148,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
   //     this.sort.sortChange
   //   ];
 
-    
+
   //   return merge(...dataMutations).pipe(
   //     map(() => {
   //         return this.getPagedData(this.getFilteredData(this.getSortedData([...this.DATA$.value])))
@@ -161,7 +161,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    *  Called when the table is being destroyed. Use this function, to clean up
    * any open connections or free any held resources that were set up during connect.
    */
-  disconnect() {}
+  disconnect() { }
 
   /**
    * Paginate the data (client-side). If you're using server-side pagination,
@@ -170,33 +170,32 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
   private getPagedData(data: T[]) {
     // if(this.paginator){
 
-        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-        // console.log(`this.paginator is ${this.paginator}`);
-      // console.log(`this.paginator.pageSize is ${this.paginator.pageSize}`);
-      // console.log(`this.paginator.pageIndex is  ${this.paginator.pageIndex}`);
-      // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
-      if (
-        data.length - startIndex < this.paginator.pageSize &&
-        data.length > this.paginator.pageSize) 
-        {
-        let diff = this.paginator.pageSize - (data.length - startIndex);
-        // console.log(`diff is ${diff}`);
-        // console.log(`startIndex is ${startIndex}`);
-        // console.log(`data.length is ${data.length}`);
-        
-        for (let i = 0; i < diff; i++) {
-          data.push(Object.create(null));
-        }
+    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+    // console.log(`this.paginator is ${this.paginator}`);
+    // console.log(`this.paginator.pageSize is ${this.paginator.pageSize}`);
+    // console.log(`this.paginator.pageIndex is  ${this.paginator.pageIndex}`);
+    // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
+    if (
+      data.length - startIndex < this.paginator.pageSize &&
+      data.length > this.paginator.pageSize) {
+      let diff = this.paginator.pageSize - (data.length - startIndex);
+      // console.log(`diff is ${diff}`);
+      // console.log(`startIndex is ${startIndex}`);
+      // console.log(`data.length is ${data.length}`);
+
+      for (let i = 0; i < diff; i++) {
+        data.push(Object.create(null));
       }
-      
-      // console.log(`this.paginator.pageIndex is AFTER ${this.paginator.pageIndex}`);
-      
-      // console.log(JSON.stringify(data));
-      return data.splice(startIndex, this.paginator.pageSize);
+    }
+
+    // console.log(`this.paginator.pageIndex is AFTER ${this.paginator.pageIndex}`);
+
+    // console.log(JSON.stringify(data));
+    return data.splice(startIndex, this.paginator.pageSize);
     // }
-  
+
   }
-  
+
   /**
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
@@ -204,23 +203,23 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
   private getSortedData(data: T[]) {
     // if(this.sort){
 
-      if (!this.sort.active || this.sort.direction === "") {
-        return data; //?
-      }
-      
-      return data.sort((a, b) => {
-        let keyName = this.sort.active;
-        // console.log(keyName);
-        //console.log(a[keyName]);
-        return this.compare(
-          a[keyName],
-          b[keyName],
-          this.sort.direction === "asc"
-          );
-        });
-      // }
+    if (!this.sort.active || this.sort.direction === "") {
+      return data; //?
+    }
+
+    return data.sort((a, b) => {
+      let keyName = this.sort.active;
+      // console.log(keyName);
+      //console.log(a[keyName]);
+      return this.compare(
+        a[keyName],
+        b[keyName],
+        this.sort.direction === "asc"
+      );
+    });
+    // }
   }
-  
+
 
   filterPredicate(data, filter): boolean {
     return true;
@@ -233,7 +232,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     //console.log(this.filterChange$.value);
 
     if (!this.filterChange$.value || this.filterChange$.value === "") {
-      if(this.paginator){
+      if (this.paginator) {
         this.paginator.length = data.length;
       }
       return data;
