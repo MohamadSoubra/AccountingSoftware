@@ -7,11 +7,11 @@ const routes: Routes = [
   {
     path: "invoices",
     component: InvoiceComponent,
+    loadChildren: () => import('../../sharedFeatures/add-edit/add-edit-routing.module').then(mod => mod.AddEditRoutingModule)
   },
 ];
 
 @NgModule({
-  declarations: [],
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })

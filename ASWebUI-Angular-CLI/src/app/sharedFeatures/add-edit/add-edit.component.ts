@@ -50,7 +50,6 @@ export class AddEditComponent implements OnInit {
     
     //console.log(Object.entries(this.displayItem));
     //this.displayItem = this.data.map((value) => String(value));
-    // console.log("this.displayItem AddEdit", this.displayItem);
     // console.log("this.displayItem.constructor.name", this.displayItem.constructor.name );
     // console.log("Object.keys(this.displayItem)", Object.keys(this.displayItem));
     // console.log("Object.keys(Product)", Object.keys(new Product()));
@@ -62,7 +61,7 @@ export class AddEditComponent implements OnInit {
     // );
     
     
-    console.log("this.route", this.route);
+    console.log("this.route.snapshot.params.id", this.route.snapshot.params);
 
     
     this.route.params.subscribe(params => {
@@ -78,6 +77,7 @@ export class AddEditComponent implements OnInit {
 
     })
 
+    console.log("this.displayItem", this.displayItem);
 
    
     // console.log("this.route.snapshot.data", this.route);

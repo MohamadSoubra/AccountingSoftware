@@ -324,7 +324,10 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
   }
 
   edit(item: T) {
-    this.router.navigate([`saleDetails`, item.id]);
+    this.router.navigate([`./saleDetails`, item.id],
+    {relativeTo: this.actRout,
+
+    });
   }
 
   InitialzeColumns() {
