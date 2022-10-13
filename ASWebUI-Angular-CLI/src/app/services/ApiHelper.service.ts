@@ -1147,6 +1147,10 @@ export class ApiHelperService {
     return supplier;
   }
 
+  getSaleDetailById(ID){
+    
+  }
+
   //getToken(user:User){
   //  return this.http.post<any>(`${this.rootUrl}/token`, user)
   //}
@@ -1167,6 +1171,9 @@ export class ApiHelperService {
       break;
       case "invoices":
       object = this.getInvoiceById(ID);
+      break;
+      case "saleDetails":
+      object = this.getSaleDetailById(ID);
       break;
       default:
       {

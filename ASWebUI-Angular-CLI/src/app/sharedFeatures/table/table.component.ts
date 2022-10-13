@@ -36,42 +36,16 @@ export interface TableColumn {
 })
 export class TableComponent<T extends Identification> implements OnInit, AfterViewInit
 {
-  // public tableDataItems = new TableDataSource<T>([]);
+  
   public displayedColumns: string[];
 
- 
-  // this property needs to have a setter, to dynamically get changes from parent component
-  // @Input() set tableData(data: any[]) {
-  //   this.setTableDataSource(data);
-  // }
-
-  // @ViewChild('matPaginator') set paginator(matPaginator:MatPaginator) {
-  //   if (matPaginator) this.newTableDataSource.paginator = matPaginator;
-  //     console.log("this.newTableDataSource from setting paginator",this.newTableDataSource);
-
-  // }
-
-   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
-  // set paginator(value: MatPaginator) {
-  //   if (this.newTableDataSource){
-  //     this.newTableDataSource.paginator = value;
-  //   }
-  //   console.log("this.newTableDataSource from setting paginator",this.newTableDataSource);
-    
-  // }
-
-
+  @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) matSort: MatSort;
-  //@ViewChild(MatSort) matSort: MatSort;
-
-  // @ViewChild(MatTable) table: MatTable<T>;
 
   @Input() isPageable = false;
   @Input() isSortable = false;
   @Input() isFilterable = false;
   @Input() tableColumns: TableColumn[];
-  // @Input() rowActionIcon: string;
-  // @Input() CheckboxColumn: string;
   @Input() hasActionColumn = false;
   @Input() hasCheckboxColumn = false;
   @Input() paginationSizes = [5, 10, 15];
@@ -110,35 +84,13 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     private actRout: ActivatedRoute,
     private cd: ChangeDetectorRef
   ) {
-    //this.tableDataItems = new TableDataSource(this.tableData);
-    // this.table.dataSource = new TableDataSource(this.tableData);
-    // this.newTableDataSource = new TableDataSource(this.tableData);
-    // console.log("this.newTableDataSource",this.newTableDataSource);
-    // this.newTableDataSource = new TableDataSource();
+    
     
   }
 
   ngOnInit(): void {
-    // console.log("this.tableData ngoninit", this.tableData);
-    // const testtabledatasource = new TableDataSource(this.tableData);
-    // console.log("testtabledatasource ngoninit", testtabledatasource);
-      // console.log(this.newTableDataSource);
-    // this.newTableDataSource.paginator = this.matPaginator;
-      
-    // console.log("this is ngOnIninit");
-    // this.newTableDataSource.DATA$.next(this.tableData);
-    // this.tableDataItems = new TableDataSource(this.tableData);
-    // this.newTableDataSource.setData(this.tableData)
-    // console.log("this.tableDataItems NGONINIT", this.tableDataItems);
-    // console.log("this.matPaginator",this.matPaginator);
-    // console.log("this.newTableDataSource NGONINIT", this.newTableDataSource);
-    // this.tableDataItems.sort = this.matSort;
-    // this.tableDataItems.paginator = this.matPaginator;
     
     this.InitialzeColumns();
-    // this.table.dataSource = this.tableDataItems;
-    // this.newTableDataSource = new TableDataSource(this.tableData);
-    // this.newTableDataSource = new TableDataSource(this.tableData);
   }
   
   // we need this, in order to make pagination work with *ngIf
