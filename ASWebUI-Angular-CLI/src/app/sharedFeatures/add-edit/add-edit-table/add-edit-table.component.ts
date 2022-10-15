@@ -69,6 +69,7 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
   ActionColumn: string;
   CheckboxColumn: string;
 
+
   newTableDataSource : any;
 
   emptyFilters = true;

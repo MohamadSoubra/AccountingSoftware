@@ -91,13 +91,41 @@
 
 
             </div>
+
+            <div>
+                <!-- *ngIf="" -->
+                <ng-container >
+                    <div class="totals">
+
+                        <mat-form-field appearance="outline">
+                        <mat-label> Sub Total </mat-label>
+                        <input matInput placeholder="" formControlName="subTotal" color="primary">
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline">
+                            <mat-label> Tax </mat-label>
+                            <input matInput placeholder="" formControlName="tax" color="primary">
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline">
+                            <mat-label> Total </mat-label>
+                            <input matInput placeholder="" formControlName="total" color="primary">
+                        </mat-form-field>
+                    
+                    </div>
+                </ng-container>
+        
+
+            </div>
         </form>
 
     </div>
 
+   
+
     <div class="dialog-actions">
         <button mat-stroked-button (click)="Cancel()">Cancel</button>
-        <button mat-stroked-button class="ml" type="submit" (click)="onSubmit()"
+        <button mat-stroked-button class="ml" type="button" (click)="onSubmit()"
             color="primary">Save</button>
     </div>
 

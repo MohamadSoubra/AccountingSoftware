@@ -1,8 +1,8 @@
 // @use "../../../cutomMaterialTheme.scss" as cmt;
-:root{
-    --grd_col: auto;
+// :root{
+//     --grd_col: auto;
 
-}
+// }
 
 .modal {
     --flex-size: 100%;
@@ -96,14 +96,14 @@
         // background-color: orange;
 
     }
-    .form>*:has(.invoiceDate) {
-        // width: 50%;
-        // background-color: orange;
-    }
-    .form>*:has(.paymentDueDate) {
-        // width:50%;
-        // background-color: orange;
-    }
+    // .form>*:has(.invoiceDate) {
+    //     width: 50%;
+    //     background-color: orange;
+    // }
+    // .form>*:has(.paymentDueDate) {
+    //     width:50%;
+    //     background-color: orange;
+    // }
 
     // .form > .ng-star-inserted:nth-child(4){
     //     background-color: orange;
@@ -128,6 +128,11 @@
         button {
             background-color: white;
         }
+    }
+
+    .totals{
+        margin-top: var(--top-space);
+        justify-items: end;
     }
 
 }

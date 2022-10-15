@@ -197,8 +197,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     this.filterInputs[inputName] = "";
     if (
       Object.keys(this.filterInputs).every(
-        (input) => this.filterInputs[input] == ""
-      )
+        (input) => this.filterInputs[input] == "")
     ) {
       // this.tableDataItems.filterChange$.next("");
       this.emptyFilters = true;

@@ -43,6 +43,10 @@ export class AddEditComponent implements OnInit {
   saledetailscolumns: TableColumn[];
   saleDetailsData ;
   hasSailDetails: boolean = false;
+
+  subTotal: number;
+  tax :number;
+  total:number;
   // autoCompleteValue: any;
 
   ngOnInit(): void {
@@ -148,6 +152,11 @@ export class AddEditComponent implements OnInit {
         }
       }
 
+
+
+
+
+
       // console.log(`${prop} string Length ${prop.length}`);
       // console.log(` string Length ${this.displayItem[prop].length}`);
 
@@ -231,10 +240,14 @@ export class AddEditComponent implements OnInit {
           this.hasSailDetails = true;
 
         }
+
+
         
       }
 
-      
+      this.itemform.addControl("subTotal",new FormControl(0));
+      this.itemform.addControl("tax",new FormControl(0));
+      this.itemform.addControl("total",new FormControl(0));
 
       // this.formControlsArray.push({this.itemform. : this.fb.control("")});
       return {
@@ -261,20 +274,32 @@ export class AddEditComponent implements OnInit {
     // console.log("this.itemform", this.itemform);
     // console.log("this.selectInputData", this.selectInputData);
 
-    document.documentElement.style.setProperty("--grd_col", "span 2");
+    // document.documentElement.style.setProperty("--grd_col", "span 2");
+
+    
+    if(this.displayItem["saleDetails"].length > 0){
+      console.log(this.itemform.controls["total"]);
+      console.log(this.itemform);
+      
+      this.itemform.controls["total"].setValue(1000);
+    }
+
+    console.log("this.itemform",this.itemform);
+    
   }
 
   onSubmit() {
-    let submitted = this.formatDate(this.itemform.value);
-    // console.log("this.itemform.value", this.itemform.value);
-    console.log("submitted", submitted);
-    // console.log("this.itemform.value",this.itemform.value);
-    let aRecord = this.apiHelper.InitializeType(this.previousRoute)
-    Object.keys(aRecord).forEach(key => {
-      aRecord[key] = this.itemform.value[key]
-    })
-    this.apiHelper.saveRecord(aRecord);
-    this.router.navigate([`./${this.previousRoute}`]);
+    // let submitted = this.formatDate(this.itemform.value);
+    // // console.log("this.itemform.value", this.itemform.value);
+    // console.log("submitted", submitted);
+    // // console.log("this.itemform.value",this.itemform.value);
+    // let aRecord = this.apiHelper.InitializeType(this.previousRoute)
+    // Object.keys(aRecord).forEach(key => {
+    //   aRecord[key] = this.itemform.value[key]
+    // })
+    // this.apiHelper.saveRecord(aRecord);
+    // this.router.navigate([`./${this.previousRoute}`]);
+    console.log("this.itemform.value",this.itemform.value);
 
   }
 
@@ -298,9 +323,11 @@ export class AddEditComponent implements OnInit {
   Cancel(){
     // console.log(this.location);
     
-    // this.location.back();
+    this.location.back();
     // console.log("this.route.children", this.route.children);
-    this.router.navigate([`./${this.previousRoute}`]);
+    // console.log("this.previousRoute",this.previousRoute);
+    
+    // this.router.navigate([`./${this.previousRoute}`]);
 
     
   }

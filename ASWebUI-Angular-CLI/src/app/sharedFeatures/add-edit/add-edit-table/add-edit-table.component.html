@@ -56,9 +56,9 @@
                     <td mat-cell *matCellDef="let element">
                         <div *ngIf="!objectIsEmpty(element)" class="table-actions">
                             <!-- *ngIf="(element | json) != '{}' && (element | json) != null && (element | json) != undefined" -->
-                            <button mat-stroked-button color="primary" type="button" (click)="edit(element)">
+                            <!-- <button mat-stroked-button color="primary" type="button" (click)="edit(element)">
                                 Edit
-                            </button>
+                            </button> -->
                             <button mat-stroked-button color="warn" type="button" (click)="delete(element)">
                                 Delete
                             </button>
