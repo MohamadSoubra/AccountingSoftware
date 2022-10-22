@@ -93,7 +93,8 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
 
     this.InitialzeColumns();
     // console.log("this.tableData",this.tableData);
-    
+
+
   }
   
   

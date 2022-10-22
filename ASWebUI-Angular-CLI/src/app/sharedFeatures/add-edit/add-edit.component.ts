@@ -64,6 +64,8 @@ export class AddEditComponent implements OnInit {
     //   "typeof invoiceTestType", invoiceTestType.constructor.name
     // );
     
+    console.log("typeof true",typeof true)
+
     
     console.log("this.route.snapshot.params.id", this.route.snapshot.params);
 
