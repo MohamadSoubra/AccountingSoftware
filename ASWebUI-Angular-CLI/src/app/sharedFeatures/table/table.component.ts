@@ -91,6 +91,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ngOnInit(): void {
     
     this.InitialzeColumns();
+    console.log(this.tableData);
+    
   }
   
   // we need this, in order to make pagination work with *ngIf

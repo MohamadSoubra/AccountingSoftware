@@ -1195,7 +1195,8 @@ export class ApiHelperService {
 
   getInvoices() {
 
-    return this.fakeInvoices;
+    return this.ParseJSONArray(this.fakeInvoices);
+    // return this.fakeInvoices;
     // return this.http.get(`${this.rootUrl}/api/invoice`).pipe(
     //   map((invoices: Invoice[]) => {
     //     return invoices;
@@ -1346,7 +1347,7 @@ export class ApiHelperService {
     return JSON.parse(JSON.stringify(JSONObject), function(k, v) { 
       // console.log(v);
       
-      return (typeof v === "object" || isNaN(v)) || typeof v === "boolean" ? v : parseInt(v, 10); 
+      return (typeof v === "object" || isNaN(v)) || typeof v === "boolean" || isNaN(parseInt(v, 10)) ? v : parseInt(v, 10); 
     });
   }
 

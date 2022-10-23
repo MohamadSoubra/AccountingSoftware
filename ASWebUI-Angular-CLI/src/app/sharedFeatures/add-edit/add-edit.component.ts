@@ -44,6 +44,7 @@ export class AddEditComponent implements OnInit {
   saleDetailsData ;
   hasSailDetails: boolean = false;
 
+
   subTotal: number;
   tax :number;
   total:number;
@@ -279,12 +280,7 @@ export class AddEditComponent implements OnInit {
     // document.documentElement.style.setProperty("--grd_col", "span 2");
 
     
-    if(this.displayItem["saleDetails"].length > 0){
-      console.log(this.itemform.controls["total"]);
-      console.log(this.itemform);
-      
-      this.itemform.controls["total"].setValue(1000);
-    }
+
 
     console.log("this.itemform",this.itemform);
     

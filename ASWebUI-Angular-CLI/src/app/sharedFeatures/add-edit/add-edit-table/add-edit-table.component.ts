@@ -69,6 +69,9 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
   ActionColumn: string;
   CheckboxColumn: string;
 
+  tableFooter: string[] = ['footer']
+
+
 
   newTableDataSource : any;
 
@@ -346,9 +349,10 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
           "CheckboxColumn",
           ...columnNames,
           "ActionColumn",
+          "footer"
         ];
       } else {
-        this.displayedColumns = [...columnNames, "ActionColumn"];
+        this.displayedColumns = [...columnNames, "ActionColumn", "footer"];
       }
       //console.log(true);
     } else {
