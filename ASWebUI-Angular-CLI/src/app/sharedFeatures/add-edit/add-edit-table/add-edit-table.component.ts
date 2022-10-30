@@ -71,6 +71,8 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
 
   tableFooter: string[] = ['footer']
 
+  columnsNumber: number;
+
 
 
   newTableDataSource : any;
@@ -352,35 +354,15 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
           "footer"
         ];
       } else {
-        this.displayedColumns = [...columnNames, "ActionColumn", "footer"];
+        this.displayedColumns = [...columnNames, "ActionColumn"];
       }
       //console.log(true);
     } else {
       this.displayedColumns = columnNames;
     }
 
-    if (this.isFilterable) {
-      this.displayedColumnFilters = this.tableColumns
-        //.filter((column) => column.isFilterable)
-        .map((column) => {
-          if (!column.isFilterable) {
-            this.isColumnFiltered = false;
-            return column.dataKey + " notFiltered";
-          }
-          this.isColumnFiltered = true;
-          return column.dataKey;
-        });
-      if (this.hasCheckboxColumn) {
-        this.displayedColumnFilters = ["check", ...this.displayedColumnFilters];
-      }
-
-      if (this.hasActionColumn) {
-        this.displayedColumnFilters.push("action");
-      }
-    } else {
-      this.displayedColumnFilters = [];
-    }
-    // console.log("tableColumns", this.tableColumns);
+    this.columnsNumber = this.displayedColumns.length
+    
   }
 
   objectIsEmpty(object) {
