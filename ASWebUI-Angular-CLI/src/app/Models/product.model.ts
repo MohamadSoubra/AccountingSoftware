@@ -1,15 +1,15 @@
 import { Identification } from "./Identification.interface";
 
 export class Product implements Identification {
-  id: string = "";
-  productName: string = "";
-  retailPrice: number = 0;
-  quantityInStock: number = 0;
-  isTaxable: boolean = false;
-  description: string = "";
+  id: number;
+  productName: string
+  retailPrice: number;
+  quantityInStock: number;
+  isTaxable: boolean;
+  description: string
 
   constructor({
-    id = "",
+    id = 0,
     productName = "",
     retailPrice = 0,
     quantityInStock = 0,

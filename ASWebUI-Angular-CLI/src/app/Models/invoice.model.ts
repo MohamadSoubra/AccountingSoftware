@@ -1,4 +1,5 @@
 import { Client } from "./client.model";
+import { Identification } from "./Identification.interface";
 import { SaleDetail } from "./sale-detail.model";
 import { Sale } from "./sale.model";
 
@@ -6,10 +7,10 @@ import { Sale } from "./sale.model";
 //   [client: string]: string | number;
 // }
 
-export class Invoice {
-  id: string;
+export class Invoice implements Identification {
+  id: number;
   // [client: string | number]: string | number | Client;
-  client?: Client ;
+  client: Client ;
   sale? : Sale;
   invoiceNumber: string;
   description: string;
@@ -21,9 +22,9 @@ export class Invoice {
 
 
   constructor({
-    id = "",
+    id = 0,
     invoiceNumber = "",
-    client = new Client(),
+    client = new Client({}),
     description = "",
     invoiceDate = "",
     paymentDueDate = "",

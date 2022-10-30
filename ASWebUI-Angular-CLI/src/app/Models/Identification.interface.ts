@@ -1,3 +1,3 @@
 export interface Identification{
-     id?: string;
+     id?: number;
 }

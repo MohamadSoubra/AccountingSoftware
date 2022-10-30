@@ -1,7 +1,7 @@
 import { Identification } from "./Identification.interface";
 
 export class Supplier implements Identification {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
   address: string;
@@ -22,7 +22,7 @@ export class Supplier implements Identification {
   //   }
 
   constructor({
-    id = "",
+    id = 0,
     firstName = "",
     lastName = "",
     address = "",

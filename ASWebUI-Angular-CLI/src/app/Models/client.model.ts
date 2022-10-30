@@ -1,6 +1,6 @@
 import { Identification } from './Identification.interface';
 export class Client implements Identification {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
   emailAddress: string;
@@ -17,7 +17,7 @@ export class Client implements Identification {
   // }
 
   constructor({
-    id = "",
+    id = 0,
     firstName = "",
     lastName = "",
     emailAddress = "",

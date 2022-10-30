@@ -19,7 +19,7 @@ export class ApiHelperService {
 
   fakeProducts = [
     {
-      id: "1",
+      id: 1,
       productName: "Product01",
       description:
         "Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet",
@@ -28,7 +28,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "2",
+      id: 2,
       productName: "Product02",
       description:
         "posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse",
@@ -37,7 +37,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "3",
+      id: 3,
       productName: "Product03",
       description:
         "Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra.",
@@ -46,7 +46,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "4",
+      id: 4,
       productName: "Product04",
       description:
         "in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum",
@@ -55,7 +55,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "5",
+      id: 5,
       productName: "Product05",
       description:
         "a purus. Duis elementum, dui quis accumsan convallis, ante lectus",
@@ -64,7 +64,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "6",
+      id: 6,
       productName: "Product06",
       description:
         "ac mattis velit justo nec ante. Maecenas mi felis, adipiscing",
@@ -73,7 +73,7 @@ export class ApiHelperService {
       isTaxable: true,
     },
     {
-      id: "7",
+      id: 7,
       productName: "Product07",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -82,7 +82,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "8",
+      id: 8,
       productName: "Product08",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -91,7 +91,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "9",
+      id: 9,
       productName: "Product09",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -100,7 +100,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "10",
+      id: 10,
       productName: "Product10",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -109,7 +109,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "11",
+      id: 11,
       productName: "Product11",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -118,7 +118,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "12",
+      id: 12,
       productName: "Product12",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -127,7 +127,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "13",
+      id: 13,
       productName: "Product13",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -136,7 +136,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "14",
+      id: 14,
       productName: "Product14",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -145,7 +145,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "15",
+      id: 15,
       productName: "Product15",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -154,7 +154,7 @@ export class ApiHelperService {
       isTaxable: false,
     },
     {
-      id: "16",
+      id: 16,
       productName: "Product16",
       description:
         "magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl.",
@@ -165,7 +165,7 @@ export class ApiHelperService {
   ] as Product[];
   fakeClients = [
     {
-      id: "1",
+      id: 1,
       firstName: "Wilie",
       lastName: "Tapley",
       emailAddress: "wtapley0@ucla.edu",
@@ -173,7 +173,7 @@ export class ApiHelperService {
       phoneNumber: "218-285-9712",
     },
     {
-      id: "2",
+      id: 2,
       firstName: "Bernhard",
       lastName: "Inderwick",
       emailAddress: "binderwick1@myspace.com",
@@ -181,7 +181,7 @@ export class ApiHelperService {
       phoneNumber: "896-588-5259",
     },
     {
-      id: "3",
+      id: 3,
       firstName: "Hewie",
       lastName: "Hulke",
       emailAddress: "hhulke2@techcrunch.com",
@@ -189,7 +189,7 @@ export class ApiHelperService {
       phoneNumber: "711-612-0713",
     },
     {
-      id: "4",
+      id: 4,
       firstName: "Phillida",
       lastName: "Mc Carrick",
       emailAddress: "pmccarrick3@clickbank.net",
@@ -197,7 +197,7 @@ export class ApiHelperService {
       phoneNumber: "232-833-9000",
     },
     {
-      id: "5",
+      id: 5,
       firstName: "Zahara",
       lastName: "Blondel",
       emailAddress: "zblondel4@t-online.de",
@@ -205,7 +205,7 @@ export class ApiHelperService {
       phoneNumber: "110-604-8462",
     },
     {
-      id: "6",
+      id: 6,
       firstName: "Tally",
       lastName: "Durbyn",
       emailAddress: "tdurbyn5@livejournal.com",
@@ -213,7 +213,7 @@ export class ApiHelperService {
       phoneNumber: "949-626-8202",
     },
     {
-      id: "7",
+      id: 7,
       firstName: "Say",
       lastName: "Yanele",
       emailAddress: "syanele6@ask.com",
@@ -221,7 +221,7 @@ export class ApiHelperService {
       phoneNumber: "677-907-3034",
     },
     {
-      id: "27",
+      id: 27,
       firstName: "Nicky",
       lastName: "Ockland",
       emailAddress: "nockland7@mediafire.com",
@@ -229,7 +229,7 @@ export class ApiHelperService {
       phoneNumber: "739-620-1022",
     },
     {
-      id: "8",
+      id: 8,
       firstName: "Waylan",
       lastName: "Standish",
       emailAddress: "wstandish8@phpbb.com",
@@ -237,7 +237,7 @@ export class ApiHelperService {
       phoneNumber: "630-164-7005",
     },
     {
-      id: "9",
+      id: 9,
       firstName: "Diena",
       lastName: "Swales",
       emailAddress: "dswales9@cargocollective.com",
@@ -245,7 +245,7 @@ export class ApiHelperService {
       phoneNumber: "467-966-2349",
     },
     {
-      id: "10",
+      id: 10,
       firstName: "Raimondo",
       lastName: "McKeating",
       emailAddress: null,
@@ -253,7 +253,7 @@ export class ApiHelperService {
       phoneNumber: "139-644-3130",
     },
     {
-      id: "11",
+      id: 11,
       firstName: "Norah",
       lastName: "Currington",
       emailAddress: "ncurringtonb@wikimedia.org",
@@ -261,7 +261,7 @@ export class ApiHelperService {
       phoneNumber: "659-301-7575",
     },
     {
-      id: "12",
+      id: 12,
       firstName: "Rod",
       lastName: "Holdron",
       emailAddress: "rholdronc@springer.com",
@@ -269,7 +269,7 @@ export class ApiHelperService {
       phoneNumber: "632-916-1949",
     },
     {
-      id: "13",
+      id: 13,
       firstName: "Edgardo",
       lastName: "Oxley",
       emailAddress: "eoxleyd@businessweek.com",
@@ -277,7 +277,7 @@ export class ApiHelperService {
       phoneNumber: "801-332-9763",
     },
     {
-      id: "14",
+      id: 14,
       firstName: "Mavis",
       lastName: "Fordyce",
       emailAddress: "mfordycee@abc.net.au",
@@ -285,7 +285,7 @@ export class ApiHelperService {
       phoneNumber: "993-384-4197",
     },
     {
-      id: "15",
+      id: 15,
       firstName: "Braden",
       lastName: "Swift",
       emailAddress: "bswiftf@umn.edu",
@@ -293,7 +293,7 @@ export class ApiHelperService {
       phoneNumber: "606-560-4765",
     },
     {
-      id: "16",
+      id: 16,
       firstName: "Simona",
       lastName: "Kareman",
       emailAddress: "skaremang@github.io",
@@ -301,7 +301,7 @@ export class ApiHelperService {
       phoneNumber: "962-695-5147",
     },
     {
-      id: "17",
+      id: 17,
       firstName: "Wendel",
       lastName: "O'Hengerty",
       emailAddress: "wohengertyh@zdnet.com",
@@ -309,7 +309,7 @@ export class ApiHelperService {
       phoneNumber: "348-294-1816",
     },
     {
-      id: "18",
+      id: 18,
       firstName: "Natala",
       lastName: "Flatt",
       emailAddress: "nflatti@oakley.com",
@@ -317,7 +317,7 @@ export class ApiHelperService {
       phoneNumber: "533-779-2086",
     },
     {
-      id: "19",
+      id: 19,
       firstName: "Harbert",
       lastName: "Wield",
       emailAddress: "hwieldj@ocn.ne.jp",
@@ -325,7 +325,7 @@ export class ApiHelperService {
       phoneNumber: "607-198-0607",
     },
     {
-      id: "20",
+      id: 20,
       firstName: "Lin",
       lastName: "Preon",
       emailAddress: "lpreonk@jugem.jp",
@@ -333,7 +333,7 @@ export class ApiHelperService {
       phoneNumber: "954-480-9919",
     },
     {
-      id: "21",
+      id: 21,
       firstName: "Aura",
       lastName: "Butte",
       emailAddress: "abuttel@pagesperso-orange.fr",
@@ -341,7 +341,7 @@ export class ApiHelperService {
       phoneNumber: "449-354-8877",
     },
     {
-      id: "22",
+      id: 22,
       firstName: "Ursala",
       lastName: "Yanov",
       emailAddress: "uyanovm@omniture.com",
@@ -349,7 +349,7 @@ export class ApiHelperService {
       phoneNumber: "878-862-2503",
     },
     {
-      id: "23",
+      id: 23,
       firstName: "Jeannine",
       lastName: "Lammerding",
       emailAddress: "jlammerdingn@xrea.com",
@@ -357,7 +357,7 @@ export class ApiHelperService {
       phoneNumber: "811-710-6377",
     },
     {
-      id: "24",
+      id: 24,
       firstName: "Henriette",
       lastName: "Giacomozzo",
       emailAddress: "hgiacomozzoo@about.me",
@@ -365,7 +365,7 @@ export class ApiHelperService {
       phoneNumber: "556-181-3773",
     },
     {
-      id: "25",
+      id: 25,
       firstName: "Levi",
       lastName: "Moogan",
       emailAddress: "lmooganp@sogou.com",
@@ -373,7 +373,7 @@ export class ApiHelperService {
       phoneNumber: "795-320-7170",
     },
     {
-      id: "26",
+      id: 26,
       firstName: "12345678910",
       lastName: "12345678910lmooganp@sogou",
       emailAddress: "12345678910",
@@ -383,11 +383,10 @@ export class ApiHelperService {
   ] as Client[];
   fakeInvoices = [
     {
-      id: "1",
+      id: 1,
       invoiceNumber: "QQI67RKH5HD",
-      client: new Client( {id:"24"}),
-      description:
-        "This is a fake Invoice",
+      client: new Client( {id:24}),
+      description:"This is a fake Invoice",
       invoiceDate: "2022-04-23 03:16:01",
       paymentDueDate: "2023-01-10 16:56:32",
       amountDue: 490,
@@ -416,9 +415,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "2",
+      id: 2,
       invoiceNumber: "HCE84CZB6DB",
-      client: new Client( {id:"10"}),
+      client: new Client( {id:10}),
       description: "odio a purus. Duis elementum,",
       invoiceDate: "2022-06-21 09:41:25",
       paymentDueDate: "2022-12-11 15:00:04",
@@ -438,9 +437,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "3",
+      id: 3,
       invoiceNumber: "MNM97JGN9RN",
-      client: new Client( {id:"6"}),
+      client: new Client( {id:6}),
       description:
         "adipiscing elit. Curabitur sed tortor. Integer aliquam adipiscing lacus. Ut nec urna",
       invoiceDate: "2021-07-18 09:43:33",
@@ -480,9 +479,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "4",
+      id: 4,
       invoiceNumber: "TQG64VSN6TI",
-      client: new Client( {id:"3"}),
+      client: new Client( {id:3}),
       description: "nec quam. Curabitur vel lectus.",
       invoiceDate: "2022-06-23 22:35:23",
       paymentDueDate: "2021-08-31 06:18:08",
@@ -502,9 +501,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "5",
+      id: 5,
       invoiceNumber: "BWI75KXO1KD",
-      client: new Client( {id:"6"}),
+      client: new Client( {id:6}),
       description:
         "non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam",
       invoiceDate: "2021-12-10 16:32:27",
@@ -554,9 +553,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "6",
+      id: 6,
       invoiceNumber: "MZR94WPY1QG",
-      client: new Client( {id:"17"}),
+      client: new Client( {id:17}),
       description:
         "Duis at lacus. Quisque purus sapien, gravida non, sollicitudin a, malesuada id, erat.",
       invoiceDate: "2022-10-03 21:48:32",
@@ -576,9 +575,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "7",
+      id: 7,
       invoiceNumber: "GQS04IUJ6HG",
-      client: new Client( {id:"22"}),
+      client: new Client( {id:22}),
       description: "",
       invoiceDate: "2022-04-10 16:36:21",
       paymentDueDate: "2021-03-25 07:01:35",
@@ -597,9 +596,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "8",
+      id: 8,
       invoiceNumber: "CNY78QLX6LB",
-      client: new Client( {id:"13"}),
+      client: new Client( {id:13}),
       description: "urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce",
       invoiceDate: "2023-01-26 23:15:30",
       paymentDueDate: "2021-09-28 21:15:45",
@@ -618,9 +617,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "9",
+      id: 9,
       invoiceNumber: "TSE54WKL9SX",
-      client: new Client( {id:"15"}),
+      client: new Client( {id:15}),
       description:
         "Morbi neque tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce feugiat.",
       invoiceDate: "2021-12-12 15:30:23",
@@ -640,9 +639,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "10",
+      id: 10,
       invoiceNumber: "CSR51QIW4DC",
-      client: new Client( {id:"17"}),
+      client: new Client( {id:17}),
       description:
         "risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam.",
       invoiceDate: "2022-11-13 12:40:00",
@@ -698,9 +697,9 @@ export class ApiHelperService {
       ]
     },
     {
-      id: "11",
+      id: 11,
       invoiceNumber: "WPU58RNB3LU",
-      client: new Client( {id:"18"}),
+      client: new Client( {id:18}),
       description: "imperdiet non, vestibulum nec, euismod in, dolor. Fusce",
       invoiceDate: "2022-04-13 10:08:19",
       paymentDueDate: "2022-05-12 14:13:35",
@@ -708,9 +707,9 @@ export class ApiHelperService {
       status: "Paid",
     },
     {
-      id: "12",
+      id: 12,
       invoiceNumber: "JGZ35KJQ5BW",
-      client: new Client( {id:"19"}),
+      client: new Client( {id:19}),
       description:
         "mauris ut mi. Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque tellus, imperdiet non, vestibulum",
       invoiceDate: "2021-05-06 12:23:15",
@@ -719,9 +718,9 @@ export class ApiHelperService {
       status: "Paid",
     },
     {
-      id: "13",
+      id: 13,
       invoiceNumber: "RLJ41KBI3YW",
-      client: new Client( {id:"21"}),
+      client: new Client( {id:21}),
       description: "enim nisl elementum",
       invoiceDate: "2022-09-05 11:51:02",
       paymentDueDate: "2022-02-07 06:05:07",
@@ -729,9 +728,9 @@ export class ApiHelperService {
       status: "Pending",
     },
     {
-      id: "14",
+      id: 14,
       invoiceNumber: "NJN27UMR1BA",
-      client: new Client( {id:"20"}),
+      client: new Client( {id:20}),
       description:
         "iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla.",
       invoiceDate: "2022-09-23 12:24:40",
@@ -740,9 +739,9 @@ export class ApiHelperService {
       status: "Paid",
     },
     {
-      id: "15",
+      id: 15,
       invoiceNumber: "AIL17UMU4QG",
-      client: new Client( {id:"22"}),
+      client: new Client( {id:22}),
       description:
         "faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu.",
       invoiceDate: "2021-09-19 16:05:31",
@@ -751,9 +750,9 @@ export class ApiHelperService {
       status: "Paid",
     },
     {
-      id: "16",
+      id: 16,
       invoiceNumber: "QGH34SVC4HO",
-      client: new Client( {id:"24"}),
+      client: new Client( {id:24}),
       description: "sodales purus, in molestie tortor",
       invoiceDate: "2022-04-29 04:42:22",
       paymentDueDate: "2021-03-05 23:20:12",
@@ -761,9 +760,9 @@ export class ApiHelperService {
       status: "Pending",
     },
     {
-      id: "17",
+      id: 17,
       invoiceNumber: "KQM59JXW1XK",
-      client: new Client( {id:"25"}),
+      client: new Client( {id:25}),
       description: "a ultricies adipiscing, enim mi tempor lorem,",
       invoiceDate: "2022-06-02 03:44:02",
       paymentDueDate: "2021-07-23 01:13:54",
@@ -771,9 +770,9 @@ export class ApiHelperService {
       status: "Pending",
     },
     {
-      id: "18",
+      id: 18,
       invoiceNumber: "DWC60TNQ1RN",
-      client: new Client( {id:"25"}),
+      client: new Client( {id:25}),
       description:
         "orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada",
       invoiceDate: "2022-08-07 23:37:52",
@@ -782,9 +781,9 @@ export class ApiHelperService {
       status: "Paid",
     },
     {
-      id: "19",
+      id: 19,
       invoiceNumber: "BTK20KXS0DR",
-      client: new Client( {id:"1"}),
+      client: new Client( {id:1}),
       description:
         "sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet,",
       invoiceDate: "2021-03-11 22:03:14",
@@ -793,9 +792,9 @@ export class ApiHelperService {
       status: "Pending",
     },
     {
-      id: "20",
+      id: 20,
       invoiceNumber: "JCD66DQT4LS",
-      client: new Client( {id:"2"}),
+      client: new Client( {id:2}),
       description: "adipiscing fringilla,",
       invoiceDate: "2021-08-09 11:05:38",
       paymentDueDate: "2022-07-04 18:24:02",
@@ -803,249 +802,233 @@ export class ApiHelperService {
       status: "Paid",
     },
   ] as Invoice[] ;
-  fakeSuppliers = [
-    {
-       "id": "1",
-       "firstName": "Hayden",
-       "lastName": "Hayes ",
-       "emailAddress": "dolor.tempus.non@aol.com dolor.tempus.non@aol.com dolor.tempus.non@aol.com dolor.tempus.non@aol.com dolor.tempus.non@aol.com dolor.tempus.non@aol.com ",
-       "phoneNumber": "(335) 679-7209",
-       "address": "694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave ",
-       "country": "Brazil",
-       "city": "Novosibirsk"
-    },
-    {
-       "id": "2",
-       "firstName": "Yoshio",
-       "lastName": "Huber",
-       "emailAddress": "dolor.dolor@protonmail.ca",
-       "phoneNumber": "(354) 185-4385",
-       "address": "303-3830 Nulla St.",
-       "country": "New Zealand",
-       "city": "Fort Smith"
-    },
-    {
-       "id": "3",
-       "firstName": "Brett",
-       "lastName": "Murphy",
-       "emailAddress": "dapibus.rutrum.justo@icloud.ca",
-       "phoneNumber": "(387) 548-7481",
-       "address": "Ap #701-7518 Dis St.",
-       "country": "Turkey",
-       "city": "Mérida"
-    },
-    {
-       "id": "4",
-       "firstName": "Lyle",
-       "lastName": "Parker",
-       "emailAddress": "elit@yahoo.ca",
-       "phoneNumber": "1-351-472-1750",
-       "address": "Ap #790-4525 Lobortis Rd.",
-       "country": "Sweden",
-       "city": "Yeosu"
-    },
-    {
-       "id": "5",
-       "firstName": "Amena",
-       "lastName": "Carr",
-       "emailAddress": "magna.a.neque@protonmail.net",
-       "phoneNumber": "1-115-272-3535",
-       "address": "P.O. Box 879, 1725 Lectus Road",
-       "country": "South Korea",
-       "city": "Hunan"
-    },
-    {
-       "id": "6",
-       "firstName": "Eve",
-       "lastName": "Harrison",
-       "emailAddress": "curabitur.egestas.nunc@outlook.org",
-       "phoneNumber": "1-697-862-9564",
-       "address": "348-4559 Arcu Rd.",
-       "country": "Poland",
-       "city": "Istanbul"
-    },
-    {
-       "id": "7",
-       "firstName": "Nelle",
-       "lastName": "Lynn",
-       "emailAddress": "amet.diam@hotmail.edu",
-       "phoneNumber": "(680) 228-7655",
-       "address": "343-6883 Gravida St.",
-       "country": "Brazil",
-       "city": "Germersheim"
-    },
-    {
-       "id": "8",
-       "firstName": "Kylie",
-       "lastName": "Miranda",
-       "emailAddress": "dolor.nonummy@outlook.edu",
-       "phoneNumber": "(714) 242-2917",
-       "address": "7473 Non, Street",
-       "country": "Germany",
-       "city": "Teruel"
-    },
-    {
-       "id": "9",
-       "firstName": "Britanney",
-       "lastName": "Mcguire",
-       "emailAddress": "curabitur.egestas@icloud.com",
-       "phoneNumber": "1-775-848-2212",
-       "address": "Ap #343-6240 Nec Road",
-       "country": "India",
-       "city": "Sibi"
-    },
-    {
-       "id": "10",
-       "firstName": "Timon",
-       "lastName": "Durham",
-       "emailAddress": "dui.nec@yahoo.com",
-       "phoneNumber": "(173) 437-4865",
-       "address": "Ap #770-8424 Rhoncus. St.",
-       "country": "United Kingdom",
-       "city": "Magadan"
-    },
-    {
-       "id": "11",
-       "firstName": "Branden",
-       "lastName": "Patrick",
-       "emailAddress": "dignissim.tempor.arcu@hotmail.net",
-       "phoneNumber": "1-449-474-7592",
-       "address": "Ap #672-7472 Nullam St.",
-       "country": "Australia",
-       "city": "Laren"
-    },
-    {
-       "id": "12",
-       "firstName": "Sandra",
-       "lastName": "Mcknight",
-       "emailAddress": "est.congue@hotmail.net",
-       "phoneNumber": "(840) 152-3521",
-       "address": "311-1522 Elit Ave",
-       "country": "Australia",
-       "city": "Huntly"
-    },
-    {
-       "id": "13",
-       "firstName": "Yen",
-       "lastName": "Ramsey",
-       "emailAddress": "mollis.nec.cursus@hotmail.org",
-       "phoneNumber": "1-237-843-0771",
-       "address": "379-8263 Orci Avenue",
-       "country": "Italy",
-       "city": "Siquirres"
-    },
-    {
-       "id": "14",
-       "firstName": "Oprah",
-       "lastName": "Mcgee",
-       "emailAddress": "tincidunt.dui.augue@yahoo.ca",
-       "phoneNumber": "1-673-137-8443",
-       "address": "403-3950 Nibh Avenue",
-       "country": "Canada",
-       "city": "Värnamo"
-    },
-    {
-       "id": "15",
-       "firstName": "Xenos",
-       "lastName": "Buck",
-       "emailAddress": "ullamcorper@icloud.couk",
-       "phoneNumber": "(563) 437-7618",
-       "address": "886-4573 Ligula. St.",
-       "country": "Netherlands",
-       "city": "Kielce"
-    }
- ] as Supplier[] ;
+  fakeSuppliers = [{
+    id: 1,
+    firstName: "Hayden",
+    lastName: "Hayes ",
+    emailAddress: "dolor.tempus.non@aol.com dolor.tempus.non@aol.com dolor.tempus.non@aol.com dolor.tempus.non@aol.com dolor.tempus.non@aol.com dolor.tempus.non@aol.com ",
+    phoneNumber: "(335) 679-7209",
+    address: "694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave 694-2205 Amet Ave ",
+    country: "Brazil",
+    city: "Novosibirsk"
+  }, {
+    id: 2,
+    firstName: "Yoshio",
+    lastName: "Huber",
+    emailAddress: "dolor.dolor@protonmail.ca",
+    phoneNumber: "(354) 185-4385",
+    address: "303-3830 Nulla St.",
+    country: "New Zealand",
+    city: "Fort Smith"
+  }, {
+    id: 3,
+    firstName: "Brett",
+    lastName: "Murphy",
+    emailAddress: "dapibus.rutrum.justo@icloud.ca",
+    phoneNumber: "(387) 548-7481",
+    address: "Ap #701-7518 Dis St.",
+    country: "Turkey",
+    city: "Mérida"
+  }, {
+    id: 4,
+    firstName: "Lyle",
+    lastName: "Parker",
+    emailAddress: "elit@yahoo.ca",
+    phoneNumber: "1-351-472-1750",
+    address: "Ap #790-4525 Lobortis Rd.",
+    country: "Sweden",
+    city: "Yeosu"
+  }, {
+    id: 5,
+    firstName: "Amena",
+    lastName: "Carr",
+    emailAddress: "magna.a.neque@protonmail.net",
+    phoneNumber: "1-115-272-3535",
+    address: "P.O. Box 879, 1725 Lectus Road",
+    country: "South Korea",
+    city: "Hunan"
+  }, {
+    id: 6,
+    firstName: "Eve",
+    lastName: "Harrison",
+    emailAddress: "curabitur.egestas.nunc@outlook.org",
+    phoneNumber: "1-697-862-9564",
+    address: "348-4559 Arcu Rd.",
+    country: "Poland",
+    city: "Istanbul"
+  }, {
+    id: 7,
+    firstName: "Nelle",
+    lastName: "Lynn",
+    emailAddress: "amet.diam@hotmail.edu",
+    phoneNumber: "(680) 228-7655",
+    address: "343-6883 Gravida St.",
+    country: "Brazil",
+    city: "Germersheim"
+  }, {
+    id: 8,
+    firstName: "Kylie",
+    lastName: "Miranda",
+    emailAddress: "dolor.nonummy@outlook.edu",
+    phoneNumber: "(714) 242-2917",
+    address: "7473 Non, Street",
+    country: "Germany",
+    city: "Teruel"
+  }, {
+    id: 9,
+    firstName: "Britanney",
+    lastName: "Mcguire",
+    emailAddress: "curabitur.egestas@icloud.com",
+    phoneNumber: "1-775-848-2212",
+    address: "Ap #343-6240 Nec Road",
+    country: "India",
+    city: "Sibi"
+  }, {
+    id: 10,
+    firstName: "Timon",
+    lastName: "Durham",
+    emailAddress: "dui.nec@yahoo.com",
+    phoneNumber: "(173) 437-4865",
+    address: "Ap #770-8424 Rhoncus. St.",
+    country: "United Kingdom",
+    city: "Magadan"
+  }, {
+    id: 11,
+    firstName: "Branden",
+    lastName: "Patrick",
+    emailAddress: "dignissim.tempor.arcu@hotmail.net",
+    phoneNumber: "1-449-474-7592",
+    address: "Ap #672-7472 Nullam St.",
+    country: "Australia",
+    city: "Laren"
+  }, {
+    id: 12,
+    firstName: "Sandra",
+    lastName: "Mcknight",
+    emailAddress: "est.congue@hotmail.net",
+    phoneNumber: "(840) 152-3521",
+    address: "311-1522 Elit Ave",
+    country: "Australia",
+    city: "Huntly"
+  }, {
+    id: 13,
+    firstName: "Yen",
+    lastName: "Ramsey",
+    emailAddress: "mollis.nec.cursus@hotmail.org",
+    phoneNumber: "1-237-843-0771",
+    address: "379-8263 Orci Avenue",
+    country: "Italy",
+    city: "Siquirres"
+  }, {
+    id: 14,
+    firstName: "Oprah",
+    lastName: "Mcgee",
+    emailAddress: "tincidunt.dui.augue@yahoo.ca",
+    phoneNumber: "1-673-137-8443",
+    address: "403-3950 Nibh Avenue",
+    country: "Canada",
+    city: "Värnamo"
+  }, {
+    id: 15,
+    firstName: "Xenos",
+    lastName: "Buck",
+    emailAddress: "ullamcorper@icloud.couk",
+    phoneNumber: "(563) 437-7618",
+    address: "886-4573 Ligula. St.",
+    country: "Netherlands",
+    city: "Kielce"
+  }] as Supplier[] ;
   fakeSaleDetails = [{
-    id: "1",
+    id: 1,
     productName: "magna.",
     description: "elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet",
     quantity: 85,
     unitPrice: 850,
     totalPrice: 806,
     tax: 210,
-},
-{
-    id: "2",
+  },
+  {
+    id: 2,
     productName: "aliquet",
     description: "elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis",
     quantity: 86,
     unitPrice: 520,
     totalPrice: 546,
     tax: 195,
-},
-{
-    id: "3",
+  },
+  {
+    id: 3,
     productName: "tellus.",
     description: "sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis",
     quantity: 93,
     unitPrice: 57,
     totalPrice: 92,
     tax: 496,
-},
-{
-    id: "4",
+  },
+  {
+    id: 4,
     productName: "Donec",
     description: "ut nisi a odio semper cursus. Integer mollis. Integer tincidunt",
     quantity: 33,
     unitPrice: 275,
     totalPrice: 181,
     tax: 186,
-},
-{
-    id: "5",
+  },
+  {
+    id: 5,
     productName: "elit.",
     description: "ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem",
     quantity: 48,
     unitPrice: 861,
     totalPrice: 869,
     tax: 860,
-},
-{
-    id: "6",
+  },
+  {
+    id: 6,
     productName: "Sed",
     description: "porta elit, a feugiat tellus lorem eu metus. In lorem.",
     quantity: 11,
     unitPrice: 648,
     totalPrice: 703,
     tax: 631,
-},
-{
-    id: "7",
+  },
+  {
+    id: 7,
     productName: "Vivamus",
     description: "parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique",
     quantity: 54,
     unitPrice: 104,
     totalPrice: 720,
     tax: 607,
-},
-{
-    id: "8",
+  },
+  {
+    id: 8,
     productName: "ornare,",
     description: "tristique pellentesque, tellus sem mollis dui, in sodales elit erat",
     quantity: 80,
     unitPrice: 445,
     totalPrice: 314,
     tax: 990,
-},
-{
-    id: "9",
+  },
+  {
+    id: 9,
     productName: "lobortis",
     description: "netus et malesuada fames ac turpis egestas. Fusce aliquet magna",
     quantity: 60,
     unitPrice: 576,
     totalPrice: 511,
     tax: 76,
-},
-{
-    id: "10",
+  },
+  {
+    id: 10,
     productName: "montes,",
     description: "eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula.",
     quantity: 24,
     unitPrice: 952,
     totalPrice: 56,
     tax: 662,
-},
-];
+  },
+  ] as SaleDetail[];
 
 
   getProducts() {
@@ -1214,7 +1197,14 @@ export class ApiHelperService {
   getInvoiceById(ID: any): Invoice {
     const invoice: Invoice = new Invoice(this.fakeInvoices.find((invoice) => invoice.id === ID));
     // console.log("invoice.constructor.name",invoice.constructor.name);
-    // console.log("invoice", invoice);
+    invoice.client = new Client (this.fakeClients.find(client => client.id === invoice.client.id));
+    // const cl24 = new Client({ id: "24" });
+    // invoice.client = new Client();
+    // invoice.client = cl24;
+    console.log("invoice", invoice);
+    console.log("invoice.client", invoice.client);
+    console.log("Object.values(invoice)", Object.values(invoice));
+    // console.log("cl24", cl24);
     return invoice;
   }
 

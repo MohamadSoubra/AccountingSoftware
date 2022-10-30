@@ -3,7 +3,7 @@ import { Product } from "./product.model"
 
 
 export class SaleDetail implements Identification {
-  id?: string;
+  id?: number;
   productName: string;
   description: string;
   quantity: number;
@@ -12,7 +12,7 @@ export class SaleDetail implements Identification {
   tax?: number;
   
   constructor({
-    id = "",
+    id = 0,
     productName = "",
     description = "",
     quantity = 0,
