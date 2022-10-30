@@ -13,7 +13,7 @@
             <div *ngFor=" let prop of itemProperties;let i=index">
 
                 <!-- <ng-container *ngIf="prop.formControlName === 'id'" style="display: none;">
-        </ng-container> -->
+                </ng-container> -->
 
                 <ng-container *ngIf="prop.isBoolean">
 
@@ -92,14 +92,17 @@
 
             </div>
 
-            <div>
+            <!-- <button mat-flat-button color="accent">Accent</button> -->
+            <div></div>
+
+            <div  class="totals">
                 <!-- *ngIf="" -->
                 <ng-container >
-                    <div class="totals">
+                    <div>
 
                         <mat-form-field appearance="outline">
                         <mat-label> Sub Total </mat-label>
-                        <input matInput placeholder="" formControlName="subTotal" color="primary">
+                        <input matInput  placeholder="" formControlName="subTotal" color="primary">
                         </mat-form-field>
                         
                         <mat-form-field appearance="outline">

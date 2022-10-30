@@ -76,15 +76,18 @@ export class AddEditComponent implements OnInit {
 
       this.previousRoute = params[""];
       
-      if (+params['id'] == 0) {
+      if (+params['id'] === 0) {
         this.displayItem = this.apiHelper.InitializeType(params[""]);
       } else {
-        this.displayItem = this.apiHelper.getByID(params[""],params["id"]);
+        this.displayItem = this.apiHelper.getByID(params[""],+params["id"]);
       }
 
     })
 
-    console.log("this.displayItem", this.displayItem);
+    console.log("this.displayItem", this.displayItem); 
+    console.log("Object.values(this.displayItem)", Object.values(this.displayItem));
+
+    // console.log(new Client({id:"1"}));
 
    
     // console.log("this.route.snapshot.data", this.route);
@@ -100,7 +103,7 @@ export class AddEditComponent implements OnInit {
     // console.log("this.displayItem", this.displayItem);
 
     if (this.displayItem.id != undefined) {
-      if (this.displayItem.id == "") {
+      if (this.displayItem.id == 0) {
         this.Title = `Add new ${this.displayItem.constructor.name}`;
       } else {
         this.Title = `Editing ${this.displayItem.constructor.name}  ${this.displayItem.id}`;
@@ -130,8 +133,13 @@ export class AddEditComponent implements OnInit {
           // console.log("this.displayItem in need select input", this.displayItem);
           // console.log("this.displayItem[prop] in need select input BEFORE ASSIGNING IT", this.displayItem[prop]);
           this.selectInputData = this.apiHelper.getClients();
+          console.log("this.selectInputData", this.selectInputData);
+          
           if (this.displayItem[prop]["id"] !== ""){
             console.log(true);
+            const clientFromSelect = this.selectInputData.find(cl => cl.id === '24')
+            console.log("clientFromSelect", clientFromSelect);
+            console.log("this.displayItem[prop]['id']", this.displayItem[prop]["id"]);
             
             this.displayItem[prop] = this.selectInputData.find(cl => cl.id === this.displayItem[prop]["id"]);
           }
@@ -309,6 +317,8 @@ export class AddEditComponent implements OnInit {
   }
 
   displayFn(client: Client): string {
+    console.log(client);
+    
     return client && client.firstName ? `${client.firstName} ${client.lastName}` : "";
   }
 

@@ -7,7 +7,7 @@
 .modal {
     --flex-size: 100%;
     background-color: white;
-    padding: 1rem 2.5rem;
+    padding: 0 2.5rem 1rem 2.5rem;
     // width: 60vw;
     z-index: 2;
     margin-inline: auto;
@@ -23,7 +23,9 @@
         z-index: 5 !important;
         // color: white;
         // background-color: var(--primary); // cmt.$primary;
-        padding: 1rem;
+        // padding: 1rem;
+        padding-top: var(--top-space);
+        padding-left: 1rem;
         margin: 0;
 
         // height: 20%;
@@ -42,6 +44,7 @@
     form {
         // display: grid;
         width: 100%;
+        margin-top: var(--top-space);
         // align-content: space-between;
         // align-items: space-between;
         gap: 1rem;
@@ -96,6 +99,10 @@
         // background-color: orange;
 
     }
+    .form>.totals {
+        width: min-content;
+        margin-top: var(--top-space);
+    }
     // .form>*:has(.invoiceDate) {
     //     width: 50%;
     //     background-color: orange;
@@ -130,10 +137,6 @@
         }
     }
 
-    .totals{
-        margin-top: var(--top-space);
-        justify-items: end;
-    }
 
 }
 
