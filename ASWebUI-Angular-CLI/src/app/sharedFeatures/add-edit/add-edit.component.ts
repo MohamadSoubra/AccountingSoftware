@@ -244,6 +244,26 @@ export class AddEditComponent implements OnInit {
         //   col.name = this.displayItem[prop]
         // })
         this.saleDetailsData = this.displayItem[prop];
+        
+
+        console.log("this.saleDetailsData",this.saleDetailsData);
+        
+        this.subTotal = this.saleDetailsData.reduce((previousValue,currentValue) => {
+          return previousValue.totalPrice + currentValue.totalPrice
+        })
+
+        this.tax = this.saleDetailsData.reduce((previousValue,currentValue) => {
+          return previousValue.tax + currentValue.tax
+        })
+
+        // this.total = this.subTotal
+
+        console.log("this.subTotal",this.subTotal);
+        
+
+        this.itemform.controls["subTotal"].setValue(this.subTotal);
+
+        
 
         if(this.saleDetailsData.length < 1){
           this.hasSailDetails = false;
@@ -259,6 +279,10 @@ export class AddEditComponent implements OnInit {
       this.itemform.addControl("subTotal",new FormControl(0));
       this.itemform.addControl("tax",new FormControl(0));
       this.itemform.addControl("total",new FormControl(0));
+
+      this.itemform.controls["subTotal"].disable();
+      this.itemform.controls["tax"].disable();
+      this.itemform.controls["total"].disable();
 
       // this.formControlsArray.push({this.itemform. : this.fb.control("")});
       return {

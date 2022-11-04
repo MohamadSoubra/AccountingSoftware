@@ -100,8 +100,17 @@
 
     }
     .form>.totals {
-        width: min-content;
         margin-top: var(--top-space);
+        display: flex;
+        flex-direction: row;
+        mat-label{
+            width: 50%;
+            background-color: burlywood;
+        }
+        span{
+            justify-self: end;
+            width: 50%;
+        }
     }
     // .form>*:has(.invoiceDate) {
     //     width: 50%;

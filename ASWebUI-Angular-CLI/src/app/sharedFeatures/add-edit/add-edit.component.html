@@ -1,5 +1,5 @@
 <!-- <div class="topbackground"> TEST </div> -->
-<div class="modal">
+<div class="modal roundBorders">
 
     <div class="title">
         <div>
@@ -98,24 +98,12 @@
             <div  class="totals">
                 <!-- *ngIf="" -->
                 <ng-container >
-                    <div>
-
-                        <mat-form-field appearance="outline">
-                        <mat-label> Sub Total </mat-label>
-                        <input matInput  placeholder="" formControlName="subTotal" color="primary">
-                        </mat-form-field>
-                        
-                        <mat-form-field appearance="outline">
-                            <mat-label> Tax </mat-label>
-                            <input matInput placeholder="" formControlName="tax" color="primary">
-                        </mat-form-field>
-                        
-                        <mat-form-field appearance="outline">
-                            <mat-label> Total </mat-label>
-                            <input matInput placeholder="" formControlName="total" color="primary">
-                        </mat-form-field>
+                    <!-- <div> -->
+                        <mat-label> Sub Total : </mat-label> <span>{{subTotal}}</span>
+                        <mat-label> Tax :</mat-label> <span>{{tax}}</span>
+                        <mat-label> Total :</mat-label> <span> {{total}}</span>
                     
-                    </div>
+                    <!-- </div> -->
                 </ng-container>
         
 
