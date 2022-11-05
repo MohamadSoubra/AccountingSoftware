@@ -7,11 +7,11 @@
 .modal {
     --flex-size: 100%;
     background-color: white;
-    padding: 0 2.5rem 1rem 2.5rem;
+    padding: 0 1rem 1rem 1rem;
     // width: 60vw;
     z-index: 2;
     margin-inline: auto;
-    margin-top: var(--top-space);
+    margin-block: var(--top-space);
     // padding: 0;
     display: flex;
     flex-direction: column;
@@ -101,15 +101,13 @@
     }
     .form>.totals {
         margin-top: var(--top-space);
-        display: flex;
-        flex-direction: row;
-        mat-label{
-            width: 50%;
-            background-color: burlywood;
-        }
-        span{
-            justify-self: end;
-            width: 50%;
+        // margin-left: auto;
+        width: inherit;
+        // justify-content: space-between;
+        div{
+            display: flex;
+            justify-content: space-between;
+            padding: .5rem;
         }
     }
     // .form>*:has(.invoiceDate) {
@@ -137,9 +135,10 @@
     
 
     .dialog-actions {
+        margin-top: var(--top-space);
         display: flex;
         padding: 1rem;
-        justify-content: flex-end;
+        justify-content: center;
 
         button {
             background-color: white;
@@ -169,9 +168,33 @@
     margin-left: 1rem;
 }
 
+
+
 @media (min-width: 768px) {
 
     .mat-dialog-content {
         padding: 1rem;
+    }
+
+    .dialog-actions {
+        padding: 1rem;
+        justify-content: flex-end;
+    }
+
+    .form>.totals {
+        margin-top: var(--top-space);
+        margin-left: auto;
+        width: 25%;
+        background-color: dodgerblue;
+        // justify-content: space-between;
+        div{
+            display: flex;
+            justify-content: space-between;
+            padding: .5rem;
+        }
+    }
+
+    .modal {
+        padding: 0 2.5rem 1rem 2.5rem;
     }
 }

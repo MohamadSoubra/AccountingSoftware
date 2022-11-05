@@ -136,11 +136,6 @@ export class AddEditComponent implements OnInit {
           console.log("this.selectInputData", this.selectInputData);
           
           if (this.displayItem[prop]["id"] !== ""){
-            console.log(true);
-            const clientFromSelect = this.selectInputData.find(cl => cl.id === '24')
-            console.log("clientFromSelect", clientFromSelect);
-            console.log("this.displayItem[prop]['id']", this.displayItem[prop]["id"]);
-            
             this.displayItem[prop] = this.selectInputData.find(cl => cl.id === this.displayItem[prop]["id"]);
           }
           // console.log("this.selectInputData.find(cl => cl.id === this.displayItem[prop] )", this.selectInputData.find(cl => cl.id === this.displayItem[prop]?.id));
@@ -256,12 +251,8 @@ export class AddEditComponent implements OnInit {
           return previousValue.tax + currentValue.tax
         })
 
-        // this.total = this.subTotal
+        this.total = this.subTotal 
 
-        console.log("this.subTotal",this.subTotal);
-        
-
-        this.itemform.controls["subTotal"].setValue(this.subTotal);
 
         
 
@@ -276,13 +267,6 @@ export class AddEditComponent implements OnInit {
         
       }
 
-      this.itemform.addControl("subTotal",new FormControl(0));
-      this.itemform.addControl("tax",new FormControl(0));
-      this.itemform.addControl("total",new FormControl(0));
-
-      this.itemform.controls["subTotal"].disable();
-      this.itemform.controls["tax"].disable();
-      this.itemform.controls["total"].disable();
 
       // this.formControlsArray.push({this.itemform. : this.fb.control("")});
       return {
