@@ -75,30 +75,10 @@
     }
 
     .form>* {
-        width: 47%;
-        // flex: 1;
-        // flex-wrap: wrap;
-        // flex-shrink: 1;
-        // flex-basis: 30%;
-
-    }
-
-    .form>*:has(.address) {
         width: 100%;
-        // background-color: orange;
-
     }
 
-    .form>*:has(.description) {
-        width: 100%;
-        // background-color: orange;
-
-    }
-    .form>*:has(.saleDetails) {
-        width: 100%;
-        // background-color: orange;
-
-    }
+    
     .form>.totals {
         margin-top: var(--top-space);
         // margin-left: auto;
@@ -110,19 +90,12 @@
             padding: .5rem;
         }
     }
-    // .form>*:has(.invoiceDate) {
-    //     width: 50%;
-    //     background-color: orange;
-    // }
-    // .form>*:has(.paymentDueDate) {
-    //     width:50%;
-    //     background-color: orange;
-    // }
-
-    // .form > .ng-star-inserted:nth-child(4){
-    //     background-color: orange;
-    //     width: 500px;
-    // }
+    .form>*:has(.saleDetails) {
+        // width:50%;
+        // background-color: orange;
+        margin-inline: auto;
+        overflow: auto;
+    }
 
     .form>.ng-star-inserted:first-child {
         display: none;
@@ -148,15 +121,14 @@
 
 }
 
-.firstName {
-    visibility: visible;
-    // background: pink;
-    // .firstName &{
-    //   width: 100%;
-    //   background: orange;
-    //   border: 5px solid blue;
-    // }
-}
+// .firstName {
+//     background: pink;
+//     .firstName &{
+//       width: 100%;
+//       background: orange;
+//       border: 5px solid blue;
+//     }
+// }
 
 // .ng-star-inserted:nth-of-type(2), .ng-star-inserted:nth-of-type(3){
 //   border: 5px dashed red;
@@ -181,20 +153,35 @@
         justify-content: flex-end;
     }
 
-    .form>.totals {
-        margin-top: var(--top-space);
-        margin-left: auto;
-        width: 25%;
-        background-color: dodgerblue;
-        // justify-content: space-between;
-        div{
-            display: flex;
-            justify-content: space-between;
-            padding: .5rem;
-        }
-    }
+
 
     .modal {
         padding: 0 2.5rem 1rem 2.5rem;
+
+        .form>* {
+            width: 47%;
+        }
+
+        .form>*:has(.address) {
+            width: 100%;
+        }
+
+        .form>*:has(.description) {
+            width: 100%;
+        }
+        .form>*:has(.saleDetails) {
+            width: 100%;
+        }
+        .form>.totals {
+            margin-top: var(--top-space);
+            margin-left: auto;
+            width: 25%;
+            // background-color: dodgerblue;
+            div{
+                display: flex;
+                justify-content: space-between;
+                padding: .5rem;
+            }
+        }
     }
 }

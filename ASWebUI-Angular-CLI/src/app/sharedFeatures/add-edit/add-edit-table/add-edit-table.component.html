@@ -87,6 +87,10 @@
                 <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns" ></tr> -->
             </table>
         </div>
+        <button mat-stroked-button class="addButton" color="warn" type="button" >
+            THE ADD BUTTOn
+        </button>
+        
 
         <mat-paginator *ngIf="isPageable" #matPaginator [length]="5" [pageSizeOptions]="paginationSizes"
             [pageSize]="defaultPageSize" showFirstLastButtons>

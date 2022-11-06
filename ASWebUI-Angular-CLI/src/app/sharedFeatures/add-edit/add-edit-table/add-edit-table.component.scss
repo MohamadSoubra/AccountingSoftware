@@ -151,6 +151,13 @@
   .text-center {
     text-align: center !important;
   }
+
+  .addButton{
+    margin-inline: auto;
+    margin-block: .5rem;
+    text-align: center;
+    justify-self: center;
+  }
   
   @media (min-width: 768px) {
     .mat-row {
