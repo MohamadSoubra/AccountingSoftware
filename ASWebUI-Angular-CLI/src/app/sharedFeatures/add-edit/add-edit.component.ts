@@ -65,14 +65,14 @@ export class AddEditComponent implements OnInit {
     //   "typeof invoiceTestType", invoiceTestType.constructor.name
     // );
     
-    console.log("typeof true",typeof true)
+    // console.log("typeof true",typeof true)
 
     
-    console.log("this.route.snapshot.params.id", this.route.snapshot.params);
+    // console.log("this.route.snapshot.params.id", this.route.snapshot.params);
 
     
     this.route.params.subscribe(params => {
-      console.log("params", params);
+      // console.log("params", params);
 
       this.previousRoute = params[""];
       
@@ -85,7 +85,7 @@ export class AddEditComponent implements OnInit {
     })
 
     console.log("this.displayItem", this.displayItem); 
-    console.log("Object.values(this.displayItem)", Object.values(this.displayItem));
+    // console.log("Object.values(this.displayItem)", Object.values(this.displayItem));
 
     // console.log(new Client({id:"1"}));
 
@@ -133,7 +133,7 @@ export class AddEditComponent implements OnInit {
           // console.log("this.displayItem in need select input", this.displayItem);
           // console.log("this.displayItem[prop] in need select input BEFORE ASSIGNING IT", this.displayItem[prop]);
           this.selectInputData = this.apiHelper.getClients();
-          console.log("this.selectInputData", this.selectInputData);
+          // console.log("this.selectInputData", this.selectInputData);
           
           if (this.displayItem[prop]["id"] !== ""){
             this.displayItem[prop] = this.selectInputData.find(cl => cl.id === this.displayItem[prop]["id"]);
@@ -243,13 +243,28 @@ export class AddEditComponent implements OnInit {
 
         console.log("this.saleDetailsData",this.saleDetailsData);
         
-        this.subTotal = this.saleDetailsData.reduce((previousValue,currentValue) => {
-          return previousValue.totalPrice + currentValue.totalPrice
-        })
+        if(this.saleDetailsData.length === 1){
+          this.subTotal = this.saleDetailsData[0].totalPrice
+          this.tax = this.saleDetailsData[0].tax
+        }else{
 
-        this.tax = this.saleDetailsData.reduce((previousValue,currentValue) => {
-          return previousValue.tax + currentValue.tax
-        })
+
+          this.subTotal = this.saleDetailsData.reduce((previousValue,currentValue,index) => {
+            console.log("previousValue",previousValue);
+            console.log("currentValue",currentValue);
+            
+            return previousValue + currentValue.totalPrice
+            
+          }, 0)
+
+          this.tax = this.saleDetailsData.reduce((previousValue,currentValue) => {
+            return previousValue + currentValue.tax
+          },0)
+
+        }
+        
+
+        
 
         this.total = this.subTotal 
 
@@ -298,7 +313,7 @@ export class AddEditComponent implements OnInit {
     
 
 
-    console.log("this.itemform",this.itemform);
+    // console.log("this.itemform",this.itemform);
     
   }
 

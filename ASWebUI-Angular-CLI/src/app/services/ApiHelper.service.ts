@@ -1201,9 +1201,9 @@ export class ApiHelperService {
     // const cl24 = new Client({ id: "24" });
     // invoice.client = new Client();
     // invoice.client = cl24;
-    console.log("invoice", invoice);
-    console.log("invoice.client", invoice.client);
-    console.log("Object.values(invoice)", Object.values(invoice));
+    // console.log("invoice", invoice);
+    // console.log("invoice.client", invoice.client);
+    // console.log("Object.values(invoice)", Object.values(invoice));
     // console.log("cl24", cl24);
     return invoice;
   }
@@ -1343,8 +1343,8 @@ export class ApiHelperService {
 
   isOfType(obj1, obj2): boolean{
     let result = false;
-    console.log(obj1.constructor.name);
-    console.log(obj2.constructor.name);
+    // console.log(obj1.constructor.name);
+    // console.log(obj2.constructor.name);
 
     if (obj1.constructor.name === obj2.constructor.name){
       result = true;
