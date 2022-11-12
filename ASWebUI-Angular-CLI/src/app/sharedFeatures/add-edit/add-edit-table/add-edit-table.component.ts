@@ -304,18 +304,6 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
     // this.tableDataItems = new TableDataSource(this.tableData);
   }
 
-  batchDelete() {
-    return;
-    // const DeletionResult = this.tableDataItems.DATA$.value.filter(
-    //   (item) => !this.selection.selected.includes(item)
-    // );
-    // this.tableDataItems.DATA$.next(DeletionResult);
-    // this.selection.clear();
-    // if (this.matPaginator.pageIndex >= this.matPaginator.getNumberOfPages()) {
-    //   this.matPaginator.previousPage();
-    // }
-  }
-
 
   // openDialog(data: T) {
   //   this.displayDialog = this.dialog.open(DisplayModalComponent, {
@@ -324,18 +312,10 @@ export class AddEditTableComponent<T extends Identification> implements OnInit {
   //   });
   // }
 
-  AddRecord() {
-    // this.router.navigate(["./", 0], {
-    //   relativeTo: this.actRout,
-    // });
+  addSaleDetail() {
+    this.router.navigate(["./saleDetails/",0], {relativeTo: this.actRout})
   }
 
-  edit(item: T) {
-    this.router.navigate([`./saleDetails`, item.id],
-    {relativeTo: this.actRout,
-
-    });
-  }
 
   InitialzeColumns() {
     // console.log("this.tableColumns" , this.tableColumns);

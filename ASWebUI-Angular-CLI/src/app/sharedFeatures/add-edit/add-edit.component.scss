@@ -148,11 +148,7 @@
         padding: 1rem;
     }
 
-    .dialog-actions {
-        padding: 1rem;
-        justify-content: flex-end;
-    }
-
+  
 
 
     .modal {
@@ -183,5 +179,11 @@
                 padding: .5rem;
             }
         }
+
+        .dialog-actions {
+            padding: 1rem;
+            justify-content: flex-end;
+        }
+    
     }
 }

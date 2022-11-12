@@ -152,11 +152,13 @@
     text-align: center !important;
   }
 
-  .addButton{
-    margin-inline: auto;
+  .addButton {
     margin-block: .5rem;
     text-align: center;
-    justify-self: center;
+    mat-icon{
+      margin-block: auto;
+      line-height: 22px;
+    }
   }
   
   @media (min-width: 768px) {

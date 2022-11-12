@@ -37,6 +37,15 @@ const routes: Routes = [
     //   {path: "AddEdit/:id", component: AddEditComponent},
     // ]
   },
+  {
+    path: "saleDetails",
+    component: SuppliersComponent,
+    canActivate: [AuthGuard],
+    // children:[
+    //   {path: "AddEdit", component: AddEditComponent},
+    //   {path: "AddEdit/:id", component: AddEditComponent},
+    // ]
+  },
   // {
   //   path: "invoices",
   //   canActivate: [AuthGuard],

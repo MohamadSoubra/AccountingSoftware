@@ -7,6 +7,7 @@ import { ClientsComponent } from 'src/app/components/clients/clients.component';
 import { Client } from 'src/app/models/client.model';
 import { Invoice } from 'src/app/models/invoice.model';
 import { Product } from 'src/app/models/product.model';
+import { SaleDetail } from 'src/app/models/sale-detail.model';
 import { Supplier } from 'src/app/models/supplier.model';
 import { ApiHelperService } from 'src/app/services/ApiHelper.service';
 import { TableColumn } from '../table/table.component';
@@ -22,7 +23,7 @@ export class AddEditComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private apiHelper: ApiHelperService,
-    private route: ActivatedRoute,
+    private actroute: ActivatedRoute,
     private router: Router,
     private location :Location
     ) {}
@@ -43,7 +44,9 @@ export class AddEditComponent implements OnInit {
   saledetailscolumns: TableColumn[];
   saleDetailsData ;
   hasSailDetails: boolean = false;
+  isSaleDetails: boolean = false; 
 
+  currentItemId: number;
 
   subTotal: number;
   tax :number;
@@ -71,7 +74,7 @@ export class AddEditComponent implements OnInit {
     // console.log("this.route.snapshot.params.id", this.route.snapshot.params);
 
     
-    this.route.params.subscribe(params => {
+    this.actroute.params.subscribe(params => {
       // console.log("params", params);
 
       this.previousRoute = params[""];
@@ -81,6 +84,12 @@ export class AddEditComponent implements OnInit {
       } else {
         this.displayItem = this.apiHelper.getByID(params[""],+params["id"]);
       }
+
+      if(params[""] === "saleDetails"){
+        this.isSaleDetails = true
+      }
+
+      this.currentItemId = +params["id"]
 
     })
 
@@ -250,8 +259,8 @@ export class AddEditComponent implements OnInit {
 
 
           this.subTotal = this.saleDetailsData.reduce((previousValue,currentValue,index) => {
-            console.log("previousValue",previousValue);
-            console.log("currentValue",currentValue);
+            // console.log("previousValue",previousValue);
+            // console.log("currentValue",currentValue);
             
             return previousValue + currentValue.totalPrice
             
@@ -271,11 +280,8 @@ export class AddEditComponent implements OnInit {
 
         
 
-        if(this.saleDetailsData.length < 1){
-          this.hasSailDetails = false;
-        }else{
+        if(this.saleDetailsData.length > 0){
           this.hasSailDetails = true;
-
         }
 
 
@@ -328,7 +334,42 @@ export class AddEditComponent implements OnInit {
     // })
     // this.apiHelper.saveRecord(aRecord);
     // this.router.navigate([`./${this.previousRoute}`]);
+    const invoiceId = +this.actroute.snapshot.url[1].path
+    const invoices = this.apiHelper.getInvoices()
+    let invoiceToUpdate = invoices.find(inv => inv.id == invoiceId)
+    
     console.log("this.itemform.value",this.itemform.value);
+    if(this.isSaleDetails){
+      console.log("this.actroute",this.actroute);
+      console.log("invoiceId",invoiceId);
+      console.log("invoiceToUpdate",invoiceToUpdate);
+
+      if(invoiceToUpdate.saleDetails){
+        invoiceToUpdate.saleDetails.push(new SaleDetail({
+          id : ++invoiceToUpdate.saleDetails.length,
+          description : this.itemform.value.description,
+          productName : this.itemform.value.this.itemform.value,
+          quantity : this.itemform.value.quantity,
+          tax : this.itemform.value.tax,
+          totalPrice : this.itemform.value.totalPrice,
+          unitPrice : this.itemform.value.unitPrice
+        }))
+        console.log("invoiceToUpdate",invoiceToUpdate);
+      }else{
+        invoiceToUpdate.saleDetails = (new SaleDetail({
+          id : 1,
+          description : this.itemform.value.description,
+          productName : this.itemform.value.productName,
+          quantity : this.itemform.value.quantity,
+          tax : this.itemform.value.tax,
+          totalPrice : this.itemform.value.totalPrice,
+          unitPrice : this.itemform.value.unitPrice
+        }))
+      }
+
+      console.log("invoiceToUpdate",invoiceToUpdate);
+      
+    }
 
   }
 
@@ -352,15 +393,7 @@ export class AddEditComponent implements OnInit {
   }
 
   Cancel(){
-    // console.log(this.location);
-    
     this.location.back();
-    // console.log("this.route.children", this.route.children);
-    // console.log("this.previousRoute",this.previousRoute);
-    
-    // this.router.navigate([`./${this.previousRoute}`]);
-
-    
   }
 
   AddClient() {
