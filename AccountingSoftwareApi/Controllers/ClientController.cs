@@ -27,6 +27,15 @@ namespace AccountingSoftwareApi.Controllers
             return _clientData.GetClients();
         }
 
+        [Authorize(Roles = "Accountant")]
+        [Route("getClientByID")]
+        [HttpGet]
+        public ClientModel getClientByID(int ClientId)
+        {
+            return _clientData.GetClientById(ClientId);
+        }
+
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult PostClients([FromBody] List<ClientModel> clients)
