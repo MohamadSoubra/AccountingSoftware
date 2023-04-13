@@ -7,7 +7,7 @@ namespace AccountingSoftwareApi.Identity
     public class AuthenticationResult
     {
         public string Username { get; set; }
-        public string Access_Token { get; set; }
+        public string AccessToken { get; set; }
 
         public string RefreshToken { get; set; }
 

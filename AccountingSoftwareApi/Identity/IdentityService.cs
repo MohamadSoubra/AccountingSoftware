@@ -206,7 +206,7 @@ namespace AccountingSoftwareApi.Identity
             return new AuthenticationResult
             {
                 Success = true,
-                Access_Token = tokenHandler.WriteToken(token),
+                AccessToken = tokenHandler.WriteToken(token),
                 RefreshToken = refreshToken.Token
             };
         }

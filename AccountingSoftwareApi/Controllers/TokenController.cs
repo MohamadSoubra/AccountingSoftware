@@ -58,7 +58,7 @@ namespace AccountingSoftwareApi.Controllers
 
             setTokenCookie(authResponse.RefreshToken);
 
-            return new AuthenticationResult { Username = email, Access_Token = authResponse.Access_Token, RefreshToken = authResponse.RefreshToken, Success = true };
+            return new AuthenticationResult { Username = email, AccessToken = authResponse.AccessToken, RefreshToken = authResponse.RefreshToken, Success = true };
         }
 
         private async Task<bool> IsValidUsernameAndPassword(string email, string password)
@@ -151,7 +151,7 @@ namespace AccountingSoftwareApi.Controllers
 
             return Ok(new AuthSuccessResponse
             {
-                Token = authResponse.Access_Token,
+                Token = authResponse.AccessToken,
                 RefreshToken = authResponse.RefreshToken
             });
 
