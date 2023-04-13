@@ -3,6 +3,7 @@
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [InvoiceNumber] VARCHAR(MAX) NOT NULL,
     [ClientId] INT NOT NULL, 
+    [SaleId] INT NOT NULL,
     [Description] VARCHAR(MAX) NULL, 
     [InvoiceDate] DATETIME2 NOT NULL DEFAULT getutcdate(), 
     [PaymentDueDate] DATETIME2 NOT NULL, 
