@@ -40,6 +40,16 @@ namespace AccountingSoftwareApi.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Accountant")]
+        [Route("getProductByID")]
+        [HttpGet]
+        public ProductModel getProductByID(int ProductId)
+          {
+            var x = _productData.GetProductById(ProductId);
+            return _productData.GetProductById(ProductId);
+        }
+
+
 
         [Authorize(Roles ="Accountant")]
         [HttpDelete]
