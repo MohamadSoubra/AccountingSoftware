@@ -32,10 +32,26 @@ namespace AccountingSoftwareApi.Controllers
         [Authorize(Roles = "Accountant")]
         [Route("GetInvoiceById")]
         [HttpGet]
-        public InvoiceDBModel getInvoice(int InvoiceId)
+        public InvoiceModel getInvoice(int InvoiceId)
         {
             return _invoiceData.GetInvoiceById(InvoiceId);
         }
+
+        [Authorize(Roles = "Accountant")]
+        [Route("GetInvoiceSaleDetails")]
+        [HttpGet]
+        public List<SaleDetailModel> getInvoiceSaleDetails(int InvoiceId)
+        {
+            return _invoiceData.GetInvoiceSaleDetails(InvoiceId);
+        }
+
+        //[Authorize(Roles = "Accountant")]
+        //[Route("getInvoiceByID")]
+        //[HttpGet]
+        //public InvoiceDBModel getInvoiceByID(int InvoiceId)
+        //{
+        //    return _invoiceData.GetInvoiceById(InvoiceId);
+        //}
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
