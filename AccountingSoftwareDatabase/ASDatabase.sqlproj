@@ -99,6 +99,7 @@
     <Build Include="dbo\Stored Procedures\spProduct_Delete.sql" />
     <Build Include="dbo\Functions\Split.sql" />
     <Build Include="dbo\Stored Procedures\spSaleDetail_GetByInvoiceId.sql" />
+    <Build Include="dbo\Stored Procedures\spSale_GetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ASDatabase.refactorlog" />
