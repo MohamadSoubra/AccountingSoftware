@@ -11,28 +11,35 @@ export class ClientsComponent implements OnInit {
   clientList: Client[];
   clientTableColumns: any;
   componentName: string = "Client";
+  paginationSizes: any[];
+  defaultPageSize: number;
   constructor(private api: ApiHelperService) {}
 
   ngOnInit() {
-    this.clientList = this.api.getClients();
-    // this.getClients();
+    // this.clientList = this.api.getClients();
     this.initializeColumns();
+    this.getClients();
+    console.log("this.clientList", this.clientList);
+    
   }
 
-  // getClients() {
-  //   // if (!this.clientList) {
-  //   this.api.getClients().subscribe(
-  //     (clients) => {
-  //       console.log(clients);
-  //       this.clientList = clients;
-  //     },
-  //     (error) => {
-  //       console.log("from Clients component");
-  //       console.log(error);
-  //     }
-  //   );
-  //   // }
-  // }
+  getClients() {
+    this.api.getClients().subscribe(x => { this.clientList = x },
+      (error) => {
+        console.log("from products component", error);
+      }
+    );
+  }
+
+  edit(client){
+    console.log("Edited Client",client);
+    
+  }
+  
+  delete(client){
+    console.log("Deleted Client",client);
+
+  }
 
   initializeColumns(): void {
     /*

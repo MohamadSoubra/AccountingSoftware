@@ -10,7 +10,8 @@ import { Sale } from "./sale.model";
 export class Invoice implements Identification {
   id: number;
   // [client: string | number]: string | number | Client;
-  client: Client ;
+  client?: Client ;
+  // clientId: number;
   sale? : Sale;
   invoiceNumber: string;
   description: string;
@@ -19,21 +20,27 @@ export class Invoice implements Identification {
   amountDue: number;
   status: string;
   saleDetails: SaleDetail[];
+  // subTotal: number;
+  // tax: number;
+  // total;
 
 
   constructor({
     id = 0,
     invoiceNumber = "",
-    client = new Client({}),
+    client = null,
+    // clientId = 0,
     description = "",
     invoiceDate = "",
     paymentDueDate = "",
     amountDue = 0,
     status = "Pending",
     saleDetails = [],
+    sale = null
   } = {}) {
     this.id = id;
     this.invoiceNumber = invoiceNumber;
+    // this.clientId = clientId;
     this.client = client;
     this.description = description;
     this.invoiceDate = invoiceDate;
@@ -41,5 +48,6 @@ export class Invoice implements Identification {
     this.amountDue = amountDue;
     this.status = status;
     this.saleDetails = saleDetails;
+    this.sale=sale;
   }
 }

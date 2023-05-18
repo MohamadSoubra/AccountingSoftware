@@ -24,7 +24,7 @@ namespace AccountingSoftwareApi.Controllers
 
         [Authorize(Roles = "Accountant")]
         [HttpGet]
-        public List<InvoiceDBModel> GetInvoices()
+        public List<InvoiceModel> GetInvoices()
         {
             return _invoiceData.GetAllInvoices();
         }
@@ -61,5 +61,22 @@ namespace AccountingSoftwareApi.Controllers
 
             _invoiceData.SaveInvoiceRecord(invoice, userId);
         }
+
+        [Authorize(Roles = "Accountant")]
+        [Route("DeleteInvoice")]
+        [HttpDelete]
+        public void DeleteInvoice([FromBody] int InvoiceId)
+        {
+            _invoiceData.DeleteInvoiceRecord(InvoiceId);
+        }
+
+        [Authorize(Roles = "Accountant")]
+        [Route("DeleteSaleDetail")]
+        [HttpDelete]
+        public void DeleteSaleDetial([FromBody] int SaleDetailId)
+        {
+            _invoiceData.DeleteSaleDetail(SaleDetailId);
+        }
+
     }
 }

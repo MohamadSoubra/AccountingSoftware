@@ -6,5 +6,5 @@
     [EmailAddress] NVARCHAR(256) NULL, 
     [Address] NVARCHAR(MAX) NULL, 
     [PhoneNumber] NVARCHAR(50) NOT NULL, 
-    [Active] BIT NOT NULL DEFAULT 1
+    [Active] BIT NULL DEFAULT 1
 )

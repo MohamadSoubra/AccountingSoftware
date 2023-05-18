@@ -1,4 +1,5 @@
 <!-- <div class="topbackground"> TEST </div> -->
+<!-- <p *ngIf="displayItem"> displayItem not empty {{displayItem | json}}</p> -->
 <div class="modal roundBorders">
 
     <div class="title">
@@ -27,22 +28,18 @@
                 </ng-container>
                 <!-- ||| Table ||| -->
                 <ng-container *ngIf="prop.needTable">
-                    <app-add-edit-table [ngClass]="prop.formControlName" [tableData]="saleDetailsData" [tableColumns]="saledetailscolumns" [isPageable]="false"
+                    <app-table class="tableEmbed" [componentName]="'SaleDetail'" [ngClass]="prop.formControlName" [tableData]="saleDetailsData" [tableColumns]="saledetailscolumns" [isPageable]="false"
                     [isFilterable]="false" [hasActionColumn]="true" [isSortable]="false"
                     [hasCheckboxColumn]="false"  (actionEdit)="edit($event)"
-                    (actionDelete)="delete($event)"> </app-add-edit-table>
-               
+                    (actionDelete)="delete($event)"> </app-table>
 
                 </ng-container>
-
+                
                 <ng-container *ngIf="prop.needSelectInput">
-                    
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label>{{prop.labelsText}}</mat-label>
-                        <input type="text" matInput [formControlName]="prop.formControlName" [value]="prop.value" [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                            <!-- <mat-option value="{}">
-                    </mat-option> -->
+                        <input type="text" matInput [formControlName]="prop.formControlName"  [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" >
                             <mat-option (click)="AddClient()">Add Client</mat-option>
                             <mat-option *ngFor="let data of selectInputData" [value]="data">
                                 {{data.firstName +" "+ data.lastName}}
@@ -55,7 +52,7 @@
                     </mat-form-field>
                 </ng-container>
 
-                <ng-container *ngIf="prop.needTextArea">
+                <ng-container *ngIf="prop.needTextArea && !prop.needDatePicker">
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label> {{ prop.labelsText }} </mat-label>
@@ -73,8 +70,25 @@
                     </mat-form-field>
 
                 </ng-container>
+                <ng-container   *ngIf="prop.formControlName == 'sale'">
+                    <!-- <mat-form-field  aria-disabled="true" appearance="outline" [ngClass]="prop.formControlName">
+                        <mat-label> {{ prop.labelsText }} </mat-label>
+                        <input matInput placeholder="" color="primary" [formControlName]="prop.formControlName">
+                    </mat-form-field> -->
+                    <ng-container>
+                        <div class="totals">
+                        <div> <mat-label> Sub Total : </mat-label> <span> {{prop.value.subTotal}}</span> </div>
+                        <div> <mat-label> Tax : </mat-label> <span> {{prop.value.tax}}</span> </div>
+                        <div> <mat-label> Total : </mat-label> <span> {{prop.value.total}}</span> </div>
+                    
+                        </div>
+                    </ng-container>
+                </ng-container>
 
-                <ng-container *ngIf="!prop.isBoolean && !prop.needTextArea && prop.formControlName != 'id' && !prop.needSelectInput && !prop.needDatePicker && !prop.needTable">
+
+                    <!-- && prop.formControlName != 'subTotal' && prop.formControlName != 'tax' && prop.formControlName != 'total' -->
+                <ng-container *ngIf="!prop.isBoolean && !prop.needTextArea && prop.formControlName != 'id' && !prop.needSelectInput && !prop.needDatePicker && !prop.needTable
+                && prop.formControlName != 'sale' ">
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label> {{ prop.labelsText }} </mat-label>
@@ -92,22 +106,6 @@
 
             </div>
 
-            <!-- <button mat-flat-button color="accent">Accent</button> -->
-            <div></div>
-
-            <div  class="totals">
-                <!-- *ngIf="" -->
-                <ng-container >
-                    <!-- <div> -->
-                       <div> <mat-label> Sub Total : </mat-label> <span>{{subTotal}}</span> </div>
-                       <div> <mat-label> Tax :</mat-label> <span>{{tax}}</span> </div>
-                       <div> <mat-label> Total :</mat-label> <span> {{total}}</span> </div>
-                    
-                    <!-- </div> -->
-                </ng-container>
-        
-
-            </div>
         </form>
 
     </div>

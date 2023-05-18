@@ -168,7 +168,10 @@
         .form>*:has(.saleDetails) {
             width: 100%;
         }
-        .form>.totals {
+        .form>*:has(.totals) {
+            width: 100%;
+        }
+        .form div>div.totals {
             margin-top: var(--top-space);
             margin-left: auto;
             width: 25%;
@@ -186,4 +189,8 @@
         }
     
     }
+}
+
+.tableEmbed{
+    padding: 0 100px;
 }

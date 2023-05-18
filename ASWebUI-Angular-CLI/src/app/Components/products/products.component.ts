@@ -16,25 +16,25 @@ export class ProductsComponent implements OnInit {
   paginationSizes: any[];
   defaultPageSize: number;
   componentName: string = "Product";
+  
 
   constructor(private api: ApiHelperService) {}
 
   ngOnInit() {
     this.initializeColumns();
     
-    //this.getProducts();
-    this.productList = this.api.getProducts();
-
-    
+    this.getProducts();
+    // this.productList = this.api.getProducts();
+    console.log("this.productList", this.productList);
     
   }
 
   getProducts() {
-    // this.api.getProducts().subscribe(x => { this.productList = x},
-    //   (error) => {
-    //     console.log("from products component", error);
-    //   }
-    // );
+    this.api.getProducts().subscribe(x => { this.productList = x},
+      (error) => {
+        console.log("from products component", error);
+      }
+    );
     
   }
 

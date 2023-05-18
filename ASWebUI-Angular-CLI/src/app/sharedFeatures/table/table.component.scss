@@ -1,5 +1,5 @@
 // @use "../../../mixins.scss" as mix;
-// @use "src/customMaterialTheme.scss" as cmt;
+@use "src/customMaterialTheme.scss" as cmt;
 
 .componentTop {
   // display: flex;
@@ -98,6 +98,7 @@
 .tableContainer {
   background-color: white;
   margin-top: var(--top-space);
+  // border: 1px solid black;
 }
 
 .tableScroll {
@@ -140,7 +141,7 @@ table,
 // }
 
 .mat-row {
-  // background-color: blue;
+    background-color: lighten(grey, 40%); //lighten(cmt.$accent, 40%);
   // position: relative;
   //  td:not(:first-child):not(:last-child){
 
@@ -258,7 +259,7 @@ th {
 // }
 
 .mat-row:nth-child(2n + 1) {
-  background-color: lighten(gray, 40%); //lighten(cmt.$accent, 40%);
+  background-color: white; //lighten(cmt.$accent, 40%);
 }
 
 // .input-group{
@@ -336,35 +337,5 @@ mat-paginator {
     }
   }
 
-  // .searchInput {
-  //     position: absolute;
-  //     top: 50%;
-  //     transform: translateY(-50%);
-  //     left: 0;
-  //     // right: 50rem;
-  //     // margin: 0;
-  //     width: 35% !important;
-  //     .mat-form-field{
-  //         // width: 100% !important;
-  //     }
-  // }
-
-  .input-container {
-    .invoiceInfo {
-      display: flex;
-      flex-wrap: nowrap;
-      flex-direction: row;
-      justify-content: flex-end;
-    }
-
-    .invoiceInfo > :first-child {
-      align-self: flex-start;
-      margin-right: auto;
-    }
-
-    .invoiceInfo > * {
-      // width: 200px;
-      flex-grow: 0;
-    }
-  }
+  
 }

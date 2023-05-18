@@ -1,0 +1,39 @@
+.component {
+  background-color:white ;
+  border-radius: 0.5rem 0.5rem 0 0;
+  text-align: center;
+  margin-top: var(--top-space);
+  .componentTop{
+    position: relative;
+  }
+  h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin: 0 auto;
+      padding: 2rem 0;
+      width: 30%;
+    }
+
+    .action-buttons {
+      width: fit-content;
+      // margin-right: 0;
+      margin: auto;
+      padding: 1rem;
+
+      button {
+        &:not(:first-child) {
+          margin-left: 0.5rem;
+        }
+      }
+    }
+
+  }
+  @media (min-width: 768px) {
+    .action-buttons {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0;
+    }
+      
+  }

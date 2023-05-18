@@ -16,6 +16,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Identification } from "src/app/models/Identification.interface";
+import { Product } from "src/app/models/product.model";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
 // import { DisplayModalComponent } from "src/app/shared/modal/displayModal.component";
 import { TableDataSource } from "./table-datasource";
@@ -44,7 +45,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
   @Input() isPageable = false;
   @Input() isSortable = false;
-  @Input() isFilterable = false;
+  @Input() isFilterable;
   @Input() tableColumns: TableColumn[];
   @Input() hasActionColumn = false;
   @Input() hasCheckboxColumn = false;
@@ -70,7 +71,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ActionColumn: string;
   CheckboxColumn: string;
 
-  newTableDataSource : any;
+  newTableDataSource : any = [];
 
   emptyFilters = true;
 
@@ -91,12 +92,14 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ngOnInit(): void {
     
     this.InitialzeColumns();
-    console.log(this.tableData);
+    console.log("this.tableData", this.tableData);
     
   }
   
   // we need this, in order to make pagination work with *ngIf
   ngAfterViewInit() {
+    console.log("Table in AfterviewINIT");
+    
     this.newTableDataSource = new TableDataSource(this.tableData);
     
     // console.log("this.matPaginator",this.matPaginator);
@@ -148,7 +151,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     
     // console.log(JSON.stringify(data));
     const test = data.splice(startIndex, this.matPaginator.pageSize);
-    console.log('test',test);
+console.log('test',test);
     
     return test;
   }
@@ -168,24 +171,30 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   // }
 
   delete(element) {
-    console.log(element);
+    let data: any = this.newTableDataSource.DATA$.value.filter(
+      (el) => el != element
+    );
+    this.newTableDataSource.DATA$.next(data);
+    
+    if (this.matPaginator){
+      this.newTableDataSource.paginator = this.matPaginator;
+      if (this.matPaginator.pageIndex >= this.matPaginator.getNumberOfPages()) {
+        this.matPaginator.previousPage();
+      }
+    }
+    console.log("this.componentName", this.componentName);
+    
 
-    // let data: any = this.tableDataItems.DATA$.value.filter(
-    //   (el) => el != element
-    // );
-    // this.tableDataItems.DATA$.next(data);
-    // this.tableDataItems.paginator = this.matPaginator;
-    // if (this.matPaginator.pageIndex >= this.matPaginator.getNumberOfPages()) {
-    //   this.matPaginator.previousPage();
-    // }
+    //this.api.deleteRecord(element, this.componentName);
+    this.actionDelete.emit(element);
   }
 
   setTableDataSource(data: any[]) {
     this.newTableDataSource = new TableDataSource(data);
     this.newTableDataSource.sort = new MatSort();
-    console.log("this.matPaginator",this.matPaginator);
+    // console.log("this.matPaginator",this.matPaginator);
     
-    console.log("this.newTableDataSource", this.newTableDataSource);
+    // console.log("this.newTableDataSource", this.newTableDataSource);
   }
 
   clearFilters() {
@@ -349,12 +358,17 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   edit(item: T) {
-    this.router.navigate([`./`, item.id], {
+    console.log("item in edit", item);
+    // this.api.objectbyId = item;
+    
+    this.router.navigate(["./", item.id], {
       relativeTo: this.actRout,
     });
   }
 
   InitialzeColumns() {
+    console.log("this.tableColumns", this.tableColumns);
+    
     const columnNames = this.tableColumns.map(
       (tableColumn: TableColumn) => tableColumn.name
     );

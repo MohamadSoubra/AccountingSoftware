@@ -3,7 +3,7 @@ AS
 begin
 	set nocount on;
 
-	SELECT Id, InvoiceNumber, ClientId, [Description], InvoiceDate, PaymentDueDate, AmountDue, [Status]
-	FROM dbo.Invoice
+	SELECT Id, InvoiceNumber, ClientId, SaleId, [Description], InvoiceDate, PaymentDueDate, AmountDue, [Status]
+	FROM dbo.Invoice where Active = 1
 	ORDER BY ClientId;
 end

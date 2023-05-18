@@ -1,7 +1,7 @@
 <ng-container>
-    <div id="tabledataheight" class="tableContainer mt-5 mat-elevation-z3">
+    <div id="tabledataheight" class="tableContainer mt-1 mat-elevation-z3">
         <div class="componentTop">
-            <div class="table-top">
+            <!-- <div class="table-top">
                 <h1>{{ componentName }}s</h1>
 
                 <div class="action-buttons">
@@ -14,8 +14,8 @@
                 </div>
 
                 
-            </div>
-            <div class="searchInput">
+            </div> -->
+            <div *ngIf="isFilterable" class="searchInput">
                 <mat-form-field appearance="outline">
                     <mat-label> Filter future feature </mat-label>
                     <input matInput>
@@ -108,7 +108,7 @@
                             <button mat-stroked-button color="primary" (click)="edit(element)">
                                 Edit
                             </button>
-                            <button mat-stroked-button color="warn" (click)="delete(element)">
+                            <button mat-stroked-button color="warn" [attr.data-name]="element" (click)="delete(element)">
                                 Delete
                             </button>
                         </div>

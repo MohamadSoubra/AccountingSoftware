@@ -1,36 +1,39 @@
 import { Location } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientsComponent } from 'src/app/components/clients/clients.component';
+import { Observable } from 'rxjs';
+import { switchMap,map } from 'rxjs/operators';
 import { Client } from 'src/app/models/client.model';
 import { Invoice } from 'src/app/models/invoice.model';
-import { Product } from 'src/app/models/product.model';
 import { SaleDetail } from 'src/app/models/sale-detail.model';
-import { Supplier } from 'src/app/models/supplier.model';
+import { Sale } from 'src/app/models/sale.model';
 import { ApiHelperService } from 'src/app/services/ApiHelper.service';
 import { TableColumn } from '../table/table.component';
-// import { DisplayModalComponent } from '../modal/displayModal.component';
 
 @Component({
   selector: "app-add-edit",
   templateUrl: "./add-edit.component.html",
   styleUrls: ["./add-edit.component.scss"],
 })
-export class AddEditComponent implements OnInit {
+export class AddEditComponent<T> implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
     private apiHelper: ApiHelperService,
     private actroute: ActivatedRoute,
     private router: Router,
-    private location :Location
-    ) {}
-    
-  @Input() displayItem: Product | Client | Supplier | Invoice = null;
+    private location: Location,
+    private _cdr: ChangeDetectorRef,
+
+  ) { }
+
+  // @Input() displayItem: Product | Client | Supplier | Invoice ;
+  displayItem: any;
+  displayItemOBS: any;
   // @Input() displayItem: Invoice = null;
-    
+
   Title: string = "NO-ID";
   itemProperties;
   itemFormArray = this.fb.array([]);
@@ -42,290 +45,158 @@ export class AddEditComponent implements OnInit {
   selectInputValue: any;
   previousRoute: string;
   saledetailscolumns: TableColumn[];
-  saleDetailsData ;
+  saleDetailsData;
   hasSailDetails: boolean = false;
-  isSaleDetails: boolean = false; 
+  isSaleDetails: boolean = false;
+  isInvoice: boolean = false;
+  disabled = true;
+
+  needTable: boolean = false;
+  //temp variable
+  ClientName: String;
 
   currentItemId: number;
 
   subTotal: number;
-  tax :number;
-  total:number;
+  tax: number;
+  total: number;
   // autoCompleteValue: any;
 
+  IPO: Observable<T>;
+
+
   ngOnInit(): void {
-    
-    
-    //console.log(Object.entries(this.displayItem));
-    //this.displayItem = this.data.map((value) => String(value));
-    // console.log("this.displayItem.constructor.name", this.displayItem.constructor.name );
-    // console.log("Object.keys(this.displayItem)", Object.keys(this.displayItem));
-    // console.log("Object.keys(Product)", Object.keys(new Product()));
-    // const newINvoive = new Invoice();
-    // const invoiceTestType =  newINvoive;
-    // console.log("typeof newINvoive", newINvoive.constructor.name);
-    // console.log(
-    //   "typeof invoiceTestType", invoiceTestType.constructor.name
-    // );
-    
-    // console.log("typeof true",typeof true)
+    // console.log("this.apiHelper.objectbyId", this.apiHelper.objectbyId);
+    // this.saleDetailsData = [{
+    //   description: "Added From SSMS",
+    //   id: 1010,
+    //   invoiceId: 1,
+    //   productId: 5,
+    //   productName: "Product 5",
+    //   purchasePrice: 7650,
+    //   quantity: 5,
+    //   saleId: 1010,
+    //   subtotal: 150,
+    //   tax: 13.125,
+    //   total: 163.125
+    // }, {
+    //   description: "Added From SSMS",
+    //   id: 1011,
+    //   invoiceId: 1,
+    //   productId: 10,
+    //   productName: "Product 10",
+    //   purchasePrice: 10000,
+    //   quantity: 10,
+    //   saleId: 1010,
+    //   subtotal: 150,
+    //   tax: 13.125,
+    //   total: 163.125
+    // }];
 
-    
-    // console.log("this.route.snapshot.params.id", this.route.snapshot.params);
 
-    
-    this.actroute.params.subscribe(params => {
-      // console.log("params", params);
+    if (+this.actroute.snapshot.params["id"] === 0) {
 
-      this.previousRoute = params[""];
+      this.displayItem = this.apiHelper.InitializeType(this.actroute.snapshot.params[""]);
+
+
+      this.GenerateFormFromObject(this.displayItem);
       
-      if (+params['id'] === 0) {
-        this.displayItem = this.apiHelper.InitializeType(params[""]);
-      } else {
-        this.displayItem = this.apiHelper.getByID(params[""],+params["id"]);
-      }
-
-      if(params[""] === "saleDetails"){
-        this.isSaleDetails = true
-      }
-
-      this.currentItemId = +params["id"]
-
-    })
-
-    console.log("this.displayItem", this.displayItem); 
-    // console.log("Object.values(this.displayItem)", Object.values(this.displayItem));
-
-    // console.log(new Client({id:"1"}));
-
-   
-    // console.log("this.route.snapshot.data", this.route);
-    
-    // const itemIndex :string =  this.route.snapshot.paramMap.get("item")
-    
-    // if (isNaN(+itemIndex)) {
-    //   this.displayItem = this.apiHelper.InitializeType(itemIndex);
-    // } else {
-    //   this.displayItem = this.apiHelper.getInvoiceById(itemIndex);
-    // }
       
-    // console.log("this.displayItem", this.displayItem);
-
-    if (this.displayItem.id != undefined) {
-      if (this.displayItem.id == 0) {
-        this.Title = `Add new ${this.displayItem.constructor.name}`;
-      } else {
-        this.Title = `Editing ${this.displayItem.constructor.name}  ${this.displayItem.id}`;
-      }
     } else {
-      this.Title = "Id was not found";
-    }
-    this.itemProperties = Object.keys(this.displayItem).map((prop) => {
-      // this.labelstext.push({labelsText: this.formatText(prop), formControlName: prop});
+      // this.apiHelper.getByID(this.actroute.snapshot.params[""], this.actroute.snapshot.params["id"]).subscribe(objbyid => {
+      //   console.log("objbyid.constructor.name", objbyid.constructor.name);
+      //   console.log("objbyid", objbyid);
+      //   console.log("objbyid.invoiceNumber", objbyid.invoiceNumber);
+      //   console.log(`objbyid["client"]`, objbyid["client"]);
+      //   console.log(`objbyid.client`, objbyid.client);
 
-      // this.itemFormArray.push(this.fb.control(''));
-      // this.itemFormArray.
+      //   this.GenerateFormFromObject(objbyid);
 
-      let isBoolean = false;
-      let needSelectInput = false;
-      let needDatePicker = false;
-      if (this.displayItem[prop] === true || this.displayItem[prop] === false) {
-        isBoolean = true;
-        //this.itemform.controls[prop].setValue((this.displayItem[prop]?  'true' : 'false'));
-        this.itemform.addControl(
-          prop,
-          new FormControl(this.displayItem[prop].toString())
-        );
-      } else {
-        if (prop.includes("client")) {
-          needSelectInput = true;
-          // console.log("this.displayItem in need select input", this.displayItem);
-          // console.log("this.displayItem[prop] in need select input BEFORE ASSIGNING IT", this.displayItem[prop]);
-          this.selectInputData = this.apiHelper.getClients();
-          // console.log("this.selectInputData", this.selectInputData);
-          
-          if (this.displayItem[prop]["id"] !== ""){
-            this.displayItem[prop] = this.selectInputData.find(cl => cl.id === this.displayItem[prop]["id"]);
-          }
-          // console.log("this.selectInputData.find(cl => cl.id === this.displayItem[prop] )", this.selectInputData.find(cl => cl.id === this.displayItem[prop]?.id));
-          // console.log("this.displayItem[prop] in need select input", this.displayItem[prop]);
-          // console.log("prop", prop);
-          
-        }
-
-        if (prop.toLowerCase().includes("date")) {
-          needDatePicker = true;
-          this.itemform.addControl(
-            prop,
-            new FormControl(new Date(this.displayItem[prop]))
-          );
-        } else {
-          this.itemform.addControl(
-            prop,
-            new FormControl(this.displayItem[prop])
-          );
-        }
-      }
-
-
-
-
-
-
-      // console.log(`${prop} string Length ${prop.length}`);
-      // console.log(` string Length ${this.displayItem[prop].length}`);
-
-      // if (
-      //   this.displayItem[prop] != null ||
-      //   this.displayItem[prop] != undefined
-      // ) {
-      //   String(this.displayItem[prop]);
-      // }
-
-      let needTextArea = false;
-      if (prop === "description" || this.displayItem[prop]?.length > 20) {
-        needTextArea = true;
-      }
-
-      let width: string = "";
-
-      switch (prop) {
-        case "firstName":
-          width = "350";
-          break;
-
-        case "lastName":
-          width = "50";
-          break;
-
-        default:
-          width = "100";
-          break;
-      }
-
-      this.saledetailscolumns = [
-        {
-          name: "Product Name",
-          dataKey: "productName",
-          isSortable: true,
-          isFilterable: true,
-          position: "right"
-        },
-        {
-          name: "Description",
-          dataKey: "description",
-          isFilterable: true,
-        },
-        {
-          name: "Quantity",
-          dataKey: "quantity",
-          isSortable: true,
-          isFilterable: true,
-        },
-        {
-          name: "Unit Price",
-          dataKey: "unitPrice",
-          isSortable: true,
-          isFilterable: true,
-        },
-        {
-          name: "Total Price",
-          dataKey: "totalPrice",
-          isFilterable: false,
-        }
-  
-      ]
-
-      
-      let needTable = false;
-      if(prop === "saleDetails"){
-        needTable = true;
-        
-        // console.log("this.displayItem[prop]",this.displayItem[prop]);
-        // Object.keys(this.displayItem[prop])
-
-        // this.saledetailscolumns.map(col => {
-        //   col.name = this.displayItem[prop]
-        // })
-        this.saleDetailsData = this.displayItem[prop];
+      //   this.saleDetailsData = objbyid["saleDetails"];
+      //   console.log("this.saleDetailsData", this.saleDetailsData);
         
 
-        console.log("this.saleDetailsData",this.saleDetailsData);
-        
-        if(this.saleDetailsData.length === 1){
-          this.subTotal = this.saleDetailsData[0].totalPrice
-          this.tax = this.saleDetailsData[0].tax
-        }else{
-
-
-          this.subTotal = this.saleDetailsData.reduce((previousValue,currentValue,index) => {
-            // console.log("previousValue",previousValue);
-            // console.log("currentValue",currentValue);
-            
-            return previousValue + currentValue.totalPrice
-            
-          }, 0)
-
-          this.tax = this.saleDetailsData.reduce((previousValue,currentValue) => {
-            return previousValue + currentValue.tax
-          },0)
-
-        }
-        
-
-        
-
-        this.total = this.subTotal 
-
-
-        
-
-        if(this.saleDetailsData.length > 0){
-          this.hasSailDetails = true;
-        }
-
-
-        
-      }
-
-
-      // this.formControlsArray.push({this.itemform. : this.fb.control("")});
-      return {
-        labelsText: this.formatText(prop),
-        formControlName: prop,
-        value: this.displayItem[prop],
-        isBoolean: isBoolean,
-        needTextArea: needTextArea,
-        needSelectInput: needSelectInput,
-        needDatePicker: needDatePicker,
-        needTable: needTable,
-        width: width,
-      };
-    });
-    console.log("this.itemProperties", this.itemProperties);
-
-    // console.log(this.itemFormArray);
-    // console.log(`Item Propertes ${JSON.stringify(this.itemProperties)}`);
-    // console.log(this.formControlsArray);
-
-    // this.itemform = this.fb.group({ itemFormArray: this.itemFormArray });
-
-    // console.log("this.itemform.controls.client", this.itemform.controls.client);
-    // console.log("this.itemform", this.itemform);
-    // console.log("this.selectInputData", this.selectInputData);
-
-    // document.documentElement.style.setProperty("--grd_col", "span 2");
+      // })
+    //IPO -> ItemPropertiesObservable
 
     
+      
+      
+      if (this.actroute.snapshot.params[""] === "invoices"){
+        this.IPO = this.apiHelper.getByID<Invoice>(this.actroute.snapshot.params[""], this.actroute.snapshot.params["id"]).pipe(
+          switchMap(invoice => {
+            // console.log("ivoice get by ID",invoice);
+            
+            const inv = new Invoice(invoice);
+            // inv.client = invoice["client"];
+            inv.client = invoice["client"];
+            console.log("Invoice Client", invoice["client"]);
+            console.log("Invoice after adding Client", invoice);
+            
+            console.log("inv",inv);
+            // console.log("inv client",inv);
+            
 
 
-    // console.log("this.itemform",this.itemform);
+            return this.apiHelper.getSaleDetailsByInvoiceID(this.actroute.snapshot.params["id"]).pipe(
+              map(SALEDTS => {
+                if (SALEDTS) {
+
+                  inv.saleDetails = SALEDTS;
+                  this.saleDetailsData = SALEDTS;
+                }
+                // this.subTotal = inv.sale.subTotal;
+                // this.tax = inv.sale.tax;
+                // this.total = inv.sale.total;
+                // console.log("this.subTotal", this.subTotal);
+                // console.log("this.tax", this.tax);
+                // console.log("this.total", this.total);
+                return inv;
+              })
+            )
+          })
+        );
+      }else{
+        this.IPO = this.apiHelper.getByID(this.actroute.snapshot.params[""], this.actroute.snapshot.params["id"]);
+        // console.log("this.actroute.snapshot.params[\"\"]", this.actroute.snapshot.params[""]);
+      }
+      
+
+      this.IPO.subscribe(itemprops =>{
+        // console.log(itemprops);
+        // this.itemProperties = itemprops;
+        this.GenerateFormFromObject(itemprops);
+      })
+
+      // console.log("IPO", this.IPO);
+      // console.log("this.itemProperties",this.itemProperties);
+      
+    }
+
+    // console.log("this.displayItem", this.displayItem); 
+    // console.log("this.displayItemOBS", this.displayItemOBS); 
+    // console.log("this.subTotal", this.subTotal);
+    // console.log("this.tax", this.tax);
+    // console.log("this.total", this.total);
+
+
     
   }
 
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+
+
+
+
+  }
+
+
+
   onSubmit() {
     // let submitted = this.formatDate(this.itemform.value);
-    // // console.log("this.itemform.value", this.itemform.value);
+    console.log("this.itemform.value", this.itemform.value);
     // console.log("submitted", submitted);
     // // console.log("this.itemform.value",this.itemform.value);
     // let aRecord = this.apiHelper.InitializeType(this.previousRoute)
@@ -336,39 +207,38 @@ export class AddEditComponent implements OnInit {
     // this.router.navigate([`./${this.previousRoute}`]);
     const invoiceId = +this.actroute.snapshot.url[1].path
     const invoices = this.apiHelper.getInvoices()
-    let invoiceToUpdate = invoices.find(inv => inv.id == invoiceId)
-    
-    console.log("this.itemform.value",this.itemform.value);
-    if(this.isSaleDetails){
-      console.log("this.actroute",this.actroute);
-      console.log("invoiceId",invoiceId);
-      console.log("invoiceToUpdate",invoiceToUpdate);
+    // let invoiceToUpdate = invoices.find(inv => inv.id == invoiceId)
+    let invoiceToUpdate = this.apiHelper.getInvoiceById(invoiceId);
 
-      if(invoiceToUpdate.saleDetails){
-        invoiceToUpdate.saleDetails.push(new SaleDetail({
-          id : ++invoiceToUpdate.saleDetails.length,
-          description : this.itemform.value.description,
-          productName : this.itemform.value.this.itemform.value,
-          quantity : this.itemform.value.quantity,
-          tax : this.itemform.value.tax,
-          totalPrice : this.itemform.value.totalPrice,
-          unitPrice : this.itemform.value.unitPrice
-        }))
-        console.log("invoiceToUpdate",invoiceToUpdate);
-      }else{
-        invoiceToUpdate.saleDetails = (new SaleDetail({
-          id : 1,
-          description : this.itemform.value.description,
-          productName : this.itemform.value.productName,
-          quantity : this.itemform.value.quantity,
-          tax : this.itemform.value.tax,
-          totalPrice : this.itemform.value.totalPrice,
-          unitPrice : this.itemform.value.unitPrice
-        }))
-      }
+    // console.log("this.itemform.value", this.itemform.value);
+    // console.log("invoiceToUpdate before",invoiceToUpdate);
+    if (this.isSaleDetails) {
+      // console.log("this.actroute", this.actroute);
+      // console.log("invoiceId", invoiceId);
 
-      console.log("invoiceToUpdate",invoiceToUpdate);
-      
+      // if(invoiceToUpdate.saleDetails.length > 1){
+      //   invoiceToUpdate.saleDetails.push({
+      //     productName: this.itemform.value.productName,
+      //     description : this.itemform.value.description,
+      //     quantity : this.itemform.value.quantity,
+      //     unitPrice : this.itemform.value.unitPrice,
+      //     tax : this.itemform.value.tax,
+      //     totalPrice : this.itemform.value.totalPrice,
+      //   })
+      //   // console.log("invoiceToUpdate",invoiceToUpdate);
+      // }else{
+      //   invoiceToUpdate.saleDetails = (new SaleDetail({
+      //     productName : this.itemform.value.productName,
+      //     description : this.itemform.value.description,
+      //     quantity : this.itemform.value.quantity,
+      //     unitPrice : this.itemform.value.unitPrice,
+      //     tax : this.itemform.value.tax,
+      //     totalPrice : this.itemform.value.totalPrice,
+      //   }))
+      // }
+
+      // console.log("invoiceToUpdate after", invoiceToUpdate);
+
     }
 
   }
@@ -380,19 +250,26 @@ export class AddEditComponent implements OnInit {
     return text;
   }
 
+  // selectedclient(event){
+  //   console.log("selectedclient event", event.option.value);
+
+  // }
+
   displayFn(client: Client): string {
-    console.log(client);
-    
-    return client && client.firstName ? `${client.firstName} ${client.lastName}` : "";
+    // console.log("client from diplayfn before init", client);
+    client = new Client(client);
+    // console.log("client from diplayfn", client);
+
+    return client && client.firstName || client.lastName ? client.getFullName() : '';
   }
 
-  //this methos is for getting the type of the object injected into this class
+  //this method is for getting the type of the object injected into this class
   //to dinamically change the material dialoge title
   getType(object) {
     // Object.keys(object).
   }
 
-  Cancel(){
+  Cancel() {
     this.location.back();
   }
 
@@ -425,7 +302,10 @@ export class AddEditComponent implements OnInit {
   }
 
   resetAutoComplete(prop) {
+    // console.log("prop from reset", prop);
+
     this.itemform.get(prop.formControlName).setValue({});
+    this.selectInputValue = {};
   }
 
   objectHasEmptyProperties(object) {
@@ -436,21 +316,268 @@ export class AddEditComponent implements OnInit {
     }
   }
 
-  edit(event){
+  edit(event) {
 
   }
 
-  delete(event){
-
+  delete(element) {
+    
+    let SDs = this.itemform.get("saleDetails").value;
+    // console.log("SDs before",SDs);
+    SDs = SDs.filter(sd => sd.id != element.id)
+    // console.log("SDs after",SDs);
+    this.itemform.get("saleDetails").setValue(SDs);
+    // console.log('this.displayItem.constructor.name',this.displayItem.constructor.name);
+    
+    this.apiHelper.deleteRecord(element, "SaleDetail")
   }
 
-  formatDate(object){
-    if(Object.keys(object).forEach)
-     Object.keys(object).map(prop => {
-      if (prop.toLowerCase().includes("date")) {
-        object[prop] = new Date(object[prop]).toDateString()
-      }
-    })
+  formatDate(object) {
+    if (Object.keys(object).forEach)
+      Object.keys(object).map(prop => {
+        if (prop.toLowerCase().includes("date")) {
+          object[prop] = new Date(object[prop]).toDateString()
+        }
+      })
     return object;
   }
+
+  GenerateFormFromObject(object) {
+    if (object) {
+      this.itemProperties = Object.keys(object).map((prop) => {
+        let isBoolean = false;
+        let needSelectInput = false;
+        let needDatePicker = false;
+        if (object[prop] === true || object[prop] === false) {
+          isBoolean = true;
+          this.itemform.addControl(
+            prop,
+            new FormControl(object[prop].toString())
+          );
+        } else {
+          if (prop === "client") {
+            needSelectInput = true;
+            this.isInvoice = true;
+            this.apiHelper.getClients().subscribe(clients => {
+              this.selectInputData = clients;
+            })
+
+
+
+
+          }
+
+          if (prop.toLowerCase().includes("date")) {
+            needDatePicker = true;
+            this.itemform.addControl(
+              prop,
+              new FormControl(new Date(object[prop]))
+            );
+          } else {
+            this.itemform.addControl(
+              prop,
+              new FormControl(object[prop])
+            );
+          }
+        }
+
+        if (object.id != undefined) {
+          if (object.id == 0) {
+            this.Title = `Add new ${object.constructor.name}`;
+          } else {
+            this.Title = `Editing ${object.constructor.name}  ${object.id}`;
+          }
+        }
+
+
+
+        let needTextArea = false;
+        if (prop === "description" || object[prop]?.length > 20) {
+          needTextArea = true;
+        }
+
+        let width: string = "";
+
+        switch (prop) {
+          case "firstName":
+            width = "350";
+            break;
+
+          case "lastName":
+            width = "50";
+            break;
+
+          default:
+            width = "100";
+            break;
+        }
+
+        /*this.saledetailscolumns = [
+          {
+            name: "Product Name",
+            dataKey: "productName",
+            isSortable: true,
+            isFilterable: true,
+            position: "right"
+          },
+          {
+            name: "Description",
+            dataKey: "description",
+            isFilterable: true,
+          },
+          {
+            name: "Quantity",
+            dataKey: "quantity",
+            isSortable: true,
+            isFilterable: true,
+          },
+          {
+            name: "Purchase Price",
+            dataKey: "purchasePrice",
+            isSortable: true,
+            isFilterable: true,
+          },
+          {
+            name: "Total Price",
+            dataKey: "totalPrice",
+            isFilterable: false,
+          }
+
+        ]*/
+        SaleDetail
+        this.saledetailscolumns = [
+          {
+            name: "Product Name",
+            dataKey: "productName",
+            isSortable: true,
+            isFilterable: true,
+            position: "right"
+          },
+          {
+            name: "Description",
+            dataKey: "description",
+            isFilterable: true,
+          },
+          {
+            name: "Quantity",
+            dataKey: "quantity",
+            isSortable: true,
+            isFilterable: true,
+          },
+          {
+            name: "Unit Price",
+            dataKey: "unitPrice",
+            isSortable: true,
+            isFilterable: true,
+          },
+          {
+            name: "Total",
+            dataKey: "total",
+            isFilterable: false,
+          }
+
+        ]
+
+        // SaleDetail
+
+        // export class SaleDetail implements Identification {
+        //   id?: number;
+        //   productName: string;
+        //   description: string;
+        //   quantity: number;
+        //   purchasePrice: number;
+        //   totalPrice: number;
+        //   tax?: number;
+
+
+        this.needTable = false;
+        if (prop === "saleDetails") {
+          this.subTotal = object.subTotal
+          this.tax = object.tax
+          this.total = object.total
+          
+          this.needTable = true;
+
+          // console.log("object[\"saleDetails\"]", object["saleDetails"]);
+          
+          // this.apiHelper.getSaleDetailsByInvoiceID(object.id).subscribe(SaleDetailes => {
+          //   console.log(SaleDetailes);
+          //   object.saleDetails=SaleDetailes;
+          //   this.subTotal = SaleDetailes["subtotal"];
+          //   this.tax = SaleDetailes["tax"];
+          //   this.total = SaleDetailes["total"];;
+          //   this.saleDetailsData = SaleDetailes;
+
+          //   if (this.apiHelper.objectIsEmpty(SaleDetailes)) {
+          //     console.log("SALE DETAILS ARE EMPTYYYYYYYYYY!!!!");
+
+
+          //   } else {
+
+          //     console.log("SALE DETAILS HAVE DATAAAAAAAAAAAA!!!");
+
+          //     // if (SaleDetailes.length === 1) {
+          //     //   this.subTotal = SaleDetailes[0].totalPrice
+          //     //   this.tax = SaleDetailes[0].tax
+          //     // } else {
+
+
+          //     //   this.subTotal = SaleDetailes.reduce((previousValue, currentValue, index) => {
+          //     //     // console.log("previousValue",previousValue);
+          //     //     // console.log("currentValue",currentValue);
+
+          //     //     return previousValue + currentValue.purchasePrice
+
+          //     //   }, 0)
+
+          //     //   this.tax = SaleDetailes.reduce((previousValue, currentValue) => {
+          //     //     return previousValue + currentValue.tax
+          //     //   }, 0)
+
+          //     // }
+          //   }
+
+
+
+
+
+          //   // console.log("this.total", this.total);
+          //   // console.log("this.subTotal", this.subTotal);
+            
+          //   // this.total = this.subTotal * this.tax;
+
+
+
+
+          //   // if (this.saleDetailsData.length > 0) {
+          //   //   this.hasSailDetails = true;
+          //   // }
+
+
+          // });
+
+        }
+        
+
+        // console.log("object parameter", object);
+
+        // this.formControlsArray.push({this.itemform. : this.fb.control("")});
+      
+        return {
+          labelsText: this.formatText(prop),
+          formControlName: prop,
+          value: object[prop],
+          isBoolean: isBoolean,
+          needTextArea: needTextArea,
+          needSelectInput: needSelectInput,
+          needDatePicker: needDatePicker,
+          needTable: this.needTable,
+          width: width,
+        };
+      });
+    }
+  }
 }
+
+
+

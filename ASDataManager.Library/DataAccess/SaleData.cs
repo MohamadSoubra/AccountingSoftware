@@ -49,11 +49,11 @@ namespace ASDataManager.Library.DataAccess
                     throw new Exception($"The product Id of { detail.ProductId } could not be found in the database.");
                 }
 
-                detail.PurchasePrice = (productInfo.RetailPrice * detail.Quantity);
+                detail.UnitPrice = (productInfo.RetailPrice * detail.Quantity);
 
                 if (productInfo.IsTaxable)
                 {
-                    detail.Tax = (detail.PurchasePrice * taxRate);
+                    detail.Tax = (detail.UnitPrice * taxRate);
                 }
 
                 details.Add(detail);
@@ -61,7 +61,7 @@ namespace ASDataManager.Library.DataAccess
             //create the sale model
             SaleDBModel sale = new SaleDBModel
             {
-                SubTotal = details.Sum(x => x.PurchasePrice),
+                SubTotal = details.Sum(x => x.UnitPrice),
                 Tax = details.Sum(x => x.Tax),
                 CashierId = cashierId
             };

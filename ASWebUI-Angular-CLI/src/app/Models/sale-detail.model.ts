@@ -8,7 +8,7 @@ export class SaleDetail implements Identification {
   description: string;
   quantity: number;
   unitPrice: number;
-  totalPrice: number;
+  total: number;
   tax?: number;
   
   constructor({
@@ -17,7 +17,7 @@ export class SaleDetail implements Identification {
     description = "",
     quantity = 0,
     unitPrice = 0,
-    totalPrice = 0,
+    total = 0,
     tax = 0,
   } = {}) {
     this.id = id;
@@ -25,7 +25,7 @@ export class SaleDetail implements Identification {
     this.description = description;
     this.quantity = quantity;
     this.unitPrice = unitPrice;
-    this.totalPrice = totalPrice;
+    this.total = total;
     this.tax = tax;
   }
 }

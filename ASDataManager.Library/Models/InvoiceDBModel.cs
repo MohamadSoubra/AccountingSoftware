@@ -6,8 +6,10 @@ namespace ASDataManager.Library.Models
 {
     public class InvoiceDBModel
     {
+        public int Id { get; set; }
         public string InvoiceNumber { get; set; }
         public int ClientId { get; set; }
+        public int  SaleId { get; set; }
         public string Description { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime PaymentDueDate { get; set; }

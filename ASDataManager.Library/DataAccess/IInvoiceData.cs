@@ -5,8 +5,11 @@ namespace ASDataManager.Library.DataAccess
 {
     public interface IInvoiceData
     {
-        List<InvoiceDBModel> GetAllInvoices();
-        InvoiceDBModel GetInvoiceById(int id);
+        List<InvoiceModel> GetAllInvoices();
+        InvoiceModel GetInvoiceById(int id);
+        List<SaleDetailModel> GetInvoiceSaleDetails(int id);
         void SaveInvoiceRecord(InvoiceModel invoice, string cashierId);
+        void DeleteInvoiceRecord(int id);
+        void DeleteSaleDetail(int id);
     }
 }

@@ -6,6 +6,6 @@ begin
 
 	select Id, CashierId, SaleDate, SubTotal, Tax, Total
 	from dbo.Sale
-	Where Id = @Id;
+	Where Id = @Id and Active = 1;
 end
 

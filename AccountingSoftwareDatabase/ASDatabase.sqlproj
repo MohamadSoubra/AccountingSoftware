@@ -100,6 +100,11 @@
     <Build Include="dbo\Functions\Split.sql" />
     <Build Include="dbo\Stored Procedures\spSaleDetail_GetByInvoiceId.sql" />
     <Build Include="dbo\Stored Procedures\spSale_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\spSaleDetail_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\spClient_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\spSale_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\spSupplier_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\spInvoice_Delete.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ASDatabase.refactorlog" />

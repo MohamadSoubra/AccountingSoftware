@@ -9,5 +9,6 @@
     [PaymentDueDate] DATETIME2 NOT NULL, 
     [AmountDue] MONEY NOT NULL, 
     [Status] NVARCHAR(50) NOT NULL DEFAULT 'Pending',
+    [Active] BIT NULL DEFAULT 1, 
     CONSTRAINT [FK_Invoice_ToClient] FOREIGN KEY (ClientId) REFERENCES Client(Id) 
 )

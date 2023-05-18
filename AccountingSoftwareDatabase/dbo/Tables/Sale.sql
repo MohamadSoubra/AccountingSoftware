@@ -6,5 +6,6 @@
     [SubTotal] MONEY NOT NULL, 
     [Tax] MONEY NOT NULL, 
     [Total] MONEY NOT NULL, 
+    [Active] BIT NULL DEFAULT 1, 
     CONSTRAINT [FK_Sale_ToUser] FOREIGN KEY (CashierId) REFERENCES [User](Id)
 )

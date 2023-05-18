@@ -7,15 +7,6 @@ export class Client implements Identification {
   phoneNumber: string;
   address: string;
 
-  // constructor(client: Client) {
-  //   this.id = client.id || "";
-  //   this.firstName = client.firstName || "";
-  //   this.lastName = client.lastName || "";
-  //   this.emailAddress = client.emailAddress || "";
-  //   this.address = client.address || "";
-  //   this.phoneNumber = client.phoneNumber || "";
-  // }
-
   constructor({
     id = 0,
     firstName = "",

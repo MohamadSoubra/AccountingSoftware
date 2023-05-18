@@ -13,10 +13,10 @@ import { ApiHelperService } from "src/app/services/ApiHelper.service";
   styleUrls: ["./invoice.component.scss"],
 })
 export class InvoiceComponent implements OnInit {
-  InvoiceList = [];
+  InvoiceList :Invoice[];
   invoice: Invoice;
   client: Client;
-  productsTableColumns = [];
+  invoicesTableColumns = [];
   paginationSizes: any[];
   defaultPageSize: number;
   componentName: string = "Invoice";
@@ -25,142 +25,18 @@ export class InvoiceComponent implements OnInit {
   myControl = new FormControl();
   filteredClients: Observable<Client[]>;
 
-  Clients: Client[];
+  Clients: Client[] = [];
 
   constructor(private api: ApiHelperService) {}
 
   ngOnInit() {
-    this.Clients = this.api.getClients();
+    
+    this.initializeColumns();
+    // this.Clients = this.api.getClients();
+    // this.getClients();
     // console.log("this.Clients", this.Clients);
-
-    this.initializeColumns(this.editmode);
-
-    //this.getProducts();
-
-    const saledetails = [
-      {
-        id: "1004",
-        quantity: 10,
-        product: {
-          productName: "NewProduct",
-          description: "Added From Angular",
-          quantityInStock: 10,
-          id: "999",
-          isTaxable: false,
-          retailPrice: 9999,
-        },
-        price: 100,
-        amount: 1000,
-      },
-      {
-        id: "1005",
-        quantity: 10,
-        product: {
-          productName: "NewProduct",
-          description: "Added From Angular",
-          quantityInStock: 10,
-          id: "999",
-          isTaxable: false,
-          retailPrice: 9999,
-        },
-        price: 100,
-        amount: 1000,
-      },
-      {
-        id: "1006",
-        quantity: 10,
-        product: {
-          productName: "NewProduct",
-          description: "Added From Angular",
-          quantityInStock: 10,
-          id: "999",
-          isTaxable: false,
-          retailPrice: 9999,
-        },
-        price: 100,
-        amount: 1000,
-      },
-      {
-        id: "1007",
-        quantity: 10,
-        product: {
-          productName: "NewProduct",
-          description: "Added From Angular",
-          quantityInStock: 10,
-          id: "999",
-          isTaxable: false,
-          retailPrice: 9999,
-        },
-        price: 100,
-        amount: 1000,
-      },
-      {
-        id: "1008",
-        quantity: 10,
-        product: {
-          productName: "NewProduct",
-          description: "Added From Angular",
-          quantityInStock: 10,
-          id: "999",
-          isTaxable: false,
-          retailPrice: 9999,
-        },
-        price: 100,
-        amount: 1000,
-      },
-      {
-        id: "1009",
-        quantity: 10,
-        product: {
-          productName: "NewProduct",
-          description: "Added From Angular",
-          quantityInStock: 10,
-          id: "999",
-          isTaxable: false,
-          retailPrice: 9999,
-        },
-        price: 100,
-        amount: 1000,
-      },
-    ];
-    const InvoicestoDisplay = this.api.getInvoices();
-
-    if (!this.editmode) {
-      this.InvoiceList = InvoicestoDisplay.map((invoice) => {
-        let invoiceClient;
-        if(invoice.client){
-           invoiceClient = this.Clients.find(cl => cl.id === invoice.client["id"])
-        }
-        return {
-          id: invoice.id,
-          client: invoiceClient,
-          amountDue: invoice.amountDue,
-          description: invoice.description,
-          invoiceDate: invoice.invoiceDate,
-          invoiceNumber: invoice.invoiceNumber,
-          paymentDueDate: invoice.paymentDueDate,
-          status: invoice.status,
-        };
-      });
-    } else {
-      this.InvoiceList = saledetails;
-    }
-
-    // InvoicestoDisplay.forEach(invoice => {
-    //   this.InvoiceList.push(
-    //     {
-    //       invoiceNumber : invoice.invoiceNumber,
-    //       client : this.Clients.find(client => client.id == invoice.clientId),
-    //       amountDue : invoice.amountDue,
-    //       invoiceDate : invoice.invoiceDate,
-    //       paymentDueDate : invoice.paymentDueDate,
-    //       status : invoice.status,
-    //       sale : new Sale(),
-    //       description : invoice.description,
-    //       id : invoice.id
-    //     })
-
-    // })
+    this.getInvoices();
+  
 
     console.log("this.InvoiceList", this.InvoiceList);
 
@@ -171,6 +47,34 @@ export class InvoiceComponent implements OnInit {
       map((value) => (typeof value === "string" ? value : value.name)),
       map((name) => (name ? this._filter(name) : this.Clients.slice()))
     );
+  }
+
+  getInvoices(){
+    // this.getClients();
+    // console.log("this.Clients",this.Clients);                                          
+    
+    this.api.getInvoices().subscribe(invoices => {
+      this.api.getClients().subscribe(clients => {
+        console.log("clients in get invs", clients);
+        
+        invoices.map(inv => {
+          clients.map(cli =>{
+            if(inv.client.id === cli.id){
+              inv.client = cli;
+            }
+          })
+        })
+      })
+      
+      return this.InvoiceList = invoices
+      
+    })
+  }
+
+  getClients() {
+    this.api.getClients().subscribe(clients =>{
+      this.Clients = clients
+    })
   }
 
   displayFn(user: Client): string {
@@ -196,7 +100,7 @@ export class InvoiceComponent implements OnInit {
   //   );
   // }
 
-  initializeColumns(editmode: boolean): void {
+  initializeColumns(): void {
     //     Invoice {
     //
     //  Id: number;
@@ -207,46 +111,12 @@ export class InvoiceComponent implements OnInit {
     //  paymentDueDate: string;
     //  amountDue: string;
     // }
-    if (editmode === true) {
-      this.productsTableColumns = [
-        {
-          name: "Product Name",
-          dataKey: "product",
-          nestedProperty: "productName",
-          isSortable: true,
-          isFilterable: true,
-        },
-        {
-          name: "Description",
-          dataKey: "product",
-          nestedProperty: "description",
-          isSortable: true,
-          isFilterable: true,
-        },
-        {
-          name: "Quantity",
-          dataKey: "quantity",
-          isSortable: true,
-          isFilterable: true,
-        },
-        {
-          name: "Price",
-          dataKey: "price",
-          isSortable: true,
-          isFilterable: true,
-        },
-        {
-          name: "Amount",
-          dataKey: "amount",
-          isSortable: true,
-          isFilterable: true,
-        },
-      ];
-    } else {
-      this.productsTableColumns = [
+
+      this.invoicesTableColumns = [
         {
           name: "Invoice Number",
           dataKey: "invoiceNumber",
+          // dataKey: "id",
           isSortable: true,
           isFilterable: true,
         },
@@ -286,7 +156,15 @@ export class InvoiceComponent implements OnInit {
           isFilterable: true,
         },
       ];
-    }
+    
+  }
+
+  batchDelete(){
+
+  }
+
+  AddRecord(){
+    
   }
 
   edit(element: any) {

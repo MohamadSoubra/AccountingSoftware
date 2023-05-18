@@ -52,8 +52,8 @@
     display: block;
   }
   .mat-toolbar   {
-    .navbarLinks {
-      .nav-links, .nav-auth{
+    .navbarLinks , .navbar-nav{
+      .nav-links, .nav-auth, .navbar-text{
         display: none;
        
       }

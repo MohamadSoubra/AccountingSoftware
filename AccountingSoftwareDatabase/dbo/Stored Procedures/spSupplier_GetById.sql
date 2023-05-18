@@ -6,5 +6,5 @@ BEGIN
 
 	SELECT Id, SupplierName, FirstName, LastName, EmailAddress, [Address], PhoneNumber, Country, City
     FROM Supplier
-	WHERE Id = @Id;
+	WHERE Id = @Id and Active = 1;
 END

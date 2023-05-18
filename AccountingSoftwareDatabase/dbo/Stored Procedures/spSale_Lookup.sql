@@ -7,5 +7,5 @@ begin
 
 	select Id
 	from dbo.Sale
-	where CashierId = @CashierId and SaleDate = @SaleDate;
+	where CashierId = @CashierId and SaleDate = @SaleDate and Active = 1;
 end

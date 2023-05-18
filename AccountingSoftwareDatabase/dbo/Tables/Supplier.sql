@@ -9,5 +9,5 @@
     [PhoneNumber] NVARCHAR(50) NOT NULL, 
     [Country] NVARCHAR(50) NULL, 
     [City] NVARCHAR(50) NULL, 
-    [Active] BIT NOT NULL DEFAULT 1
+    [Active] BIT NULL DEFAULT 1
 )

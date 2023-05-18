@@ -48,29 +48,29 @@ export class AuthService {
     return this.http
       .post<AuthResponse>(this.rootUrl + "/token", params, options)
       .pipe(
-        tap((tokens) => {
-          //console.log(tokens);
+        tap((token) => {
+          // console.log("token", token);
 
-          //this.accessToken = JSON.parse(atob(tokens.token.split(".")[1]));
-          const decodedToken = this.decodeToken(tokens.token);
+          //this.accessToken = JSON.parse(atob(token.token.split(".")[1]));
+          const decodedToken = this.decodeToken(token.accessToken);
 
-          this.refreshTokenString = tokens.refreshToken;
+          this.refreshTokenString = token.refreshToken;
 
-          const user = new User(decodedToken.email, tokens.token);
+          const user = new User(decodedToken.email, token.accessToken);
 
           this.user.next(user);
 
-          //this.storeToken(tokens.token);
+          //this.storeToken(token.accessToken);
           this.tokenExpirationTimer = this.getTokenDuration(+decodedToken.exp);
           //console.log(`Token duration timer is ${this.tokenExpirationTimer}`);
 
-          //this.autoRefreshToken(this.tokenExpirationTimer, tokens.token);
+          //this.autoRefreshToken(this.tokenExpirationTimer, token.accessToken);
 
           this.autoRefreshToken(
             this.getTokenDuration(+decodedToken.exp),
-            tokens.token // + 7200000
+            token.accessToken // + 7200000
           );
-          localStorage.setItem("token", tokens.token);
+          localStorage.setItem("token", token.accessToken);
           //localStorage.setItem("userData", JSON.stringify(user));
         }),
         catchError((errorRes) => {
@@ -142,7 +142,7 @@ export class AuthService {
           // localStorage.setItem("token", tokens.token);
           // //this.autoRefreshToken(+decodedtoken.exp, tokens.token);
 
-          console.log("Token refreshed");
+          // console.log("Token refreshed");
         },
         (error) => {
           console.log(error);
@@ -240,8 +240,15 @@ export class AuthService {
   }
 
   decodeToken(token: string): accessToken {
-    const decodedToken = JSON.parse(atob(token.split(".")[1]));
-    return decodedToken;
+    if(!token){
+      return;
+    }else{
+
+      const decodedToken = JSON.parse(window.atob(token.split(".")[1]));
+      // console.log("decodedToken", decodedToken);
+      
+      return decodedToken;
+    }
   }
 
   redirecttoLogin() {

@@ -36,7 +36,7 @@ export class TokenInterceptorService implements HttpInterceptor {
           console.log("no User");
           return next.handle(request);
         }
-        console.log("User from token interceptor", user);
+        // console.log("User from token interceptor", user);
 
         // let modifiedReq = request.clone({
         //   setHeaders: {
