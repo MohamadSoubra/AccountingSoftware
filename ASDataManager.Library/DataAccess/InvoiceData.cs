@@ -24,9 +24,10 @@ namespace ASDataManager.Library.DataAccess
             _sql.SaveData<object>("dbo.spInvoice_Delete", new { Id = id }, "ASDatabase");
         }
 
-        public void DeleteSaleDetail(int id)
+        public void DeleteSaleDetails(List<string> Ids)
         {
-            _sql.SaveData<object>("dbo.spSaleDetail_Delete", new { Id = id }, "ASDatabase");
+            var Idsdel = String.Join(",", Ids);
+            _sql.SaveData<object>("dbo.spSaleDetail_Delete", new { Ids = Idsdel } , "ASDatabase");
         }
 
         public List<InvoiceModel> GetAllInvoices()
@@ -54,10 +55,22 @@ namespace ASDataManager.Library.DataAccess
         public InvoiceModel GetInvoiceById(int id)
         {
             var DBInvoice = _sql.LoadData<InvoiceDBModel, dynamic>("spInvoice_GetById", new { Id = id }, "ASDatabase").FirstOrDefault();
-            var resultinvoice = _sql.LoadData<InvoiceModel, dynamic>("spInvoice_GetById", new { Id = id }, "ASDatabase").FirstOrDefault();
-            resultinvoice.Sale = _sql.LoadData<SaleDBModel, dynamic>("spSale_GetById", new { Id = DBInvoice.SaleId }, "ASDatabase").FirstOrDefault();
-            resultinvoice.Client = _sql.LoadData<ClientModel, dynamic>("spClient_GetbyId", new { Id = DBInvoice.ClientId }, "ASDatabase").FirstOrDefault();
-            return resultinvoice;
+            var resultinvoice = new InvoiceModel();
+            if (DBInvoice != null)
+            {
+                resultinvoice.Id = DBInvoice.Id;
+                resultinvoice.InvoiceDate = DBInvoice.InvoiceDate;
+                resultinvoice.InvoiceNumber = DBInvoice.InvoiceNumber;
+                resultinvoice.PaymentDueDate = DBInvoice.PaymentDueDate;
+                resultinvoice.Status = DBInvoice.Status;
+                resultinvoice.AmountDue = DBInvoice.AmountDue;
+                resultinvoice.Description = DBInvoice.Description;
+                resultinvoice.Sale = _sql.LoadData<SaleDBModel, dynamic>("spSale_GetById", new { Id = DBInvoice.SaleId }, "ASDatabase").FirstOrDefault();
+                resultinvoice.Client = _sql.LoadData<ClientModel, dynamic>("spClient_GetbyId", new { Id = DBInvoice.ClientId }, "ASDatabase").FirstOrDefault();
+                resultinvoice.SaleDetails = GetInvoiceSaleDetails(id);
+
+            }
+                return resultinvoice;
         }
         
         public List<SaleDetailModel> GetInvoiceSaleDetails(int id)
@@ -66,7 +79,34 @@ namespace ASDataManager.Library.DataAccess
             return result;
         }
 
-        public void SaveInvoiceRecord(InvoiceModel invoice, string cashierId)
+        public void UpdateInvoiceRecord(InvoiceModel invoice, string cashierId, bool update)
+        {
+            var Invoicelookup = _sql.LoadData<InvoiceDBModel, dynamic>("spInvoice_GetById", new { Id = invoice.Id }, "ASDatabase").FirstOrDefault();
+            var clientLookup = _sql.LoadData<ClientModel, dynamic>("spClient_GetById", new { Id = invoice.Client.Id }, "ASDatabase").FirstOrDefault();
+            var SaleLookup = _sql.LoadData<SaleDBModel, dynamic>("spClient_GetById", new { Id = invoice.Sale.Id }, "ASDatabase").FirstOrDefault();
+
+            if (Invoicelookup != null)
+            {
+                if(update != true)
+                {
+                    throw new Exception("Invoice Already Exists");
+                }
+            }
+
+            if (clientLookup == null)
+            {
+                throw new Exception("This client does not exist");
+            }
+
+            if (SaleLookup == null)
+            {
+                throw new Exception("This Sale does not exist");
+            }
+
+
+        }
+
+        public void SaveInvoiceRecord(InvoiceModel invoice, string cashierId, bool update)
         {
 
             //Was copying what Tim corey had done in sale data but what I learned is
@@ -75,9 +115,15 @@ namespace ASDataManager.Library.DataAccess
             //Throwing an exception if Invoice exists in the database
             var Invoicelookup = _sql.LoadData<InvoiceDBModel, dynamic>("spInvoice_GetById", new { Id = invoice.Id }, "ASDatabase").FirstOrDefault();
             var clientLookup = _sql.LoadData<ClientModel, dynamic>("spClient_GetById", new { Id = invoice.Client.Id }, "ASDatabase").FirstOrDefault();
+            var SaleLookup = _sql.LoadData<SaleDBModel, dynamic>("spSale_Lookup", new { Id = invoice.Sale.Id, cashierId = invoice.Sale.CashierId }, "ASDatabase").FirstOrDefault();
+            //var SaleDetailLookup = _sql.LoadData<SaleDetailModel, dynamic>("spSaleDetail_GetByInvoiceId", new { Id = invoice.Id }, "ASDatabase");
+            var stdsToDelete = new List<int> { };
             if (Invoicelookup != null)
             {
-                throw new Exception("Invoice Already Exists");
+                if (update != true)
+                {
+                    throw new Exception("Invoice Already Exists");
+                }
             }
 
             if (clientLookup == null)
@@ -85,11 +131,19 @@ namespace ASDataManager.Library.DataAccess
                 throw new Exception("This client does not exist");
             }
 
+            if (SaleLookup == null)
+            {
+                throw new Exception("This Sale does not exist");
+            }
+            //if (SaleDetailLookup != null)
+            //{
+            //    var stdsToDelete2 = invoice.SaleDetails.Intersect(SaleDetailLookup);
+            //}
+
 
             InvoiceDBModel invoiceDB = new InvoiceDBModel {
-                Id = invoice.Id,
                 ClientId = invoice.Client.Id,
-                SaleId= invoice.Sale.Id,
+                SaleId = invoice.Sale.Id,
                 InvoiceNumber = invoice.InvoiceNumber,
                 Description = invoice.Description,
                 InvoiceDate = (DateTime)invoice.InvoiceDate,
@@ -98,20 +152,43 @@ namespace ASDataManager.Library.DataAccess
                 Status = invoice.Status
             };
 
+            
+
             try
             {
+                _sql.StartTransaction("ASDatabase");
 
-                invoice.Id = _sql.SaveData("spInvoice_Insert", invoiceDB, "ASDatabase");
-
-                if (invoice.Sale != null)
+                if (update == true && Invoicelookup != null)
                 {
-                    _saleData.SaveSale(invoice.SaleDetails, cashierId, invoice.Id);
+                    invoiceDB.Id = invoice.Id;
+                    _sql.SaveDataInTransaction("spInvoice_Update", invoiceDB);
+                    //_sql.SaveDataInTransaction("spSaleDetail_DeleteByInvoiceId", new { invoiceDB.Id });
                 }
-            }
-            catch (Exception)
-            {
+                else
+                {
+                    _sql.SaveDataInTransaction("spInvoice_Insert", invoiceDB);
+                }
 
+                _sql.CommitTransaction();
+            }
+            catch
+            {
+                _sql.RollbackTransaction();
                 throw;
+            }
+
+            if (invoice.Sale != null)
+            {
+                //invoiceDB.Id = _sql.LoadDataInTransaction<int, dynamic>("spInvoice_GetById", new { invoice.Id }).FirstOrDefault();
+
+                //foreach (var item in invoice.SaleDetails)
+                //{
+                //    // item.SaleId = sale.Id;
+
+                //    // Save the sale detail models
+                //    _sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
+                //}
+                _saleData.UpdateSaleDetails(invoice.SaleDetails, cashierId, invoiceDB.Id);
             }
 
 

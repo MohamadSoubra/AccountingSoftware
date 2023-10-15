@@ -8,8 +8,9 @@ namespace ASDataManager.Library.DataAccess
         List<InvoiceModel> GetAllInvoices();
         InvoiceModel GetInvoiceById(int id);
         List<SaleDetailModel> GetInvoiceSaleDetails(int id);
-        void SaveInvoiceRecord(InvoiceModel invoice, string cashierId);
+        void SaveInvoiceRecord(InvoiceModel invoice, string cashierId, bool update = false);
         void DeleteInvoiceRecord(int id);
-        void DeleteSaleDetail(int id);
+        void DeleteSaleDetails(List<string> Ids);
+        
     }
 }

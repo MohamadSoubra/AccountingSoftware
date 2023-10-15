@@ -95,7 +95,7 @@ namespace ASDesktopUI.ViewModels
                 var result = await _apiHelper.Authenticate(UserName, Password);
 
                 //capture more informaion about the user
-                await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+                await _apiHelper.GetLoggedInUserInfo(result.AccessToken);
 
                 await _events.PublishOnUIThreadAsync(new LogOnEvent(), new CancellationToken());
             }

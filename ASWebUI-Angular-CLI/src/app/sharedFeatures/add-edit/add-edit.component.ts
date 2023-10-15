@@ -1,15 +1,17 @@
+import { ObserversModule } from '@angular/cdk/observers';
 import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap,map } from 'rxjs/operators';
 import { Client } from 'src/app/models/client.model';
 import { Invoice } from 'src/app/models/invoice.model';
 import { SaleDetail } from 'src/app/models/sale-detail.model';
 import { Sale } from 'src/app/models/sale.model';
 import { ApiHelperService } from 'src/app/services/ApiHelper.service';
+import { TableDataSource } from '../table/table-datasource';
 import { TableColumn } from '../table/table.component';
 
 @Component({
@@ -21,7 +23,7 @@ export class AddEditComponent<T> implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private apiHelper: ApiHelperService,
+    private apiHelper: ApiHelperService<T>,
     private actroute: ActivatedRoute,
     private router: Router,
     private location: Location,
@@ -45,7 +47,7 @@ export class AddEditComponent<T> implements OnInit {
   selectInputValue: any;
   previousRoute: string;
   saledetailscolumns: TableColumn[];
-  saleDetailsData;
+  saleDetailsData: TableDataSource<T[]>;
   hasSailDetails: boolean = false;
   isSaleDetails: boolean = false;
   isInvoice: boolean = false;
@@ -57,9 +59,9 @@ export class AddEditComponent<T> implements OnInit {
 
   currentItemId: number;
 
-  subTotal: number;
-  tax: number;
-  total: number;
+  subTotal: number = 0;
+  tax: number = 0;
+  total: number= 0;
   // autoCompleteValue: any;
 
   IPO: Observable<T>;
@@ -125,7 +127,6 @@ export class AddEditComponent<T> implements OnInit {
       if (this.actroute.snapshot.params[""] === "invoices"){
         this.IPO = this.apiHelper.getByID<Invoice>(this.actroute.snapshot.params[""], this.actroute.snapshot.params["id"]).pipe(
           switchMap(invoice => {
-            // console.log("ivoice get by ID",invoice);
             
             const inv = new Invoice(invoice);
             // inv.client = invoice["client"];
@@ -136,24 +137,24 @@ export class AddEditComponent<T> implements OnInit {
             console.log("inv",inv);
             // console.log("inv client",inv);
             
+            return this.apiHelper.getRecords<T[]>('Saledetail', this.actroute.snapshot.params["id"]);
 
+            // return this.apiHelper.getRecords<T[]>('Saledetail',this.actroute.snapshot.params["id"]).pipe(
+            //   map((SALEDTS) => {
+            //     if (SALEDTS) {
 
-            return this.apiHelper.getSaleDetailsByInvoiceID(this.actroute.snapshot.params["id"]).pipe(
-              map(SALEDTS => {
-                if (SALEDTS) {
-
-                  inv.saleDetails = SALEDTS;
-                  this.saleDetailsData = SALEDTS;
-                }
-                // this.subTotal = inv.sale.subTotal;
-                // this.tax = inv.sale.tax;
-                // this.total = inv.sale.total;
-                // console.log("this.subTotal", this.subTotal);
-                // console.log("this.tax", this.tax);
-                // console.log("this.total", this.total);
-                return inv;
-              })
-            )
+            //       inv.saleDetails = SALEDTS;
+            //       // this.saleDetailsData = SALEDTS;
+            //     }
+            //     // this.subTotal = inv.sale.subTotal;
+            //     // this.tax = inv.sale.tax;
+            //     // this.total = inv.sale.total;
+            //     // console.log("this.subTotal", this.subTotal);
+            //     // console.log("this.tax", this.tax);
+            //     // console.log("this.total", this.total);
+            //     return inv;
+            //   })
+          //   )
           })
         );
       }else{
@@ -257,10 +258,37 @@ export class AddEditComponent<T> implements OnInit {
 
   displayFn(client: Client): string {
     // console.log("client from diplayfn before init", client);
-    client = new Client(client);
-    // console.log("client from diplayfn", client);
-
+    if(client){
+      client = new Client(client);
+    }else      client = new Client()        // console.log("client from diplayfn", client)
     return client && client.firstName || client.lastName ? client.getFullName() : '';
+  }
+
+  addSaleDetail(){
+    const newSaleDetail = new SaleDetail({invoiceId:162,productId:17,productName:"Product15", description:"Description",quantity:12,unitPrice:9,total:555});
+    // console.log("this.saleDetailsData.getValue()",this.saleDetailsData.value);
+    
+    // this.saleDetailsData.pipe(map((sds)=>{return sds.push(newSaleDetail)}))
+    // console.log("this.saleDetailsData.getValue()",this.saleDetailsData.value);
+    
+
+    // this.itemform.get("saleDetails").setValue(saleDetails);
+
+
+    
+    
+    // let SDs = this.itemform.get("saleDetails").value;
+    // console.log("SDs", SDs);
+    
+    // // console.log("SDs before",SDs);
+    // SDs = SDs.push(newSaleDetail);
+    // // console.log("SDs after",SDs);
+    // this.itemform.get("saleDetails").setValue(SDs);
+    // // console.log('this.displayItem.constructor.name',this.displayItem.constructor.name);
+    // this.saleDetailsData = SDs;
+    // this.apiHelper.saveSaleDetails([newSaleDetail]).subscribe();
+    // this._cdr.detectChanges();
+    // this.apiHelper.deleteRecord(element, "SaleDetail")
   }
 
   //this method is for getting the type of the object injected into this class
@@ -320,6 +348,7 @@ export class AddEditComponent<T> implements OnInit {
 
   }
 
+
   delete(element) {
     
     let SDs = this.itemform.get("saleDetails").value;
@@ -358,9 +387,9 @@ export class AddEditComponent<T> implements OnInit {
           if (prop === "client") {
             needSelectInput = true;
             this.isInvoice = true;
-            this.apiHelper.getClients().subscribe(clients => {
-              this.selectInputData = clients;
-            })
+            // this.apiHelper.getClients().subscribe(clients => {
+            //   this.selectInputData = clients;
+            // })
 
 
 
@@ -444,7 +473,7 @@ export class AddEditComponent<T> implements OnInit {
           }
 
         ]*/
-        SaleDetail
+        // SaleDetail
         this.saledetailscolumns = [
           {
             name: "Product Name",
@@ -492,11 +521,19 @@ export class AddEditComponent<T> implements OnInit {
 
         this.needTable = false;
         if (prop === "saleDetails") {
-          this.subTotal = object.subTotal
-          this.tax = object.tax
-          this.total = object.total
+          this.subTotal = object.sale?.subTotal
+          this.tax = object.sale?.tax
+          this.total = object.sale?.total
+
+          console.log("object for totals", object);
+          
           
           this.needTable = true;
+
+          console.log("object.saleDetails", object.saleDetails);
+          
+
+          // this.saleDetailsData = object.saleDetails;
 
           // console.log("object[\"saleDetails\"]", object["saleDetails"]);
           

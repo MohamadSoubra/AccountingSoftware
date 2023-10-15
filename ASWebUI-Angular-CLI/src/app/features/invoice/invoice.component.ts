@@ -1,10 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { Observable } from "rxjs";
+import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { Invoice } from "src/app/models/invoice.model";
 import { Client } from "src/app/models/client.model";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Identification } from "src/app/models/Identification.interface";
+import { TableDataSource } from "src/app/sharedFeatures/table/table-datasource";
 // import { TableColumn } from "../../Components/table/table.component";
 
 @Component({
@@ -12,8 +15,8 @@ import { ApiHelperService } from "src/app/services/ApiHelper.service";
   templateUrl: "./invoice.component.html",
   styleUrls: ["./invoice.component.scss"],
 })
-export class InvoiceComponent implements OnInit {
-  InvoiceList :Invoice[];
+export class InvoiceComponent<T extends Identification> implements OnInit {
+  InvoiceList$ : TableDataSource<T[]>;
   invoice: Invoice;
   client: Client;
   invoicesTableColumns = [];
@@ -27,7 +30,11 @@ export class InvoiceComponent implements OnInit {
 
   Clients: Client[] = [];
 
-  constructor(private api: ApiHelperService) {}
+  constructor(private api: ApiHelperService<T[][]>, private router: Router,
+    private actRout: ActivatedRoute,) {
+      api.recsType = "Invoice"
+      this.InvoiceList$ = new TableDataSource<T[]>(api);
+    }
 
   ngOnInit() {
     
@@ -35,10 +42,12 @@ export class InvoiceComponent implements OnInit {
     // this.Clients = this.api.getClients();
     // this.getClients();
     // console.log("this.Clients", this.Clients);
-    this.getInvoices();
+    // this.getInvoices();
+    
+    // this.InvoiceList$.FechData();
   
 
-    console.log("this.InvoiceList", this.InvoiceList);
+    console.log("this.InvoiceList", this.InvoiceList$);
 
     // const InvoiceArray = this.getdummyInvoices().map(i => i.clientname = i.client.firstName);
 
@@ -49,32 +58,36 @@ export class InvoiceComponent implements OnInit {
     );
   }
 
-  getInvoices(){
+  getInvoices(): void{
     // this.getClients();
     // console.log("this.Clients",this.Clients);                                          
     
-    this.api.getInvoices().subscribe(invoices => {
-      this.api.getClients().subscribe(clients => {
-        console.log("clients in get invs", clients);
+    // this.api.getInvoices().subscribe(invoices => {
+    //   this.api.getClients().subscribe(clients => {
+    //     console.log("clients in get invs", clients);
         
-        invoices.map(inv => {
-          clients.map(cli =>{
-            if(inv.client.id === cli.id){
-              inv.client = cli;
-            }
-          })
-        })
-      })
+    //     invoices.map(inv => {
+    //       clients.map(cli =>{
+    //         if(inv.client.id === cli.id){
+    //           inv.client = cli;
+    //         }
+    //       })
+    //     })
+    //   })
       
-      return this.InvoiceList = invoices
+    //   return this.InvoiceList = invoices
       
-    })
+    // })
+
+    this.api.getInvoices()
+
   }
 
   getClients() {
-    this.api.getClients().subscribe(clients =>{
-      this.Clients = clients
-    })
+    // this.api.getClients().subscribe(clients =>{
+    //   this.Clients = clients
+    // })
+    this.api.getClients()
   }
 
   displayFn(user: Client): string {
@@ -164,6 +177,9 @@ export class InvoiceComponent implements OnInit {
   }
 
   AddRecord(){
+    this.router.navigate(["./", 0], {
+      relativeTo: this.actRout,
+    });
     
   }
 
@@ -172,8 +188,8 @@ export class InvoiceComponent implements OnInit {
   }
 
   delete(element) {
-    this.InvoiceList = this.InvoiceList.filter((el) => el !== element);
-    console.log("this.InvoiceList AFTER DELETE", this.InvoiceList);
+    // this.InvoiceList$ = this.InvoiceList$.filter((el) => el !== element);
+    // console.log("this.InvoiceList AFTER DELETE", this.InvoiceList);
   }
 
   toggleEditmode() {

@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Identification } from 'src/app/models/Identification.interface';
 import { Supplier } from 'src/app/models/supplier.model';
 import { ApiHelperService } from 'src/app/services/ApiHelper.service';
+import { TableDataSource } from 'src/app/sharedFeatures/table/table-datasource';
 
 @Component({
   selector: "app-suppliers",
   templateUrl: "./suppliers.component.html",
   styleUrls: ["./suppliers.component.scss"],
 })
-export class SuppliersComponent implements OnInit {
-  suppliersList: Supplier[];
+export class SuppliersComponent<T extends Identification> implements OnInit {
+  suppliersList$: TableDataSource<T[]>;
   suppliersTableColumns: any = [
     {
       name: "Name",
@@ -52,7 +55,7 @@ export class SuppliersComponent implements OnInit {
   ];
   componentName: string = "Supplier";
 
-  constructor(private api: ApiHelperService) {}
+  constructor(private api: ApiHelperService<T>) {}
 
   ngOnInit() {
     // this.suppliersList = this.api.getSuppliers();

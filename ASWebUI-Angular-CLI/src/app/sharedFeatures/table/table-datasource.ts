@@ -6,33 +6,37 @@ import { Observable, of as observableOf, merge, BehaviorSubject } from "rxjs";
 import { Identification } from "src/app/models/Identification.interface";
 import { MatTableDataSource } from "@angular/material/table";
 import { EventEmitter } from "@angular/core";
+import { ApiHelperService } from "src/app/services/ApiHelper.service";
+import { Invoice } from "src/app/models/invoice.model";
 
 /**
  * Data source for the Testtable view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class TableDataSource<T extends Identification> extends DataSource<any> {
-  public data: any;
+export class TableDataSource<T> extends DataSource<T> {
+  id:number;
+  // public data: any;
   test: MatTableDataSource<T>;
   // paginator: MatPaginator;
   // sort: MatSort;
   paginator: MatPaginator;
   sort: MatSort;
-  filterChange$: BehaviorSubject<any> = new BehaviorSubject<any>("");
+  filterChange$: BehaviorSubject<string> = new BehaviorSubject<string>("");
   public DATA$: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
 
   // filter: string;
   // columnName: string;
   // filterObject: any;
-
-  constructor(datasource: T[] = []) {
+  //datasource: T[] = [], 
+  constructor(private apihelper: ApiHelperService<T[]>) {
     super();
     //this.data = datasource;
     //this.DATA$ = new BehaviorSubject(datasource);
-    this.DATA$.next(datasource)
+    //this.DATA$.next(datasource)
 
     // this._changedetectorref.detectChanges();
+
   }
 
   /**
@@ -41,36 +45,35 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    * @returns A stream of the items to be rendered.
    */
   connect(): Observable<T[]> {
+    
     // return this.DATA$;
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
+/*
+    let dataMutations = [
+      // observableOf(this.data),
+      this.DATA$,
+      this.filterChange$,
+      this.sort?.sortChange,
+      this.paginator?.page
+    ];
 
-    // let dataMutations = [
-    //   // observableOf(this.data),
-    //   this.DATA$,
-    //   this.filterChange$,
-    //   this.sort?.sortChange,
-    //   this.paginator.page
-    // ];
+    return merge(...dataMutations);
+*/
 
-    // let dataMutations;
-
-    // if(this.paginator && this.sort ){
-    //   dataMutations = [this.DATA$, this.filterChange$, this.paginator.page, this.sort.sortChange];
-    // }else{
-    //   dataMutations = [this.DATA$, this.filterChange$];
-    // }
-
+    
     let dataMutations;
 
     if (this.sort && this.paginator) {
+      console.log("Sort and Paginator");
+      
       dataMutations = [
         this.DATA$,
         this.filterChange$,
         this.sort.sortChange,
         this.paginator.page,
       ];
-
+      
       return merge(...dataMutations).pipe(
         map(() => {
           return this.getSortedData(
@@ -79,31 +82,37 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
         })
       );
     } else if (!this.sort && this.paginator) {
+      console.log("Paginator Only");
       dataMutations = [this.DATA$, this.filterChange$, this.paginator.page];
       return merge(...dataMutations).pipe(
         map(() => {
           return this.getPagedData(this.getFilteredData([...this.DATA$.value]));
         })
-      );
+        );
     } else if (!this.paginator && this.sort) {
-      dataMutations = [this.DATA$, this.filterChange$, this.sort.sortChange];
-
-      return merge(...dataMutations).pipe(
-        map(() => {
-          return this.getSortedData(
-            this.getFilteredData([...this.DATA$.value])
-          );
-        })
-      );
-    } else if (!this.paginator && !this.sort) {
-      dataMutations = [this.DATA$, this.filterChange$];
-
-      return merge(...dataMutations).pipe(
-        map(() => {
+        console.log("Sort Only");
+        dataMutations = [this.DATA$, this.filterChange$, this.sort.sortChange];
+        
+        return merge(...dataMutations).pipe(
+          map(() => {
+            return this.getSortedData(
+              this.getFilteredData([...this.DATA$.value])
+              );
+            })
+            );
+          } else if (!this.paginator && !this.sort) {
+            console.log("NO Sort or Paginator");
+            dataMutations = [this.DATA$, this.filterChange$];
+            
+            return merge(...dataMutations).pipe(
+              map(() => {
           return this.getFilteredData([...this.DATA$.value]);
         })
       );
     }
+    console.log(this.DATA$);
+    console.log("END OF CONNECT");
+    
 
     // if(this.paginator){
     //   dataMutations.push(new BehaviorSubject(this.paginator.page));
@@ -138,30 +147,13 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
 
   }
 
-  // mutateData(): Observable<T[]>{
-
-  //   let dataMutations = [
-  //     // observableOf(this.data),
-  //     this.DATA$,
-  //     this.filterChange$,
-  //     this.paginator.page, 
-  //     this.sort.sortChange
-  //   ];
-
-
-  //   return merge(...dataMutations).pipe(
-  //     map(() => {
-  //         return this.getPagedData(this.getFilteredData(this.getSortedData([...this.DATA$.value])))
-  //     }))
-
-
-  // }
-
   /**
    *  Called when the table is being destroyed. Use this function, to clean up
    * any open connections or free any held resources that were set up during connect.
    */
-  disconnect() { }
+  disconnect() {
+    this.DATA$.complete();
+   }
 
   /**
    * Paginate the data (client-side). If you're using server-side pagination,
@@ -169,12 +161,12 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
    */
   private getPagedData(data: T[]) {
     // if(this.paginator){
+      // console.log(`this.paginator is ${this.paginator}`);
+      // console.log(`this.paginator.pageSize is ${this.paginator.pageSize}`);
+      // console.log(`this.paginator.pageIndex is  ${this.paginator.pageIndex}`);
+      // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
 
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-    // console.log(`this.paginator is ${this.paginator}`);
-    // console.log(`this.paginator.pageSize is ${this.paginator.pageSize}`);
-    // console.log(`this.paginator.pageIndex is  ${this.paginator.pageIndex}`);
-    // console.log(`this.paginator.getNumberOfPages is  ${this.paginator.getNumberOfPages()}`);
     if (
       data.length - startIndex < this.paginator.pageSize &&
       data.length > this.paginator.pageSize) {
@@ -192,6 +184,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
 
     // console.log(JSON.stringify(data));
     return data.splice(startIndex, this.paginator.pageSize);
+
     // }
 
   }
@@ -217,6 +210,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
         this.sort.direction === "asc"
       );
     });
+
     // }
   }
 
@@ -280,7 +274,7 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
     // );
   }
 
-  setData(data: T[]) {
+  setData(data: T[]): void {
     this.DATA$.next(data);
   }
 
@@ -294,4 +288,34 @@ export class TableDataSource<T extends Identification> extends DataSource<any> {
       (b === "" ? -1 : 1)
     );
   }
+
+  FechData(): void{
+    // this.apihelper.getInvoices().subscribe(data =>{
+    //   this.DATA$.next(data);
+    // })
+    this.apihelper.getRecords<T>(this.apihelper.recsType).subscribe(recs => {
+      // if (this.sort && this.paginator) {
+    
+
+      //   return this.DATA$.next(this.getSortedData(this.getPagedData(this.getFilteredData(recs))));
+        
+      // } else if (!this.sort && this.paginator) {
+       
+      //   return this.DATA$.next(this.getPagedData(this.getFilteredData(recs)));
+
+      // } else if (!this.paginator && this.sort) {
+
+      //   return this.DATA$.next(this.getSortedData(this.getFilteredData(recs)));
+
+      // } else if (!this.paginator && !this.sort) {
+      //   return this.DATA$.next(this.getFilteredData(recs));
+      // }
+      this.DATA$.next(recs);
+
+    })
+    console.log("this.DATA$ in table-datasource",this.DATA$);
+    
+  }
+
+
 }

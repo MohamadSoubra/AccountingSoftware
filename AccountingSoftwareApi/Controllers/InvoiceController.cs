@@ -60,6 +60,16 @@ namespace AccountingSoftwareApi.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             _invoiceData.SaveInvoiceRecord(invoice, userId);
+        } 
+
+        [Authorize(Roles = "Admin")]
+        [Route("UpdateInvoice")]
+        [HttpPut]
+        public void UpdateInvoice([FromBody] InvoiceModel invoice)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            _invoiceData.SaveInvoiceRecord(invoice, userId, true);
         }
 
         [Authorize(Roles = "Accountant")]
@@ -73,9 +83,9 @@ namespace AccountingSoftwareApi.Controllers
         [Authorize(Roles = "Accountant")]
         [Route("DeleteSaleDetail")]
         [HttpDelete]
-        public void DeleteSaleDetial([FromBody] int SaleDetailId)
+        public void DeleteSaleDetial([FromBody] List<string> SaleDetailIds)
         {
-            _invoiceData.DeleteSaleDetail(SaleDetailId);
+            _invoiceData.DeleteSaleDetails(SaleDetailIds);
         }
 
     }

@@ -1,9 +1,11 @@
-import { Identification } from "./Identification.interface";
+import { Identification } from "src/app/models/Identification.interface";
 import { Product } from "./product.model"
 
 
 export class SaleDetail implements Identification {
   id?: number;
+  productId: number;
+  invoiceId: number;
   productName: string;
   description: string;
   quantity: number;
@@ -13,6 +15,8 @@ export class SaleDetail implements Identification {
   
   constructor({
     id = 0,
+    invoiceId = 0,
+    productId=0,
     productName = "",
     description = "",
     quantity = 0,
@@ -21,6 +25,8 @@ export class SaleDetail implements Identification {
     tax = 0,
   } = {}) {
     this.id = id;
+    this.invoiceId = invoiceId;
+    this.productId = productId;
     this.productName = productName;
     this.description = description;
     this.quantity = quantity;

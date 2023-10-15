@@ -3,39 +3,42 @@ import { ApiHelperService } from "src/app/services/ApiHelper.service";
 import { Product } from "src/app/models/product.model";
 // import { TableColumn } from "../table/table.component";
 import { CurrencyPipe, DecimalPipe } from "@angular/common";
+import { Observable } from "rxjs";
+import { Identification } from "src/app/models/Identification.interface";
+import { TableDataSource } from "src/app/sharedFeatures/table/table-datasource";
 
 @Component({
   selector: "app-products", 
   templateUrl: "./products.component.html",
   styleUrls: ["./products.component.scss"],
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent<T extends Identification> implements OnInit {
   //productList: Product[] = [
-  productList: Product[];
+  productList$: TableDataSource<T[]>;
   productsTableColumns = [];
   paginationSizes: any[];
   defaultPageSize: number;
   componentName: string = "Product";
   
 
-  constructor(private api: ApiHelperService) {}
+  constructor(private api: ApiHelperService<T>) {}
 
   ngOnInit() {
     this.initializeColumns();
     
     this.getProducts();
     // this.productList = this.api.getProducts();
-    console.log("this.productList", this.productList);
+    console.log("this.productList", this.productList$);
     
   }
 
   getProducts() {
-    this.api.getProducts().subscribe(x => { this.productList = x},
-      (error) => {
-        console.log("from products component", error);
-      }
-    );
-    
+    // this.api.getProducts().subscribe(x => { this.productList = x},
+    //   (error) => {
+    //     console.log("from products component", error);
+    //   }
+    // );
+    this.api.getProducts()
   }
 
   initializeColumns(): void {
@@ -99,8 +102,9 @@ export class ProductsComponent implements OnInit {
     //     console.log(error);
     //   }
     // );
-    this.productList = this.productList.filter(el => el !== element);
-    console.log("this.productList AFTER DELETE", this.productList);
+
+    // this.productList$ = this.productList$.filter(el => el !== element);
+    // console.log("this.productList AFTER DELETE", this.productList);
     
   }
 

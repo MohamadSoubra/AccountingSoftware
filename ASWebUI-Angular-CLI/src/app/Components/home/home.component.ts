@@ -1,4 +1,5 @@
 import { Component, isDevMode, OnInit } from "@angular/core";
+import { Identification } from "src/app/models/Identification.interface";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
 
 @Component({
@@ -6,7 +7,7 @@ import { ApiHelperService } from "src/app/services/ApiHelper.service";
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent<T extends Identification> implements OnInit {
   //user: User = {username : " ", password : " "};
   data = [
     { id: 1, name: "Hydrogen" },
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
     { id: 20, name: "Calcium" },
   ];
 
-  constructor(private api: ApiHelperService) {}
+  constructor(private api: ApiHelperService<T>) {}
 
   ngOnInit() {}
 }

@@ -1,33 +1,39 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { catchError, tap, mapTo, map, exhaustMap, take } from "rxjs/operators";
-import { throwError, of, Observable } from "rxjs";
+import { throwError, of, Observable, BehaviorSubject } from "rxjs";
 import { Product } from "../models/product.model";
 import { AuthService } from "../auth/auth.service";
 import { Client } from "../models/client.model";
 import { Invoice } from "../models/invoice.model";
 import { Supplier } from "../models/supplier.model";
 import { SaleDetail } from "../models/sale-detail.model";
-import { ProductsComponent } from "../components/products/products.component";
+import { Identification } from "../models/Identification.interface";
 
 @Injectable({
   providedIn: "root",
 })
-export class ApiHelperService {
+
+export class ApiHelperService<T> {
   rootUrl: string = "https://localhost/AccountingSoftwareApi";
   objectbyId: any;
+  // Data$: BehaviorSubject<Product[]|Client[]|Supplier[]|Invoice[]>;
+  Data$: BehaviorSubject<T[]>;
+  recsType :string;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) {
+    
+  }
 
 
 
 
-  getProducts() {
+  getProducts(): Observable<T[]> {
     // return this.ParseJSONArray(this.fakeProducts);
 
-    return this.http.get(`${this.rootUrl}/api/product`).pipe(
-      map((products: Product[]) => {
-        return products;
+    return this.http.get<T[]>(`${this.rootUrl}/api/product`).pipe(
+      map((products: T[]) => {
+        return products
       }),
       catchError((error) => {
         console.log("error from api helper");
@@ -73,40 +79,75 @@ export class ApiHelperService {
     // );
   }
 
-  getClients() {
+  getClients() : void {
+  // getClients() : Observable<Client[]> {
     // return this.ParseJSONArray(this.fakeClients);
 
-    return this.http.get(`${this.rootUrl}/api/client`).pipe(
-      map((clients: Client[]) => {
-        return clients;
+    // return this.http.get(`${this.rootUrl}/api/client`).pipe(
+    //   map((clients: Client[]) => {
+    //     return clients;
+    //   }),
+    //   catchError((error) => {
+    //     console.log("error from api helper");
+
+    //     console.log(error);
+
+    //     return throwError(error);
+    //   })
+    // );
+
+    // return this.http.get<Client[]>(`${this.rootUrl}/api/client`)
+    this.http.get<T[]>(`${this.rootUrl}/api/client`).pipe(
+      map((clients: T[]) => {
+        this.Data$.next(clients);
       }),
       catchError((error) => {
         console.log("error from api helper");
-
         console.log(error);
-
         return throwError(error);
       })
     );
   }
 
-  getInvoices() {
+  getInvoices<T>(): Observable<T[]> {
+  // getInvoices(): Observable<Invoice[]> {
 
     // return this.ParseJSONArray(this.fakeInvoices);
     // return this.fakeInvoices;
-    return this.http.get(`${this.rootUrl}/api/invoice`).pipe(
-      map((invoices: Invoice[]) => {
-        return invoices;
-      }),
-      catchError((error) => {
-        console.log("error from api helper");
 
-        console.log(error);
+    // return this.http.get(`${this.rootUrl}/api/invoice`).pipe(
+    //   map((invoices: Invoice[]) => {
+    //     return invoices;
+    //   }),
+    //   catchError((error) => {
+    //     console.log("error from api helper");
 
-        return throwError(error);
-      })
-    );
+    //     console.log(error);
+
+    //     return throwError(error);
+    //   })
+    // );
+
+    // const res = this.http.get<Invoice[]>(`${this.rootUrl}/api/invoice`)
+    // console.log("res", res);
+    // return res;
+
+    // return this.http.get<Invoice[]>(`${this.rootUrl}/api/invoice`).pipe(
+    //   map((invoices: Invoice[]) => {
+    //     // this.Data$.next(invoices);
+    //   }),
+    //   catchError((error) => {
+    //     console.log("error from api helper");
+    //     console.log(error);
+    //     return throwError(error);
+    //   })
+    // );
+    return this.http.get<T[]>(`${this.rootUrl}/api/invoice`);
+    // return of();
+
+    
   }
+
 
   saveInvoice(invoice : Invoice){
     return
@@ -127,6 +168,10 @@ export class ApiHelperService {
     return
     // let supplierToUpdate = this.fakeSuppliers.find(inv => inv.id === supplier.id)
     // this.update(supplierToUpdate, supplier);
+  }
+
+  saveSaleDetails(SaleDetail: SaleDetail[]) {
+    return this.http.post<SaleDetail[]>(`${this.rootUrl}/api/Sale`, SaleDetail)
   }
 
   saveRecord(object: any) {
@@ -161,6 +206,43 @@ export class ApiHelperService {
 
   }
 
+  // getRecords(object: any): Observable<Product[] | Client[] | Supplier[] | Invoice[]> {
+  getRecords<T>(type:string, invoiceID : number = 0): Observable<T[]> {
+    // let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
+    // this.update(invoiceToUpdate, object);
+    console.log(type);
+
+    // console.log("object.constructor.name", object.constructor.name);
+    switch (type) {
+      case "Product":
+        console.log("Product");
+        // return this.getProducts();
+        break;
+      case "Client":
+        console.log("Client");
+        this.getClients();
+        break;
+      case "Supplier":
+        console.log("Supplier");
+         this.getSuppliers();
+        break;
+      case "Invoice":
+        console.log("Invoice");
+        return this.getInvoices<T>();
+        break;
+      case "Saledetail":
+        console.log("Saledetail");
+        return this.getSaleDetailsByInvoiceID<T>(invoiceID);
+        break;
+      default:
+        {
+          console.log("default");
+        }
+        break;
+    }
+
+  }
+
   deleteInvoice(invoice : Invoice){
     const httpOptions = {
       headers: new HttpHeaders({
@@ -176,7 +258,7 @@ export class ApiHelperService {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
       }),
-      body: saleDetail.id,
+      body: [`${saleDetail.id}`],
     };
     return this.http.delete(`${this.rootUrl}/api/invoice/DeleteSaleDetail/`, httpOptions).subscribe();
   }
@@ -232,26 +314,27 @@ export class ApiHelperService {
 
   }
 
-  getSaleDetailsByInvoiceID(ID){
+  getSaleDetailsByInvoiceID<T>(ID){
     let params = new HttpParams({});
     params = params.append("InvoiceId", ID);
 
-    return this.http.get(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params }).pipe(
-      map((saleDetails: SaleDetail[]) => {
-        // console.log("invoice get by id",invoice);
-        return saleDetails;
-      }),
-      catchError((error) => {
-        console.log("error from api helper");
+    return this.http.get<T[]>(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params })
+    // return this.http.get(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params }).pipe(
+    //   map((saleDetails: SaleDetail[]) => {
+    //     // console.log("invoice get by id",invoice);
+    //     return saleDetails;
+    //   }),
+    //   catchError((error) => {
+    //     console.log("error from api helper");
 
-        console.log(error);
+    //     console.log(error);
 
-        return throwError(error);
-      })
-    );
+    //     return throwError(error);
+    //   })
+    // );
   }
 
-  getSuppliers() {
+  getSuppliers(): Observable<Supplier[]> {
     // console.log("this.ParseJSONArray(this.fakeSuppliers)",this.ParseJSONArray(this.fakeSuppliers));
     // return this.ParseJSONArray(this.fakeSuppliers);
 
@@ -266,7 +349,7 @@ export class ApiHelperService {
     //   })
     // );
 
-    return this.http.get(`${this.rootUrl}/api/supplier`).pipe(
+    return this.http.get<Supplier[]>(`${this.rootUrl}/api/supplier`).pipe(
       map((suppliers: Supplier[]) => {
         return suppliers;
       }),

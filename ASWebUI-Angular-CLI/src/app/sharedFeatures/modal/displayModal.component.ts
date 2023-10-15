@@ -23,7 +23,7 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
     @Inject(MAT_DIALOG_DATA) public displayItem,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private apiHelper: ApiHelperService
+    private apiHelper: ApiHelperService<T>
   ) {}
 
   Title: string = "NO-ID";

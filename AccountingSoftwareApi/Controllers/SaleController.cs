@@ -26,11 +26,11 @@ namespace AccountingSoftwareApi.Controllers
 
         [Authorize(Roles = "Accountant")]
         [HttpPost]
-        public void Post(SaleModel sale)
+        public void Post(List<SaleDetailModel> sales)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            _saleData.SaveSale(sale, userId, null);
+            _saleData.SaveSale(sales, userId);
         }
 
         [Authorize(Roles = "Admin,Manager")]
@@ -39,6 +39,8 @@ namespace AccountingSoftwareApi.Controllers
         public List<SaleReportModel> GetSalesReport()
         {
             return _saleData.GetSaleReport();
-        }
+        }  
+        
+
     }
 }

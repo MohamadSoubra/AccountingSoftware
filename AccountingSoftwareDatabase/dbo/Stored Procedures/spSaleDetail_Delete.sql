@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[spSaleDetail_Delete]
-	@Id nvarchar(max)
+	@Ids nvarchar(max)
 
 AS
 begin
 	set nocount on;
-	update SaleDetail set Active = 0 WHERE Id = @Id
+	update SaleDetail set Active = 0 where Id IN (SELECT DATA FROM dbo.Split( @Ids,','));
 end
 GO
 

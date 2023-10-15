@@ -22,23 +22,38 @@ namespace ASDataManager.Library.DataAccess
             _config = config;
         }
 
-        public void SaveSale(SaleModel saleInfo, string cashierId, int? invoiceId = null)
+        public SaleDBModel GetSaleById(int id)
+        {
+            return new SaleDBModel { Id = id };
+        }
+
+        public void DeleteSaleDetails(List<string> Ids)
+        {
+            _sql.SaveData<object>("dbo.spSaleDetail_Delete", new { Ids = Ids }, "ASDatabase");
+        }
+
+        public void SaveSale(List<SaleDetailModel> saleInfo, string cashierId)
         {
             // TODO: Make this SOLID/DRY/Better
             // Start filling in the models we will save to the database
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
             //var taxRate = _configHelper.GetTaxRate() / 100;
+
+
+
             ConfigHelper cf = new ConfigHelper(_config);
 
             var taxRate = cf.GetTaxRate() / 100;
            
-            foreach (var item in saleInfo.SaleDetails)
+            foreach (var item in saleInfo)
             {
+                //find if the saledetail 
                 var detail = new SaleDetailDBModel
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
-                    InvoiceId = invoiceId
+                    InvoiceId = item.InvoiceId,
+                    Description = item.Description,
                 };
 
                 // Get the information about this product
@@ -82,7 +97,7 @@ namespace ASDataManager.Library.DataAccess
                 // Finish filling in the sale detail models
                 foreach (var item in details)
                 {
-                    item.SaleId = sale.Id;
+                   // item.SaleId = sale.Id;
 
                     // Save the sale detail models
                     _sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
@@ -96,6 +111,29 @@ namespace ASDataManager.Library.DataAccess
                 throw;
             }
 
+        }
+
+        public void UpdateSaleDetails(List<SaleDetailModel> saleDetails, string cashierId, int InvoiceID)
+        {
+
+
+            if(saleDetails != null)
+            {
+                var SaleDetailDBIDs = _sql.LoadData<SaleDetailModel, dynamic>("spSaleDetail_GetByInvoiceId", new { Id = InvoiceID }, "ASDatabase").Select(sd => sd.id).ToList();
+                var SDsIds = saleDetails.Select(insd => insd.id).ToList();
+                var SDstoDelete = SaleDetailDBIDs.Except(SDsIds).ToList();
+                var SDstoInsert = SDsIds.Except(SaleDetailDBIDs).Intersect(SaleDetailDBIDs.Except(SDsIds)).ToList();
+
+                var sdsdbexsdsid = SDsIds.Except(SaleDetailDBIDs).ToList();
+                var sdsidexsdsdb = SaleDetailDBIDs.Except(SDsIds).ToList();
+
+                if (SDstoDelete != null)
+                {
+                    //_sql.SaveData<object>("dbo.spSaleDetail_Delete", new { Ids = SDstoDelete }, "ASDatabase");
+                }
+
+                //this.SaveSale(saleDetails, cashierId, InvoiceID);
+            }
         }
 
         public List<SaleReportModel> GetSaleReport()

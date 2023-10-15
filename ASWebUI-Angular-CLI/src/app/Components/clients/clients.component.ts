@@ -1,34 +1,40 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, observable } from 'rxjs';
 import { Client } from 'src/app/models/client.model';
+import { Identification } from 'src/app/models/Identification.interface';
 import { ApiHelperService } from 'src/app/services/ApiHelper.service';
+import { TableDataSource } from 'src/app/sharedFeatures/table/table-datasource';
 
 @Component({
   selector: "app-clients",
   templateUrl: "./clients.component.html",
   styleUrls: ["./clients.component.scss"],
 })
-export class ClientsComponent implements OnInit {
-  clientList: Client[];
+export class ClientsComponent<T extends Identification> implements OnInit {
+  clientList$ : TableDataSource<T[]>;
   clientTableColumns: any;
   componentName: string = "Client";
   paginationSizes: any[];
   defaultPageSize: number;
-  constructor(private api: ApiHelperService) {}
+  constructor(private api: ApiHelperService<T>) {
+
+    // this.clientList$ = this.api.getClients();
+    this.api.getClients();
+  }
 
   ngOnInit() {
-    // this.clientList = this.api.getClients();
     this.initializeColumns();
-    this.getClients();
-    console.log("this.clientList", this.clientList);
+    //this.getClients();
+    console.log("this.clientList", this.clientList$);
     
   }
 
   getClients() {
-    this.api.getClients().subscribe(x => { this.clientList = x },
-      (error) => {
-        console.log("from products component", error);
-      }
-    );
+    // this.api.getClients().subscribe(x => { this.clientList = x },
+    //   (error) => {
+    //     console.log("from products component", error);
+    //   }
+    // );
   }
 
   edit(client){

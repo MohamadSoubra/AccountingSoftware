@@ -105,6 +105,8 @@
     <Build Include="dbo\Stored Procedures\spSale_Delete.sql" />
     <Build Include="dbo\Stored Procedures\spSupplier_Delete.sql" />
     <Build Include="dbo\Stored Procedures\spInvoice_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\spInvoice_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spSaleDetail_DeleteByInvoiceId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ASDatabase.refactorlog" />

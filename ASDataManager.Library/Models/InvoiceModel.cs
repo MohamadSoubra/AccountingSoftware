@@ -10,7 +10,7 @@ namespace ASDataManager.Library.Models
         public string InvoiceNumber { get; set; }
         public ClientModel Client { get; set; }
         public SaleDBModel Sale { get; set; }
-        public SaleModel SaleDetails { get; set; }
+        public List<SaleDetailModel> SaleDetails { get; set; }
         public string Description { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public DateTime? PaymentDueDate { get; set; }

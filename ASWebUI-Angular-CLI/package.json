@@ -39,7 +39,8 @@
     "@angular/compiler-cli": "^13.1.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ng serve --port=44359 --open true"
   },
   "author": "",
   "license": "ISC"

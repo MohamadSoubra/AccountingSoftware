@@ -28,7 +28,7 @@ export class Invoice implements Identification {
   constructor({
     id = 0,
     invoiceNumber = "",
-    client = null,
+    client = new Client(),
     // clientId = 0,
     description = "",
     invoiceDate = "",
@@ -36,7 +36,7 @@ export class Invoice implements Identification {
     amountDue = 0,
     status = "Pending",
     saleDetails = [],
-    sale = null
+    sale = new Sale()
   } = {}) {
     this.id = id;
     this.invoiceNumber = invoiceNumber;
