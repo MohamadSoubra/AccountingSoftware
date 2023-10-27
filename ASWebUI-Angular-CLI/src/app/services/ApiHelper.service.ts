@@ -20,6 +20,7 @@ export class ApiHelperService<T> {
   // Data$: BehaviorSubject<Product[]|Client[]|Supplier[]|Invoice[]>;
   Data$: BehaviorSubject<T[]>;
   recsType :string;
+  recID: number;
 
   constructor(private http: HttpClient, private authService: AuthService) {
     
@@ -128,9 +129,9 @@ export class ApiHelperService<T> {
     //   })
     // );
 
-    // const res = this.http.get<Invoice[]>(`${this.rootUrl}/api/invoice`)
-    // console.log("res", res);
-    // return res;
+    const res = this.http.get<T[]>(`${this.rootUrl}/api/invoice`)
+    console.log(" getInvoices result", res);
+    return res;
 
     // return this.http.get<Invoice[]>(`${this.rootUrl}/api/invoice`).pipe(
     //   map((invoices: Invoice[]) => {
@@ -142,14 +143,14 @@ export class ApiHelperService<T> {
     //     return throwError(error);
     //   })
     // );
-    return this.http.get<T[]>(`${this.rootUrl}/api/invoice`);
+    // return this.http.get<T[]>(`${this.rootUrl}/api/invoice`);
     // return of();
 
     
   }
 
 
-  saveInvoice(invoice : Invoice){
+  saveInvoice(invoice: Invoice<T>){
     return
     // let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
     // this.update(invoiceToUpdate, invoice);
@@ -215,23 +216,23 @@ export class ApiHelperService<T> {
     // console.log("object.constructor.name", object.constructor.name);
     switch (type) {
       case "Product":
-        console.log("Product");
+        console.log("getRecords Product");
         // return this.getProducts();
         break;
       case "Client":
-        console.log("Client");
+        console.log("getRecords Client");
         this.getClients();
         break;
       case "Supplier":
-        console.log("Supplier");
+        console.log("getRecords Supplier");
          this.getSuppliers();
         break;
       case "Invoice":
-        console.log("Invoice");
+        console.log("getRecords Invoice");
         return this.getInvoices<T>();
         break;
       case "Saledetail":
-        console.log("Saledetail");
+        console.log("getRecords Saledetail");
         return this.getSaleDetailsByInvoiceID<T>(invoiceID);
         break;
       default:
@@ -243,7 +244,7 @@ export class ApiHelperService<T> {
 
   }
 
-  deleteInvoice(invoice : Invoice){
+  deleteInvoice(invoice : Invoice<T>){
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -318,7 +319,10 @@ export class ApiHelperService<T> {
     let params = new HttpParams({});
     params = params.append("InvoiceId", ID);
 
-    return this.http.get<T[]>(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params })
+    let res = this.http.get<T[]>(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params });
+    console.log("getSaleDetailsByInvoiceID reslt",res);
+    
+    return res;
     // return this.http.get(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params }).pipe(
     //   map((saleDetails: SaleDetail[]) => {
     //     // console.log("invoice get by id",invoice);
@@ -406,7 +410,7 @@ export class ApiHelperService<T> {
     params = params.append("InvoiceId", ID);
 
     return this.http.get(`${this.rootUrl}/api/invoice/GetInvoiceById`, {params}).pipe(
-      map((invoice: Invoice) => {
+      map((invoice: Invoice<T>) => {
         console.log("invoice get by id",invoice);
         return new Invoice(invoice)
       }),

@@ -23,7 +23,7 @@ export class AddEditComponent<T> implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private apiHelper: ApiHelperService<T>,
+    private apiHelper: ApiHelperService<T[][]>,
     private actroute: ActivatedRoute,
     private router: Router,
     private location: Location,
@@ -94,6 +94,11 @@ export class AddEditComponent<T> implements OnInit {
     //   tax: 13.125,
     //   total: 163.125
     // }];
+    console.log("this.actroute.snapshot.params[\"\"]", this.actroute.snapshot.params[""]);
+    console.log("this.actroute.snapshot.params[\"id\"]", this.actroute.snapshot.params["id"]);
+    
+    
+    
 
 
     if (+this.actroute.snapshot.params["id"] === 0) {
@@ -125,7 +130,8 @@ export class AddEditComponent<T> implements OnInit {
       
       
       if (this.actroute.snapshot.params[""] === "invoices"){
-        this.IPO = this.apiHelper.getByID<Invoice>(this.actroute.snapshot.params[""], this.actroute.snapshot.params["id"]).pipe(
+        this.apiHelper.recsType = "Saledetail";
+        this.IPO = this.apiHelper.getByID<T>(this.actroute.snapshot.params[""], this.actroute.snapshot.params["id"]).pipe(
           switchMap(invoice => {
             
             const inv = new Invoice(invoice);
@@ -137,24 +143,25 @@ export class AddEditComponent<T> implements OnInit {
             console.log("inv",inv);
             // console.log("inv client",inv);
             
-            return this.apiHelper.getRecords<T[]>('Saledetail', this.actroute.snapshot.params["id"]);
+            // return this.apiHelper.getRecords<T[]>('Saledetail', this.actroute.snapshot.params["id"]);
 
-            // return this.apiHelper.getRecords<T[]>('Saledetail',this.actroute.snapshot.params["id"]).pipe(
-            //   map((SALEDTS) => {
-            //     if (SALEDTS) {
+            return this.apiHelper.getRecords<SaleDetail>('Saledetail',this.actroute.snapshot.params["id"]).pipe(
+              map((SALEDTS) => {
+                if (!this.apiHelper.objectIsEmpty(SALEDTS)) {
 
-            //       inv.saleDetails = SALEDTS;
-            //       // this.saleDetailsData = SALEDTS;
-            //     }
-            //     // this.subTotal = inv.sale.subTotal;
-            //     // this.tax = inv.sale.tax;
-            //     // this.total = inv.sale.total;
-            //     // console.log("this.subTotal", this.subTotal);
-            //     // console.log("this.tax", this.tax);
-            //     // console.log("this.total", this.total);
-            //     return inv;
-            //   })
-          //   )
+                  inv.saleDetails = SALEDTS;
+                  this.saleDetailsData = new TableDataSource<T[]>(this.apiHelper);
+                  this.saleDetailsData.FechData(inv.id);
+                }
+                // this.subTotal = inv.sale.subTotal;
+                // this.tax = inv.sale.tax;
+                // this.total = inv.sale.total;
+                // console.log("this.subTotal", this.subTotal);
+                // console.log("this.tax", this.tax);
+                // console.log("this.total", this.total);
+                return inv;
+              })
+            )
           })
         );
       }else{
@@ -530,11 +537,15 @@ export class AddEditComponent<T> implements OnInit {
           
           this.needTable = true;
 
+
           console.log("object.saleDetails", object.saleDetails);
           
 
-          // this.saleDetailsData = object.saleDetails;
+          this.saleDetailsData = new TableDataSource<T[]>(object.saleDetails);
+          console.log("this.saleDetailsData", this.saleDetailsData);
 
+          this.apiHelper.recID = object.id;
+          
           // console.log("object[\"saleDetails\"]", object["saleDetails"]);
           
           // this.apiHelper.getSaleDetailsByInvoiceID(object.id).subscribe(SaleDetailes => {

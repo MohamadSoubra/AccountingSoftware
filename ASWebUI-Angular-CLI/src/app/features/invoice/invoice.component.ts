@@ -17,7 +17,7 @@ import { TableDataSource } from "src/app/sharedFeatures/table/table-datasource";
 })
 export class InvoiceComponent<T extends Identification> implements OnInit {
   InvoiceList$ : TableDataSource<T[]>;
-  invoice: Invoice;
+  invoice: Invoice<T>;
   client: Client;
   invoicesTableColumns = [];
   paginationSizes: any[];

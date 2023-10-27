@@ -289,30 +289,50 @@ export class TableDataSource<T> extends DataSource<T> {
     );
   }
 
-  FechData(): void{
+  FechData(RecId :number = 0): void{
     // this.apihelper.getInvoices().subscribe(data =>{
     //   this.DATA$.next(data);
     // })
-    this.apihelper.getRecords<T>(this.apihelper.recsType).subscribe(recs => {
-      // if (this.sort && this.paginator) {
+    console.log("FechData RecId", RecId);
     
+    console.log("this.apihelper.recsType", this.apihelper.recsType);
 
-      //   return this.DATA$.next(this.getSortedData(this.getPagedData(this.getFilteredData(recs))));
+    if(RecId === 0){
+      this.apihelper.getRecords<T>(this.apihelper.recsType).subscribe(recs => {
+
+        this.DATA$.next(recs);
+
+      })
+    }else{
+
+      this.apihelper.getRecords<T>(this.apihelper.recsType, RecId).subscribe(recs => {
+        // if (this.sort && this.paginator) {
+
+
+        //   return this.DATA$.next(this.getSortedData(this.getPagedData(this.getFilteredData(recs))));
+
+        // } else if (!this.sort && this.paginator) {
+
+        //   return this.DATA$.next(this.getPagedData(this.getFilteredData(recs)));
+
+        // } else if (!this.paginator && this.sort) {
+
+        //   return this.DATA$.next(this.getSortedData(this.getFilteredData(recs)));
+
+        // } else if (!this.paginator && !this.sort) {
+        //   return this.DATA$.next(this.getFilteredData(recs));
+        // }
+        console.log("recs", recs);
+        console.log("RecId", RecId);
+        console.log("this.apihelper.recsType", this.apihelper.recsType);
         
-      // } else if (!this.sort && this.paginator) {
-       
-      //   return this.DATA$.next(this.getPagedData(this.getFilteredData(recs)));
+        this.DATA$.next(recs);
 
-      // } else if (!this.paginator && this.sort) {
+      })
 
-      //   return this.DATA$.next(this.getSortedData(this.getFilteredData(recs)));
-
-      // } else if (!this.paginator && !this.sort) {
-      //   return this.DATA$.next(this.getFilteredData(recs));
-      // }
-      this.DATA$.next(recs);
-
-    })
+    }
+    
+    
     console.log("this.DATA$ in table-datasource",this.DATA$);
     
   }

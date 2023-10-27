@@ -131,12 +131,14 @@ ngAfterViewInit() {
   // this.newTableDataSource$.sort = this.matSort;
   this.tableData$.sort = this.matSort;
   console.log("this.tableData$.DATA$.value.length", this.tableData$.DATA$.value.length);
+  console.log("this.tableData$.DATA$", this.tableData$.DATA$);
   
-  if(this.tableData$.DATA$.value.length > 0){
+  if(this.tableData$.DATA$.value.length <= 0){
 
     // this.newTableDataSource$.FechData();
   }
-  this.tableData$.FechData();
+
+  this.tableData$.FechData(this.api.recID);
     
     // console.log("this.newTableDataSource$ ngAfterViewInit", this.newTableDataSource$);
 
