@@ -7,7 +7,7 @@ import { Sale } from "./sale.model";
 //   [client: string]: string | number;
 // }
 
-export class Invoice<T> implements Identification {
+export class Invoice implements Identification {
   id: number;
   // [client: string | number]: string | number | Client;
   client?: Client ;
@@ -19,7 +19,7 @@ export class Invoice<T> implements Identification {
   paymentDueDate: string;
   amountDue: number;
   status: string;
-  saleDetails: T[];
+  saleDetails: SaleDetail[];
   // subTotal: number;
   // tax: number;
   // total;

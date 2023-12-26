@@ -18,7 +18,7 @@ export class ApiHelperService<T> {
   rootUrl: string = "https://localhost/AccountingSoftwareApi";
   objectbyId: any;
   // Data$: BehaviorSubject<Product[]|Client[]|Supplier[]|Invoice[]>;
-  Data$: BehaviorSubject<T[]>;
+  // Data$: BehaviorSubject<T[]>;
   recsType :string;
   recID: number;
 
@@ -80,7 +80,7 @@ export class ApiHelperService<T> {
     // );
   }
 
-  getClients() : void {
+  getClients(): Observable<T[]> {
   // getClients() : Observable<Client[]> {
     // return this.ParseJSONArray(this.fakeClients);
 
@@ -98,19 +98,10 @@ export class ApiHelperService<T> {
     // );
 
     // return this.http.get<Client[]>(`${this.rootUrl}/api/client`)
-    this.http.get<T[]>(`${this.rootUrl}/api/client`).pipe(
-      map((clients: T[]) => {
-        this.Data$.next(clients);
-      }),
-      catchError((error) => {
-        console.log("error from api helper");
-        console.log(error);
-        return throwError(error);
-      })
-    );
+    return this.http.get<T[]>(`${this.rootUrl}/api/client`);
   }
 
-  getInvoices<T>(): Observable<T[]> {
+  getInvoices(): Observable<T[]> {
   // getInvoices(): Observable<Invoice[]> {
 
     // return this.ParseJSONArray(this.fakeInvoices);
@@ -150,7 +141,7 @@ export class ApiHelperService<T> {
   }
 
 
-  saveInvoice(invoice: Invoice<T>){
+  saveInvoice(invoice: Invoice){
     return
     // let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
     // this.update(invoiceToUpdate, invoice);
@@ -208,7 +199,7 @@ export class ApiHelperService<T> {
   }
 
   // getRecords(object: any): Observable<Product[] | Client[] | Supplier[] | Invoice[]> {
-  getRecords<T>(type:string, invoiceID : number = 0): Observable<T[]> {
+  getRecords(type:string, invoiceID : number = 0): Observable<T[]> {
     // let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
     // this.update(invoiceToUpdate, object);
     console.log(type);
@@ -229,11 +220,11 @@ export class ApiHelperService<T> {
         break;
       case "Invoice":
         console.log("getRecords Invoice");
-        return this.getInvoices<T>();
+        return this.getInvoices();
         break;
       case "Saledetail":
         console.log("getRecords Saledetail");
-        return this.getSaleDetailsByInvoiceID<T>(invoiceID);
+        return this.getSaleDetailsByInvoiceID(invoiceID);
         break;
       default:
         {
@@ -244,7 +235,7 @@ export class ApiHelperService<T> {
 
   }
 
-  deleteInvoice(invoice : Invoice<T>){
+  deleteInvoice(invoice : Invoice){
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -315,7 +306,7 @@ export class ApiHelperService<T> {
 
   }
 
-  getSaleDetailsByInvoiceID<T>(ID){
+  getSaleDetailsByInvoiceID (ID): Observable<T[]>{
     let params = new HttpParams({});
     params = params.append("InvoiceId", ID);
 
@@ -410,7 +401,7 @@ export class ApiHelperService<T> {
     params = params.append("InvoiceId", ID);
 
     return this.http.get(`${this.rootUrl}/api/invoice/GetInvoiceById`, {params}).pipe(
-      map((invoice: Invoice<T>) => {
+      map((invoice: Invoice) => {
         console.log("invoice get by id",invoice);
         return new Invoice(invoice)
       }),

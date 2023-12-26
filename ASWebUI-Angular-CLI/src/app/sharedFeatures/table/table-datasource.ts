@@ -7,7 +7,7 @@ import { Identification } from "src/app/models/Identification.interface";
 import { MatTableDataSource } from "@angular/material/table";
 import { EventEmitter } from "@angular/core";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
-import { Invoice } from "src/app/models/invoice.model";
+
 
 /**
  * Data source for the Testtable view. This class should
@@ -29,13 +29,12 @@ export class TableDataSource<T> extends DataSource<T> {
   // columnName: string;
   // filterObject: any;
   //datasource: T[] = [], 
-  constructor(private apihelper: ApiHelperService<T[]>) {
+  // constructor(private apihelper: ApiHelperService<T[]>) {
+  constructor(data:T[]) {
     super();
     //this.data = datasource;
     //this.DATA$ = new BehaviorSubject(datasource);
-    //this.DATA$.next(datasource)
-
-    // this._changedetectorref.detectChanges();
+    this.DATA$.next(data);
 
   }
 
@@ -275,6 +274,7 @@ export class TableDataSource<T> extends DataSource<T> {
   }
 
   setData(data: T[]): void {
+    
     this.DATA$.next(data);
   }
 
@@ -289,53 +289,53 @@ export class TableDataSource<T> extends DataSource<T> {
     );
   }
 
-  FechData(RecId :number = 0): void{
-    // this.apihelper.getInvoices().subscribe(data =>{
-    //   this.DATA$.next(data);
-    // })
-    console.log("FechData RecId", RecId);
+  // FechData(RecId :number = 0): void{
+  //   // this.apihelper.getInvoices().subscribe(data =>{
+  //   //   this.DATA$.next(data);
+  //   // })
+  //   console.log("FechData RecId", RecId);
     
-    console.log("this.apihelper.recsType", this.apihelper.recsType);
+  //   console.log("this.apihelper.recsType", this.apihelper.recsType);
 
-    if(RecId === 0){
-      this.apihelper.getRecords<T>(this.apihelper.recsType).subscribe(recs => {
+  //   if(RecId === 0){
+  //     this.apihelper.getRecords<T>(this.apihelper.recsType).subscribe(recs => {
 
-        this.DATA$.next(recs);
+  //       this.DATA$.next(recs);
 
-      })
-    }else{
+  //     })
+  //   }else{
 
-      this.apihelper.getRecords<T>(this.apihelper.recsType, RecId).subscribe(recs => {
-        // if (this.sort && this.paginator) {
+  //     this.apihelper.getRecords<T>(this.apihelper.recsType, RecId).subscribe(recs => {
+  //       // if (this.sort && this.paginator) {
 
 
-        //   return this.DATA$.next(this.getSortedData(this.getPagedData(this.getFilteredData(recs))));
+  //       //   return this.DATA$.next(this.getSortedData(this.getPagedData(this.getFilteredData(recs))));
 
-        // } else if (!this.sort && this.paginator) {
+  //       // } else if (!this.sort && this.paginator) {
 
-        //   return this.DATA$.next(this.getPagedData(this.getFilteredData(recs)));
+  //       //   return this.DATA$.next(this.getPagedData(this.getFilteredData(recs)));
 
-        // } else if (!this.paginator && this.sort) {
+  //       // } else if (!this.paginator && this.sort) {
 
-        //   return this.DATA$.next(this.getSortedData(this.getFilteredData(recs)));
+  //       //   return this.DATA$.next(this.getSortedData(this.getFilteredData(recs)));
 
-        // } else if (!this.paginator && !this.sort) {
-        //   return this.DATA$.next(this.getFilteredData(recs));
-        // }
-        console.log("recs", recs);
-        console.log("RecId", RecId);
-        console.log("this.apihelper.recsType", this.apihelper.recsType);
+  //       // } else if (!this.paginator && !this.sort) {
+  //       //   return this.DATA$.next(this.getFilteredData(recs));
+  //       // }
+  //       console.log("recs", recs);
+  //       console.log("RecId", RecId);
+  //       console.log("this.apihelper.recsType", this.apihelper.recsType);
         
-        this.DATA$.next(recs);
+  //       this.DATA$.next(recs);
 
-      })
+  //     })
 
-    }
+  //   }
     
     
-    console.log("this.DATA$ in table-datasource",this.DATA$);
+  //   console.log("this.DATA$ in table-datasource",this.DATA$);
     
-  }
+  // }
 
 
 }

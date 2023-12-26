@@ -11,7 +11,7 @@ import { TableDataSource } from 'src/app/sharedFeatures/table/table-datasource';
   styleUrls: ["./clients.component.scss"],
 })
 export class ClientsComponent<T extends Identification> implements OnInit {
-  clientList$ : TableDataSource<T[]>;
+  clientList$ : TableDataSource<T>;
   clientTableColumns: any;
   componentName: string = "Client";
   paginationSizes: any[];

@@ -16,8 +16,8 @@ import { TableDataSource } from "src/app/sharedFeatures/table/table-datasource";
   styleUrls: ["./invoice.component.scss"],
 })
 export class InvoiceComponent<T extends Identification> implements OnInit {
-  InvoiceList$ : TableDataSource<T[]>;
-  invoice: Invoice<T>;
+  InvoiceList$ : TableDataSource<T>;
+  invoice: Invoice;
   client: Client;
   invoicesTableColumns = [];
   paginationSizes: any[];
@@ -30,10 +30,9 @@ export class InvoiceComponent<T extends Identification> implements OnInit {
 
   Clients: Client[] = [];
 
-  constructor(private api: ApiHelperService<T[][]>, private router: Router,
+  constructor(private api: ApiHelperService<T>, private router: Router,
     private actRout: ActivatedRoute,) {
       api.recsType = "Invoice"
-      this.InvoiceList$ = new TableDataSource<T[]>(api);
     }
 
   ngOnInit() {
@@ -42,7 +41,7 @@ export class InvoiceComponent<T extends Identification> implements OnInit {
     // this.Clients = this.api.getClients();
     // this.getClients();
     // console.log("this.Clients", this.Clients);
-    // this.getInvoices();
+    this.getInvoices();
     
     // this.InvoiceList$.FechData();
   
@@ -62,24 +61,26 @@ export class InvoiceComponent<T extends Identification> implements OnInit {
     // this.getClients();
     // console.log("this.Clients",this.Clients);                                          
     
-    // this.api.getInvoices().subscribe(invoices => {
-    //   this.api.getClients().subscribe(clients => {
-    //     console.log("clients in get invs", clients);
+    this.api.getInvoices().subscribe(invoices => {
+      this.api.getClients().subscribe(clients => {
+        console.log("clients in get invs", clients);
         
-    //     invoices.map(inv => {
-    //       clients.map(cli =>{
-    //         if(inv.client.id === cli.id){
-    //           inv.client = cli;
-    //         }
-    //       })
-    //     })
-    //   })
+        invoices.map(inv => {
+          clients.map(cli =>{
+            const INvoice = new Invoice(inv)
+            const CLient = new Client(cli);
+            if (INvoice.client.id === CLient.id){
+              INvoice.client = CLient;
+            }
+          })
+        })
+      })
       
-    //   return this.InvoiceList = invoices
+      this.InvoiceList$ = new TableDataSource(invoices);
       
-    // })
+    })
 
-    this.api.getInvoices()
+    // this.InvoiceList$ = new TableDataSource<T>(this.api.getInvoices<T>());
 
   }
 

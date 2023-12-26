@@ -17,7 +17,7 @@
 
     <div class="container-fluid" *ngIf="InvoiceList$">
         <app-table 
-        [tableData$]="InvoiceList$" 
+        [InputData$]="InvoiceList$" 
         [tableColumns]="invoicesTableColumns" 
         [isPageable]="true"
         [isFilterable]="false" 
