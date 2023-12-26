@@ -14,7 +14,7 @@ import { TableDataSource } from "src/app/sharedFeatures/table/table-datasource";
 })
 export class ProductsComponent<T extends Identification> implements OnInit {
   //productList: Product[] = [
-  productList$: TableDataSource<T[]>;
+  productList$: TableDataSource<T>;
   productsTableColumns = [];
   paginationSizes: any[];
   defaultPageSize: number;

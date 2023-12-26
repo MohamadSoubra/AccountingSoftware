@@ -63,7 +63,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
   
 
-  @Input() tableData$: TableDataSource<T[]>;
+  @Input() InputData$: TableDataSource<T>;
+  tableData$: TableDataSource<T>;
 
   // @Input() set tableData(data: any[]) {
   //   this.setTableDataSource(data);
@@ -90,7 +91,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   displayedColumnFilters: any[];
   constructor(
     private dialog: MatDialog,
-    private api: ApiHelperService<T[][]>,
+    private api: ApiHelperService<T>,
     private router: Router,
     private actRout: ActivatedRoute,
     private cd: ChangeDetectorRef
@@ -103,6 +104,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     
     this.InitialzeColumns();
     console.log("this.tableData", this.tableData$);
+
     // this.newTableDataSource$.FechData();
     // console.log("this.isPageable", this.isPageable);,
     // console.log("this.newTableDataSource$ ngOnINIT", this.newTableDataSource$); 
@@ -121,7 +123,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 ngAfterViewInit() {
   // console.log("Table in AfterviewINIT");
   // this.newTableDataSource$ = new TableDataSource(this.api);
-  this.tableData$ = new TableDataSource(this.api);
+  this.tableData$ = this.InputData$;
 
 
   // this.newTableDataSource$.paginator = this.matPaginator;
@@ -131,12 +133,14 @@ ngAfterViewInit() {
   // this.newTableDataSource$.sort = this.matSort;
   this.tableData$.sort = this.matSort;
   console.log("this.tableData$.DATA$.value.length", this.tableData$.DATA$.value.length);
+  console.log("this.tableData$.DATA$", this.tableData$.DATA$);
   
-  if(this.tableData$.DATA$.value.length > 0){
+  if(this.tableData$.DATA$.value.length <= 0){
 
     // this.newTableDataSource$.FechData();
   }
-  this.tableData$.FechData();
+
+  // this.tableData$.FechData(this.api.recID);
     
     // console.log("this.newTableDataSource$ ngAfterViewInit", this.newTableDataSource$);
 

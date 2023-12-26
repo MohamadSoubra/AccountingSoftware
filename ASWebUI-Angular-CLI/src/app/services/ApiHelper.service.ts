@@ -18,8 +18,9 @@ export class ApiHelperService<T> {
   rootUrl: string = "https://localhost/AccountingSoftwareApi";
   objectbyId: any;
   // Data$: BehaviorSubject<Product[]|Client[]|Supplier[]|Invoice[]>;
-  Data$: BehaviorSubject<T[]>;
+  // Data$: BehaviorSubject<T[]>;
   recsType :string;
+  recID: number;
 
   constructor(private http: HttpClient, private authService: AuthService) {
     
@@ -79,7 +80,7 @@ export class ApiHelperService<T> {
     // );
   }
 
-  getClients() : void {
+  getClients(): Observable<T[]> {
   // getClients() : Observable<Client[]> {
     // return this.ParseJSONArray(this.fakeClients);
 
@@ -97,19 +98,10 @@ export class ApiHelperService<T> {
     // );
 
     // return this.http.get<Client[]>(`${this.rootUrl}/api/client`)
-    this.http.get<T[]>(`${this.rootUrl}/api/client`).pipe(
-      map((clients: T[]) => {
-        this.Data$.next(clients);
-      }),
-      catchError((error) => {
-        console.log("error from api helper");
-        console.log(error);
-        return throwError(error);
-      })
-    );
+    return this.http.get<T[]>(`${this.rootUrl}/api/client`);
   }
 
-  getInvoices<T>(): Observable<T[]> {
+  getInvoices(): Observable<T[]> {
   // getInvoices(): Observable<Invoice[]> {
 
     // return this.ParseJSONArray(this.fakeInvoices);
@@ -128,9 +120,9 @@ export class ApiHelperService<T> {
     //   })
     // );
 
-    // const res = this.http.get<Invoice[]>(`${this.rootUrl}/api/invoice`)
-    // console.log("res", res);
-    // return res;
+    const res = this.http.get<T[]>(`${this.rootUrl}/api/invoice`)
+    console.log(" getInvoices result", res);
+    return res;
 
     // return this.http.get<Invoice[]>(`${this.rootUrl}/api/invoice`).pipe(
     //   map((invoices: Invoice[]) => {
@@ -142,14 +134,14 @@ export class ApiHelperService<T> {
     //     return throwError(error);
     //   })
     // );
-    return this.http.get<T[]>(`${this.rootUrl}/api/invoice`);
+    // return this.http.get<T[]>(`${this.rootUrl}/api/invoice`);
     // return of();
 
     
   }
 
 
-  saveInvoice(invoice : Invoice){
+  saveInvoice(invoice: Invoice){
     return
     // let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
     // this.update(invoiceToUpdate, invoice);
@@ -207,7 +199,7 @@ export class ApiHelperService<T> {
   }
 
   // getRecords(object: any): Observable<Product[] | Client[] | Supplier[] | Invoice[]> {
-  getRecords<T>(type:string, invoiceID : number = 0): Observable<T[]> {
+  getRecords(type:string, invoiceID : number = 0): Observable<T[]> {
     // let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
     // this.update(invoiceToUpdate, object);
     console.log(type);
@@ -215,24 +207,24 @@ export class ApiHelperService<T> {
     // console.log("object.constructor.name", object.constructor.name);
     switch (type) {
       case "Product":
-        console.log("Product");
+        console.log("getRecords Product");
         // return this.getProducts();
         break;
       case "Client":
-        console.log("Client");
+        console.log("getRecords Client");
         this.getClients();
         break;
       case "Supplier":
-        console.log("Supplier");
+        console.log("getRecords Supplier");
          this.getSuppliers();
         break;
       case "Invoice":
-        console.log("Invoice");
-        return this.getInvoices<T>();
+        console.log("getRecords Invoice");
+        return this.getInvoices();
         break;
       case "Saledetail":
-        console.log("Saledetail");
-        return this.getSaleDetailsByInvoiceID<T>(invoiceID);
+        console.log("getRecords Saledetail");
+        return this.getSaleDetailsByInvoiceID(invoiceID);
         break;
       default:
         {
@@ -314,11 +306,14 @@ export class ApiHelperService<T> {
 
   }
 
-  getSaleDetailsByInvoiceID<T>(ID){
+  getSaleDetailsByInvoiceID (ID): Observable<T[]>{
     let params = new HttpParams({});
     params = params.append("InvoiceId", ID);
 
-    return this.http.get<T[]>(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params })
+    let res = this.http.get<T[]>(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params });
+    console.log("getSaleDetailsByInvoiceID reslt",res);
+    
+    return res;
     // return this.http.get(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params }).pipe(
     //   map((saleDetails: SaleDetail[]) => {
     //     // console.log("invoice get by id",invoice);

@@ -47,7 +47,7 @@ export class AddEditComponent<T> implements OnInit {
   selectInputValue: any;
   previousRoute: string;
   saledetailscolumns: TableColumn[];
-  saleDetailsData: TableDataSource<T[]>;
+  saleDetailsData: TableDataSource<T>;
   hasSailDetails: boolean = false;
   isSaleDetails: boolean = false;
   isInvoice: boolean = false;
@@ -94,6 +94,11 @@ export class AddEditComponent<T> implements OnInit {
     //   tax: 13.125,
     //   total: 163.125
     // }];
+    console.log("this.actroute.snapshot.params[\"\"]", this.actroute.snapshot.params[""]);
+    console.log("this.actroute.snapshot.params[\"id\"]", this.actroute.snapshot.params["id"]);
+    
+    
+    
 
 
     if (+this.actroute.snapshot.params["id"] === 0) {
@@ -125,7 +130,8 @@ export class AddEditComponent<T> implements OnInit {
       
       
       if (this.actroute.snapshot.params[""] === "invoices"){
-        this.IPO = this.apiHelper.getByID<Invoice>(this.actroute.snapshot.params[""], this.actroute.snapshot.params["id"]).pipe(
+        this.apiHelper.recsType = "Saledetail";
+        this.IPO = this.apiHelper.getByID<T>(this.actroute.snapshot.params[""], this.actroute.snapshot.params["id"]).pipe(
           switchMap(invoice => {
             
             const inv = new Invoice(invoice);
@@ -137,24 +143,28 @@ export class AddEditComponent<T> implements OnInit {
             console.log("inv",inv);
             // console.log("inv client",inv);
             
-            return this.apiHelper.getRecords<T[]>('Saledetail', this.actroute.snapshot.params["id"]);
+            // return this.apiHelper.getRecords<T[]>('Saledetail', this.actroute.snapshot.params["id"]);
 
-            // return this.apiHelper.getRecords<T[]>('Saledetail',this.actroute.snapshot.params["id"]).pipe(
-            //   map((SALEDTS) => {
-            //     if (SALEDTS) {
-
-            //       inv.saleDetails = SALEDTS;
-            //       // this.saleDetailsData = SALEDTS;
-            //     }
-            //     // this.subTotal = inv.sale.subTotal;
-            //     // this.tax = inv.sale.tax;
-            //     // this.total = inv.sale.total;
-            //     // console.log("this.subTotal", this.subTotal);
-            //     // console.log("this.tax", this.tax);
-            //     // console.log("this.total", this.total);
-            //     return inv;
-            //   })
-          //   )
+            return this.apiHelper.getRecords('Saledetail',this.actroute.snapshot.params["id"]).pipe(
+              map((SALEDTS) => {
+                if (!this.apiHelper.objectIsEmpty(SALEDTS)) {
+                  const converted = SALEDTS.map(RTSALEDTS => {
+                    return  new SaleDetail(RTSALEDTS)
+                  })
+                  
+                  inv.saleDetails = converted
+                  this.saleDetailsData = new TableDataSource<T>(SALEDTS);
+                  // this.saleDetailsData.FechData(inv.id);
+                }
+                // this.subTotal = inv.sale.subTotal;
+                // this.tax = inv.sale.tax;
+                // this.total = inv.sale.total;
+                // console.log("this.subTotal", this.subTotal);
+                // console.log("this.tax", this.tax);
+                // console.log("this.total", this.total);
+                return inv;
+              })
+            )
           })
         );
       }else{
@@ -260,14 +270,19 @@ export class AddEditComponent<T> implements OnInit {
     // console.log("client from diplayfn before init", client);
     if(client){
       client = new Client(client);
-    }else      client = new Client()        // console.log("client from diplayfn", client)
+    }else {
+      client = new Client()   // console.log("client from diplayfn", client)
+    }     
     return client && client.firstName || client.lastName ? client.getFullName() : '';
   }
 
   addSaleDetail(){
-    const newSaleDetail = new SaleDetail({invoiceId:162,productId:17,productName:"Product15", description:"Description",quantity:12,unitPrice:9,total:555});
-    // console.log("this.saleDetailsData.getValue()",this.saleDetailsData.value);
+    const newSaleDetail = new SaleDetail({invoiceId:162,productId:17,productName:"Product15", description:"Description Added From Code",quantity:12,unitPrice:9,total:555});
+    // this.saleDetailsData = new TableDataSource([{ invoiceId: 162, productId: 17, productName: "Product15", description: "Description Added From Code", quantity: 12, unitPrice: 9, total: 555 }][]);
+    // console.log("this.saleDetailsData", this.saleDetailsData.);
     
+    // console.log("this.saleDetailsData.getValue()",this.saleDetailsData.value);
+        
     // this.saleDetailsData.pipe(map((sds)=>{return sds.push(newSaleDetail)}))
     // console.log("this.saleDetailsData.getValue()",this.saleDetailsData.value);
     
@@ -530,11 +545,20 @@ export class AddEditComponent<T> implements OnInit {
           
           this.needTable = true;
 
+
           console.log("object.saleDetails", object.saleDetails);
           
 
-          // this.saleDetailsData = object.saleDetails;
+          // this.saleDetailsData = new TableDataSource<T[]>(object.saleDetails);
+          // this.saleDetailsData = new TableDataSource<T>(this.apiHelper.getSaleDetailsByInvoiceID(object.id));
+          this.apiHelper.getSaleDetailsByInvoiceID(object.id).subscribe(SDTS =>{
+            this.saleDetailsData = new TableDataSource(SDTS);
+          })
+          // this.saleDetailsData.FechData();
+          console.log("this.saleDetailsData", this.saleDetailsData);
 
+          this.apiHelper.recID = object.id;
+          
           // console.log("object[\"saleDetails\"]", object["saleDetails"]);
           
           // this.apiHelper.getSaleDetailsByInvoiceID(object.id).subscribe(SaleDetailes => {

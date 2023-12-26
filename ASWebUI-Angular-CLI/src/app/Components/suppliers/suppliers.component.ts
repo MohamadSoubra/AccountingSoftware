@@ -11,7 +11,7 @@ import { TableDataSource } from 'src/app/sharedFeatures/table/table-datasource';
   styleUrls: ["./suppliers.component.scss"],
 })
 export class SuppliersComponent<T extends Identification> implements OnInit {
-  suppliersList$: TableDataSource<T[]>;
+  suppliersList$: TableDataSource<T>;
   suppliersTableColumns: any = [
     {
       name: "Name",
