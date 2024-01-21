@@ -278,6 +278,13 @@ export class TableDataSource<T> extends DataSource<T> {
     this.DATA$.next(data);
   }
 
+  addElementToDataStream(element){
+    console.log([...this.DATA$.value, element]);
+    
+    this.DATA$.next([...this.DATA$.value, element])
+    // this.DATA$.next(null);
+  }
+
   /** Simple sort comparator (for client-side sorting). */
   compare(a: string | number, b: string | number, isAsc: boolean) {
     return (

@@ -15,6 +15,7 @@ namespace ASDataManager.Library.Models
         public string Description { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Tax { get; set; }
+        public decimal Total { get; set; }
 
     }
 }

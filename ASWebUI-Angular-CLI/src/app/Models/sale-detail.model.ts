@@ -10,6 +10,7 @@ export class SaleDetail implements Identification {
   description: string;
   quantity: number;
   unitPrice: number;
+  subTotal: number;
   total: number;
   tax?: number;
   
@@ -21,6 +22,7 @@ export class SaleDetail implements Identification {
     description = "",
     quantity = 0,
     unitPrice = 0,
+    subTotal = 0,
     total = 0,
     tax = 0,
   } = {}) {
@@ -31,6 +33,7 @@ export class SaleDetail implements Identification {
     this.description = description;
     this.quantity = quantity;
     this.unitPrice = unitPrice;
+    this.subTotal = subTotal;
     this.total = total;
     this.tax = tax;
   }

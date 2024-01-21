@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Identification } from 'src/app/models/Identification.interface';
 import { Supplier } from 'src/app/models/supplier.model';
@@ -11,7 +12,7 @@ import { TableDataSource } from 'src/app/sharedFeatures/table/table-datasource';
   styleUrls: ["./suppliers.component.scss"],
 })
 export class SuppliersComponent<T extends Identification> implements OnInit {
-  suppliersList$: TableDataSource<T>;
+  suppliersList$: TableDataSource<Supplier>;
   suppliersTableColumns: any = [
     {
       name: "Name",
@@ -55,14 +56,30 @@ export class SuppliersComponent<T extends Identification> implements OnInit {
   ];
   componentName: string = "Supplier";
 
-  constructor(private api: ApiHelperService<T>) {}
+  constructor(private api: ApiHelperService<T>, private router: Router,
+    private actRout: ActivatedRoute) {
+    api.recsType = "Supplier"}
 
   ngOnInit() {
     // this.suppliersList = this.api.getSuppliers();
+    this.getSuppliers();
   }
 
   getSuppliers(){
-    // this.api.get
+    this.api.getSuppliers().subscribe((suppliers) => {
+      this.suppliersList$ = new TableDataSource(suppliers);
+    });
+  }
+
+  batchDelete() {
+
+  }
+
+  AddRecord() {
+    this.router.navigate(["./", 0], {
+      relativeTo: this.actRout,
+    });
+
   }
 
 

@@ -6,12 +6,20 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { Observable } from "rxjs";
 import { isEmpty } from "rxjs/operators";
 import { ClientsComponent } from "src/app/components/clients/clients.component";
 import { Client } from "src/app/models/client.model";
 import { Identification } from "src/app/models/Identification.interface";
 import { Product } from "src/app/models/product.model";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
+
+interface ModalSaleDetail {
+  product: Product[];
+  quantity: number;
+  price: number ;
+  total: number;
+};
 
 @Component({
   selector: "app-overView",
@@ -35,6 +43,8 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
   selectValue = false;
   selectInputData: any;
   selectInputValue: any;
+  ModalSD: ModalSaleDetail
+  DisplayModal$: Observable<Product[]>
   // autoCompleteValue: any;
 
   ngOnInit(): void {
@@ -45,6 +55,21 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
     // console.log("this.displayItem.constructor.name", this.displayItem.constructor.name );
     // console.log("Object.keys(this.displayItem)", Object.keys(this.displayItem));
     // console.log("Object.keys(Product)", Object.keys(new Product()));
+    this.ModalSD = { product: [{ id: 90, productName: "testName", description: "testDesc", retailPrice: 1000, quantityInStock: 1000, isTaxable: false }],price: 0, quantity: 0, total: 0  };
+    // this.ModalSD = { product: [],price: 0, quantity: 0, total: 0  };
+    // this.ModalSD.products = [{ id: 90, productName: "testName", description: "testDesc", retailPrice: 1000, quantityInStock: 1000, isTaxable: false }];
+
+    // this.apiHelper.getProducts().subscribe((products) => {
+    //   return this.ModalSD.product = products;
+    // })
+    
+    this.DisplayModal$ = this.apiHelper.getProducts()
+    console.log("ModalSD", this.ModalSD);
+
+
+
+    console.log("this.ModalSD", this.ModalSD);
+    
 
     if (this.displayItem.id != undefined) {
       if (this.displayItem.id == "") {
@@ -55,93 +80,18 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
     } else {
       this.Title = "Id was not found";
     }
-    this.itemProperties = Object.keys(this.displayItem)
-      .map((prop) => {
-        // this.labelstext.push({labelsText: this.formatText(prop), formControlName: prop});
+    
 
-        // this.itemFormArray.push(this.fb.control(''));
-        // this.itemFormArray.
+    
+    this.DisplayModal$.subscribe(prods => {
+      this.ModalSD.product = prods
 
-        let isBoolean = false;
-        let needSelectInput = false;
-        let needDatePicker = false;
-        if (
-          this.displayItem[prop] === true ||
-          this.displayItem[prop] === false
-        ) {
-          isBoolean = true;
-          //this.itemform.controls[prop].setValue((this.displayItem[prop]?  'true' : 'false'));
-          this.itemform.addControl(
-            prop,
-            new FormControl(this.displayItem[prop].toString())
-          );
-        } else {
-          if (prop === "client") {
-            needSelectInput = true;
-            this.selectInputData = this.apiHelper.getClients();
-            
-          }
+      this.GenerateFormFromObject(this.ModalSD)
+    })
 
 
+    
 
-          if (prop.toLowerCase().includes("date")) {
-            needDatePicker = true;
-            this.itemform.addControl(
-              prop,
-              new FormControl(new Date(this.displayItem[prop]))
-            );
-          } else {
-            this.itemform.addControl(
-              prop,
-              new FormControl(this.displayItem[prop])
-            );
-          }
-        }
-
-        // console.log(`${prop} string Length ${prop.length}`);
-        // console.log(` string Length ${this.displayItem[prop].length}`);
-
-        // if (
-        //   this.displayItem[prop] != null ||
-        //   this.displayItem[prop] != undefined
-        // ) {
-        //   String(this.displayItem[prop]);
-        // }
-
-        let needTextArea = false;
-        if (prop === "description" || this.displayItem[prop]?.length > 20) {
-          needTextArea = true;
-        }
-
-        let width: string = "";
-
-        switch (prop) {
-          case "firstName": 
-            width = "350";
-            break;
-          
-          case "lastName": 
-            width = "50";
-            break;
-          
-          default : 
-            width ="100";
-            break;
-          
-        }
-
-        // this.formControlsArray.push({this.itemform. : this.fb.control("")});
-        return {
-          labelsText: this.formatText(prop),
-          formControlName: prop,
-          value: this.displayItem[prop],
-          isBoolean: isBoolean,
-          needTextArea: needTextArea,
-          needSelectInput: needSelectInput,
-          needDatePicker: needDatePicker,
-          width: width,
-        };
-      });
     console.log("this.itemProperties", this.itemProperties);
     
     // console.log(this.itemFormArray);
@@ -171,6 +121,9 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
     return client && client.firstName ? client.firstName : "";
   }
   
+  displayFnSD(product: Product): string {
+    return product && product.productName ? product.productName : "";
+  }
 
   //this methos is for getting the type of the object injected into this class
   //to dinamically change the material dialoge title
@@ -196,11 +149,14 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
   }
 
   autoCompleteIsEmpty(prop): boolean {
-    if (prop.formControlName !== 'client' ){
-      return;
+    console.log("prop",prop);
+    
+    if (prop.formControlName !== 'product' ){
+      return true;
     }else{
-      let formControlValue = this.itemform.get(prop.formControlName).value
-      if (typeof formControlValue === 'object'){
+      const formControlValue = this.itemform.get(prop.formControlName).value
+      console.log("formControlValue", formControlValue);
+      if (typeof formControlValue === 'object' && formControlValue !== null){
         return this.objectHasEmptyProperties(formControlValue);
       }
     }
@@ -211,11 +167,108 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
   }
 
   objectHasEmptyProperties(object){
-    if (Object.values(object).every((x) => x === null || x === "")) {
+    if (Object.values(object).every((x) => x === null || x === "" || x === 0 || x === undefined)) {
       return true;
     } else {
       return false;
     }
+  }
+
+  GenerateFormFromObject(object: ModalSaleDetail) {
+    this.itemProperties = Object.keys(object)
+      .map((prop) => {
+
+        
+        let Included = true;
+        let isBoolean = false;
+        let needSelectInput = false;
+        let needDatePicker = false;
+
+        
+
+        if (prop === "product") {
+          console.log("sucess");
+
+          needSelectInput = true;
+          console.log("this.selectInputData Before", this.selectInputData);
+          console.log("object[prop]", object[prop]);
+          // this.selectInputData = [{ id: 90, productName: "testName", description: "testDesc", retailPrice: 1000, quantityInStock: 1000, isTaxable: false }]
+          this.selectInputData = object[prop]
+
+          // this.apiHelper.getProducts().subscribe(products => {
+          //   object.products = products;
+          // });
+
+          console.log("this.selectInputData After", this.selectInputData);
+        }
+
+
+
+        if (prop.toLowerCase().includes("date")) {
+          needDatePicker = true;
+          this.itemform.addControl(
+            prop,
+            new FormControl(new Date(object[prop]))
+          );
+        } else {
+          this.itemform.addControl(
+            prop,
+            new FormControl(object[prop])
+          );
+        }
+        // }
+
+        // console.log(`${prop} string Length ${prop.length}`);
+        // console.log(` string Length ${this.displayItem[prop].length}`);
+
+        // if (
+        //   this.displayItem[prop] != null ||
+        //   this.displayItem[prop] != undefined
+        // ) {
+        //   String(this.displayItem[prop]);
+        // }
+
+        let needTextArea = false;
+        if (prop === "description" || this.displayItem[prop]?.length > 20) {
+          needTextArea = true;
+        }
+
+
+        if (prop.match(/id/gi)) {
+          console.log(prop);
+          Included = false;
+        }
+
+        let width: string = "";
+
+        switch (prop) {
+          case "firstName":
+            width = "350";
+            break;
+
+          case "lastName":
+            width = "50";
+            break;
+
+          default:
+            width = "100";
+            break;
+
+        }
+
+        // this.formControlsArray.push({this.itemform. : this.fb.control("")});
+        return {
+          labelsText: this.formatText(prop),
+          formControlName: prop,
+          value: object[prop],
+          isBoolean: isBoolean,
+          Included: Included,
+          needTextArea: needTextArea,
+          needSelectInput: needSelectInput,
+          needDatePicker: needDatePicker,
+          width: width,
+        };
+      }).filter((item) => item.Included);
   }
 
   

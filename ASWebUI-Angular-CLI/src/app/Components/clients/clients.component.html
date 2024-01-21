@@ -1,3 +1,18 @@
+<div class="component">
+  <div class="componentTop">
+
+    <h1>{{ componentName }}s</h1>
+
+    <div class="action-buttons">
+      <button mat-stroked-button color="warn" (click)="batchDelete()">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+      <button mat-flat-button color="accent" (click)="AddRecord()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+  
 <div class="container-fluid" *ngIf="clientList$">
   <app-table
     [InputData$]="clientList$"

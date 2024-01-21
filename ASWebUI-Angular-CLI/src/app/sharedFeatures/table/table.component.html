@@ -68,7 +68,7 @@
                     <!-- <ng-container *ngIf="!tableColumn.nestedProperty; else object"> -->
                     <ng-container>
 
-                        <td mat-cell *matCellDef="let record" class="cursor-pointer"
+                        <td mat-cell *matCellDef="let record" class="cursor-pointer text-left"
                             (click)="!hasCheckboxColumn ? $event.stopPropagation() : selection.toggle(record)">
                             <!-- (click)="record.disable || !hasActionColumn ? $event.stopPropagation() : edit(record)" -->
 
@@ -200,6 +200,7 @@
             </table>
         </div>
 
+        <!-- <button (click)="Add()">test</button> -->
         <!-- Pagination -->
         <!-- *ngIf="isPageable" -->
         <mat-paginator *ngIf="isPageable" #matPaginator [length]="5"

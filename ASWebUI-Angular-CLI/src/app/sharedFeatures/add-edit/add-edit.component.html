@@ -30,10 +30,14 @@
                 <ng-container *ngIf="prop.needTable">
                     <app-table class="tableEmbed" [componentName]="'SaleDetail'" [ngClass]="prop.formControlName" [InputData$]="saleDetailsData" [tableColumns]="saledetailscolumns" [isPageable]="false"
                     [isFilterable]="false" [hasActionColumn]="true" [isSortable]="false"
-                    [hasCheckboxColumn]="false"  (actionEdit)="edit($event)"
+                    [hasCheckboxColumn]="false"  (actionEdit)="edit($event)" (actionAdd)="add($event)"
                     (actionDelete)="delete($event)"> </app-table>
 
-                    
+                    <div class="addButton">
+                        <button mat-stroked-button color="warn" type="button" (click)="addSaleDetail()">
+                            <mat-icon>add</mat-icon>Add a Product
+                        </button>
+                    </div>
                 </ng-container>
 
                 <ng-container *ngIf="prop.needSelectInput">
@@ -72,25 +76,9 @@
 
                 </ng-container>
 
-                <ng-container   *ngIf="prop.formControlName == 'sale'">
-                    <!-- <mat-form-field  aria-disabled="true" appearance="outline" [ngClass]="prop.formControlName">
-                        <mat-label> {{ prop.labelsText }} </mat-label>
-                        <input matInput placeholder="" color="primary" [formControlName]="prop.formControlName">
-                    </mat-form-field> -->
-                    <ng-container>
-                        <div class="totals">
-                        <div> <mat-label> Sub Total : </mat-label> <span> {{subTotal}}</span> </div>
-                        <div> <mat-label> Tax : </mat-label> <span> {{tax}}</span> </div>
-                        <div> <mat-label> Total : </mat-label> <span> {{total}}</span> </div>
-                    
-                        </div>
-                    </ng-container>
-                </ng-container>
-
-
                     <!-- && prop.formControlName != 'subTotal' && prop.formControlName != 'tax' && prop.formControlName != 'total' -->
-                <ng-container *ngIf="!prop.isBoolean && !prop.needTextArea && prop.formControlName != 'id' && !prop.needSelectInput && !prop.needDatePicker && !prop.needTable
-                && prop.formControlName != 'sale' ">
+                <ng-container *ngIf="!prop.isBoolean && !prop.needTextArea&& !prop.needSelectInput && !prop.needDatePicker && !prop.needTable
+                 && prop.Included">
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label> {{ prop.labelsText }} </mat-label>
@@ -106,21 +94,27 @@
                 <!-- </mat-form-field> -->
 
 
+                <ng-container *ngIf="prop.formControlName == 'saleDetails'">
+                    <!-- <mat-form-field  aria-disabled="true" appearance="outline" [ngClass]="prop.formControlName">
+                                        <mat-label> {{ prop.labelsText }} </mat-label>
+                                        <input matInput placeholder="" color="primary" [formControlName]="prop.formControlName">
+                                    </mat-form-field> -->
+                    <ng-container>
+                        <div class="totals">
+                            <div> <mat-label> Sub Total : </mat-label> <span> {{subTotal}}</span> </div>
+                            <div> <mat-label> Tax : </mat-label> <span> {{tax}}</span> </div>
+                            <div> <mat-label> Total : </mat-label> <span> {{total}}</span> </div>
+                
+                        </div>
+                    </ng-container>
+                </ng-container>
             </div>
 
         </form>
 
-                        <mat-form-field appearance="outline" [ngClass]="">
-                            <mat-label> Test </mat-label>
-                            <input matInput placeholder="" color="primary" [formControlName]="">
-                        </mat-form-field>
                         
                         
-                        <div class="addButton">
-                            <button mat-stroked-button color="warn" type="button" (click)="addSaleDetail()">
-                                <mat-icon>add</mat-icon>Add a Product
-                            </button>
-                        </div>
+
 
     </div>
 

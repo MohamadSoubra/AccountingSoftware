@@ -40,7 +40,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ng serve --port=44359 --open true"
+    "start": "ng serve --port=44359"
   },
   "author": "",
   "license": "ISC"

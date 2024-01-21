@@ -20,8 +20,11 @@ import { Client } from "src/app/models/client.model";
 import { Identification } from "src/app/models/Identification.interface";
 import { Invoice } from "src/app/models/invoice.model";
 import { Product } from "src/app/models/product.model";
+import { SaleDetail } from "src/app/models/sale-detail.model";
 import { Supplier } from "src/app/models/supplier.model";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
+import { AddEditComponent } from "../add-edit/add-edit.component";
+import { DisplayModalComponent } from "../modal/displayModal.component";
 // import { DisplayModalComponent } from "src/app/shared/modal/displayModal.component";
 import { TableDataSource } from "./table-datasource";
 
@@ -59,6 +62,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
   //@Output() sort: EventEmitter<Sort> = new EventEmitter();
   @Output() actionEdit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() actionAdd: EventEmitter<any> = new EventEmitter<any>();
   @Output() actionDelete: EventEmitter<any> = new EventEmitter<any>();
 
   
@@ -108,7 +112,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // this.newTableDataSource$.FechData();
     // console.log("this.isPageable", this.isPageable);,
     // console.log("this.newTableDataSource$ ngOnINIT", this.newTableDataSource$); 
-
+  
     
     
     // this.newTableDataSource$.paginator = this.matPaginator;
@@ -127,11 +131,18 @@ ngAfterViewInit() {
 
 
   // this.newTableDataSource$.paginator = this.matPaginator;
-  this.tableData$.paginator = this.matPaginator;
-  this.cd.detectChanges();
+  if(this.matPaginator){
+
+    this.tableData$.paginator = this.matPaginator;
+    this.cd.detectChanges();
+  }
   
   // this.newTableDataSource$.sort = this.matSort;
-  this.tableData$.sort = this.matSort;
+  if(this.matSort !== undefined || this.matSort !== null){
+    console.log("this.matSort", this.matSort);
+    
+    this.tableData$.sort = this.matSort;
+  }
   console.log("this.tableData$.DATA$.value.length", this.tableData$.DATA$.value.length);
   console.log("this.tableData$.DATA$", this.tableData$.DATA$);
   
@@ -212,6 +223,16 @@ console.log('test',test);
   // edit(element: any) {
   //   this.actionEdit.emit(element);
   // }
+
+  Add(element: T){
+
+    console.log("element in table component add",element);
+    
+    let dataT: any = this.tableData$.DATA$.value
+    dataT.push(element);
+    this.tableData$.DATA$.next(dataT);
+    this.api.saveRecord(element);
+  }
 
   delete(element) {
     // let record: any = this.newTableDataSource$.DATA$.value.filter(
@@ -411,6 +432,7 @@ console.log('test',test);
   }
 
   edit(item: T) {
+
     console.log("item in edit", item);
     // this.api.objectbyId = item;
     

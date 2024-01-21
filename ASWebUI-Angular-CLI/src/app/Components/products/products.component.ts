@@ -6,6 +6,7 @@ import { CurrencyPipe, DecimalPipe } from "@angular/common";
 import { Observable } from "rxjs";
 import { Identification } from "src/app/models/Identification.interface";
 import { TableDataSource } from "src/app/sharedFeatures/table/table-datasource";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-products", 
@@ -14,14 +15,16 @@ import { TableDataSource } from "src/app/sharedFeatures/table/table-datasource";
 })
 export class ProductsComponent<T extends Identification> implements OnInit {
   //productList: Product[] = [
-  productList$: TableDataSource<T>;
+  productList$: TableDataSource<Product>;
   productsTableColumns = [];
   paginationSizes: any[];
   defaultPageSize: number;
   componentName: string = "Product";
   
 
-  constructor(private api: ApiHelperService<T>) {}
+  constructor(private api: ApiHelperService<T>, private router: Router,
+    private actRout: ActivatedRoute) {
+    api.recsType = "Product"}
 
   ngOnInit() {
     this.initializeColumns();
@@ -33,12 +36,13 @@ export class ProductsComponent<T extends Identification> implements OnInit {
   }
 
   getProducts() {
-    // this.api.getProducts().subscribe(x => { this.productList = x},
-    //   (error) => {
-    //     console.log("from products component", error);
-    //   }
-    // );
-    this.api.getProducts()
+    this.api.getProducts().subscribe(products => {
+
+
+      this.productList$ = new TableDataSource(products);
+
+    })
+
   }
 
   initializeColumns(): void {
@@ -106,6 +110,17 @@ export class ProductsComponent<T extends Identification> implements OnInit {
     // this.productList$ = this.productList$.filter(el => el !== element);
     // console.log("this.productList AFTER DELETE", this.productList);
     
+  }
+
+  batchDelete() {
+
+  }
+
+  AddRecord() {
+    this.router.navigate(["./", 0], {
+      relativeTo: this.actRout,
+    });
+
   }
 
 }

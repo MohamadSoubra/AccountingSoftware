@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, observable } from 'rxjs';
 import { Client } from 'src/app/models/client.model';
 import { Identification } from 'src/app/models/Identification.interface';
@@ -11,30 +12,32 @@ import { TableDataSource } from 'src/app/sharedFeatures/table/table-datasource';
   styleUrls: ["./clients.component.scss"],
 })
 export class ClientsComponent<T extends Identification> implements OnInit {
-  clientList$ : TableDataSource<T>;
+  clientList$ : TableDataSource<Client>;
   clientTableColumns: any;
   componentName: string = "Client";
   paginationSizes: any[];
   defaultPageSize: number;
-  constructor(private api: ApiHelperService<T>) {
+  constructor(private api: ApiHelperService<T>, private router: Router,
+    private actRout: ActivatedRoute) {
 
-    // this.clientList$ = this.api.getClients();
-    this.api.getClients();
+
+    api.recsType = "Client"
   }
 
   ngOnInit() {
     this.initializeColumns();
-    //this.getClients();
+    this.getClients();
     console.log("this.clientList", this.clientList$);
     
   }
 
   getClients() {
-    // this.api.getClients().subscribe(x => { this.clientList = x },
-    //   (error) => {
-    //     console.log("from products component", error);
-    //   }
-    // );
+    this.api.getClients().subscribe(clients => {
+
+
+      this.clientList$ = new TableDataSource(clients);
+
+    })
   }
 
   edit(client){
@@ -44,6 +47,17 @@ export class ClientsComponent<T extends Identification> implements OnInit {
   
   delete(client){
     console.log("Deleted Client",client);
+
+  }
+
+  batchDelete() {
+
+  }
+
+  AddRecord() {
+    this.router.navigate(["./", 0], {
+      relativeTo: this.actRout,
+    });
 
   }
 

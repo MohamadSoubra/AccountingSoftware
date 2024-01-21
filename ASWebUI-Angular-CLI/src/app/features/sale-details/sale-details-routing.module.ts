@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SaleDetailComponent } from 'src/app/components/sale-detail/sale-detail.component';
+import { SaledetailComponent } from './saledetail/saledetail.component';
 
 const routes: Routes = [
   {
     path: "SaleDetails",
-    component: SaleDetailComponent,
+    component: SaledetailComponent,
     loadChildren: () => import('../../sharedFeatures/add-edit/add-edit.module').then(mod => mod.AddEditModule)
   },
 ];

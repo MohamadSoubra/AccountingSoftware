@@ -24,7 +24,6 @@ import { MatTableModule } from "@angular/material/table";
 import { TesttableComponent } from "./testtable/testtable.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { ClientFormComponent } from './components/clients/client-form/client-form.component';
-import { SaleDetailComponent } from './components/sale-detail/sale-detail.component';
 import { InvoiceModule } from "./features/invoice/invoice.module";
 import { DisplayModalComponent } from "./sharedFeatures/modal/displayModal.component";
 import { AddEditModule } from "./sharedFeatures/add-edit/add-edit.module";
@@ -43,7 +42,6 @@ import { ProductsComponent } from "./components/products/products.component";
     TesttableComponent,
     DisplayModalComponent,
     ClientFormComponent,
-    SaleDetailComponent,
     //LoadingSpinnerComponent
   ],
   imports: [

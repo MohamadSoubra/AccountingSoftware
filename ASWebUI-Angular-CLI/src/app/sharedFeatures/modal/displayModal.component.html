@@ -28,25 +28,22 @@
           </mat-form-field>
         </ng-container>
 
-        <ng-container *ngIf="prop.needSelectInput">
-
-          <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
-            <mat-label>{{prop.labelsText}}</mat-label>
-            <input type="text" matInput [formControlName]="prop.formControlName" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-              <!-- <mat-option value="{}">
-                    </mat-option> -->
-              <mat-option (click)="AddClient()">Add Client</mat-option>
-              <mat-option *ngFor="let data of selectInputData" [value]="data">
-                {{data.firstName}}
-              </mat-option>
-            </mat-autocomplete>
-            <button type="button" *ngIf="!autoCompleteIsEmpty(prop)" matSuffix mat-icon-button aria-label="Clear"
-              (click)="resetAutoComplete(prop)">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-        </ng-container>
+                <ng-container *ngIf="prop.needSelectInput">
+                  <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
+                    <mat-label>{{prop.labelsText}}</mat-label>
+                    <input type="text" matInput [formControlName]="prop.formControlName" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnSD">
+                      <mat-option (click)="AddClient()">Add Client</mat-option>
+                      <mat-option *ngFor="let data of selectInputData" [value]="data">
+                        {{data.productName}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <button type="button" *ngIf="!autoCompleteIsEmpty(prop)" matSuffix mat-icon-button aria-label="Clear"
+                      (click)="resetAutoComplete(prop)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </ng-container>
 
         <ng-container *ngIf="prop.needTextArea">
 
@@ -66,9 +63,8 @@
           </mat-form-field>
           
         </ng-container>
-
-        <ng-container
-          *ngIf="!prop.isBoolean && !prop.needTextArea && prop.formControlName != 'id' && !prop.needSelectInput && !prop.needDatePicker" >
+<!-- *ngIf="!prop.isBoolean && !prop.needTextArea && !prop.needSelectInput && !prop.needDatePicker " -->
+        <ng-container *ngIf="!prop.isBoolean && !prop.needTextArea && !prop.needSelectInput && !prop.needDatePicker" >
           
             <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
               <mat-label> {{ prop.labelsText }} </mat-label>

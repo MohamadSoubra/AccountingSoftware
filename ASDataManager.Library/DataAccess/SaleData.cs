@@ -54,6 +54,8 @@ namespace ASDataManager.Library.DataAccess
                     Quantity = item.Quantity,
                     InvoiceId = item.InvoiceId,
                     Description = item.Description,
+                    Total = item.Total
+                    
                 };
 
                 // Get the information about this product

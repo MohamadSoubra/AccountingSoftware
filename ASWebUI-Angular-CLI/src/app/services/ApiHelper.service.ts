@@ -29,11 +29,11 @@ export class ApiHelperService<T> {
 
 
 
-  getProducts(): Observable<T[]> {
+  getProducts(): Observable<Product[]> {
     // return this.ParseJSONArray(this.fakeProducts);
 
-    return this.http.get<T[]>(`${this.rootUrl}/api/product`).pipe(
-      map((products: T[]) => {
+    return this.http.get<Product[]>(`${this.rootUrl}/api/product`).pipe(
+      map((products: Product[]) => {
         return products
       }),
       catchError((error) => {
@@ -80,7 +80,7 @@ export class ApiHelperService<T> {
     // );
   }
 
-  getClients(): Observable<T[]> {
+  getClients(): Observable<Client[]> {
   // getClients() : Observable<Client[]> {
     // return this.ParseJSONArray(this.fakeClients);
 
@@ -98,10 +98,10 @@ export class ApiHelperService<T> {
     // );
 
     // return this.http.get<Client[]>(`${this.rootUrl}/api/client`)
-    return this.http.get<T[]>(`${this.rootUrl}/api/client`);
+    return this.http.get<Client[]>(`${this.rootUrl}/api/client`);
   }
 
-  getInvoices(): Observable<T[]> {
+  getInvoices(): Observable<Invoice[]> {
   // getInvoices(): Observable<Invoice[]> {
 
     // return this.ParseJSONArray(this.fakeInvoices);
@@ -120,7 +120,7 @@ export class ApiHelperService<T> {
     //   })
     // );
 
-    const res = this.http.get<T[]>(`${this.rootUrl}/api/invoice`)
+    const res = this.http.get<Invoice[]>(`${this.rootUrl}/api/invoice`)
     console.log(" getInvoices result", res);
     return res;
 
@@ -162,32 +162,37 @@ export class ApiHelperService<T> {
     // this.update(supplierToUpdate, supplier);
   }
 
-  saveSaleDetails(SaleDetail: SaleDetail[]) {
-    return this.http.post<SaleDetail[]>(`${this.rootUrl}/api/Sale`, SaleDetail)
+  saveSaleDetail(SaleDetail: SaleDetail[]) {
+    return this.http.post<SaleDetail[]>(`${this.rootUrl}/api/Sale`, SaleDetail);
   }
 
-  saveRecord(object: any) {
+  saveRecord(object: unknown) {
     // let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
     // this.update(invoiceToUpdate, object);
     console.log(object);
     
     console.log("object.constructor.name", object.constructor.name);
-    switch (object.constructor.name) {
+    console.log("recsType", this.recsType);
+    switch (this.recsType) {
       case "Product":
         console.log("Product");
-        this.saveProduct(object);
+        this.saveProduct(object as Product);
         break;
         case "Client":
         console.log("Client");
-        this.saveClient(object);
+        this.saveClient(object as Client);
         break;
         case "Supplier":
-        this.saveSupplier(object);
+        this.saveSupplier(object as Supplier);
         console.log("Supplier");
         break;
         case "Invoice":
-        this.saveInvoice(object);
+        this.saveInvoice(object as Invoice);
         console.log("Invoice");
+        break;
+      case "SaleDetail":
+        this.saveSaleDetail([object] as SaleDetail[]).subscribe();
+        console.log("SaleDetail");
         break;
       default:
         {
@@ -199,7 +204,7 @@ export class ApiHelperService<T> {
   }
 
   // getRecords(object: any): Observable<Product[] | Client[] | Supplier[] | Invoice[]> {
-  getRecords(type:string, invoiceID : number = 0): Observable<T[]> {
+  getRecords(type: string, invoiceID: number = 0): Observable<Invoice[] | SaleDetail[]>  {
     // let invoiceToUpdate = this.fakeInvoices.find(inv => inv.id === invoice.id)
     // this.update(invoiceToUpdate, object);
     console.log(type);
@@ -306,11 +311,11 @@ export class ApiHelperService<T> {
 
   }
 
-  getSaleDetailsByInvoiceID (ID): Observable<T[]>{
+  getSaleDetailsByInvoiceID (ID): Observable<SaleDetail[]>{
     let params = new HttpParams({});
     params = params.append("InvoiceId", ID);
 
-    let res = this.http.get<T[]>(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params });
+    let res = this.http.get<SaleDetail[]>(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params });
     console.log("getSaleDetailsByInvoiceID reslt",res);
     
     return res;
