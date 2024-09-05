@@ -1,12 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-//using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using AccountingSoftwareApi.Data;
 using Microsoft.Extensions.Configuration;
@@ -18,11 +13,7 @@ using System.Text;
 using ASDataManager.Library.DataAccess;
 using ASDataManager.Library.Internal.DataAccess;
 using AccountingSoftwareApi.Identity;
-using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Reflection;
-using System.IO;
 
 namespace AccountingSoftwareApi
 {
@@ -47,12 +38,15 @@ namespace AccountingSoftwareApi
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            //MvcOptions.EnableEndPointRouting = false;
+
 
             //App Services
             services.AddTransient<IInventoryData, InventoryData>();
             services.AddTransient<IInvoiceData, InvoiceData>();
             services.AddTransient<IProductData, ProductData>();
             services.AddTransient<IClientData, ClientData>();
+            services.AddTransient<ISupplierData, SupplierData>();
             services.AddTransient<ISaleData, SaleData>();
             services.AddTransient<IUserData, UserData>();
             services.AddTransient<ISQLDataAccess, SQLDataAccess>();
@@ -223,6 +217,8 @@ namespace AccountingSoftwareApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+
 
 
             app.UseStaticFiles();

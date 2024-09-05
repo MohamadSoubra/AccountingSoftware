@@ -65,10 +65,15 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   @Output() actionAdd: EventEmitter<any> = new EventEmitter<any>();
   @Output() actionDelete: EventEmitter<any> = new EventEmitter<any>();
 
+  //Updating totals in AddeditComponent
+  @Output() onAdd = new EventEmitter<any>();
+
   
 
-  @Input() InputData$: TableDataSource<T>;
-  tableData$: TableDataSource<T>;
+  // @Input() InputData$: TableDataSource<T>;
+  ///// !!!!!!!! Recently changed to make reloading table data work without an event emitter to table component
+  // tableData$: TableDataSource<T>;
+  @Input() tableData$: TableDataSource<T>;
 
   // @Input() set tableData(data: any[]) {
   //   this.setTableDataSource(data);
@@ -108,6 +113,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     
     this.InitialzeColumns();
     console.log("this.tableData", this.tableData$);
+    // console.log("this.InputData", this.InputData$);
 
     // this.newTableDataSource$.FechData();
     // console.log("this.isPageable", this.isPageable);,
@@ -127,29 +133,29 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 ngAfterViewInit() {
   // console.log("Table in AfterviewINIT");
   // this.newTableDataSource$ = new TableDataSource(this.api);
-  this.tableData$ = this.InputData$;
+  // this.tableData$ = this.InputData$;
 
 
   // this.newTableDataSource$.paginator = this.matPaginator;
-  if(this.matPaginator){
-
+  // console.log("this.matpaginator",this.matPaginator);
+  
+  if (this.isPageable){
     this.tableData$.paginator = this.matPaginator;
     this.cd.detectChanges();
   }
   
   // this.newTableDataSource$.sort = this.matSort;
-  if(this.matSort !== undefined || this.matSort !== null){
-    console.log("this.matSort", this.matSort);
-    
+  if (this.isSortable){
     this.tableData$.sort = this.matSort;
   }
-  console.log("this.tableData$.DATA$.value.length", this.tableData$.DATA$.value.length);
-  console.log("this.tableData$.DATA$", this.tableData$.DATA$);
   
-  if(this.tableData$.DATA$.value.length <= 0){
+  // console.log("this.tableData$.DATA$.value.length", this.tableData$.DATA$.value.length);
+  // console.log("this.tableData$.DATA$", this.tableData$.DATA$);
 
-    // this.newTableDataSource$.FechData();
-  }
+  // if(this.tableData$.DATA$.value.length <= 0){
+
+  //   // this.newTableDataSource$.FechData();
+  // }
 
   // this.tableData$.FechData(this.api.recID);
     
@@ -226,23 +232,33 @@ console.log('test',test);
 
   Add(element: T){
 
+    console.log("this.tableData$",this.tableData$);
+    
+
     console.log("element in table component add",element);
     
-    let dataT: any = this.tableData$.DATA$.value
-    dataT.push(element);
-    this.tableData$.DATA$.next(dataT);
-    this.api.saveRecord(element);
+    // let dataT: any = this.tableData$.DATA$.value
+    // // dataT.push(element);
+    // this.tableData$.DATA$.next(dataT);
+
+    // this.onAdd.emit(element);
+    // this.api.saveRecord(element);
   }
 
   delete(element) {
     // let record: any = this.newTableDataSource$.DATA$.value.filter(
     //   (el) => el != element
     // );
-    let data: any = this.tableData$.DATA$.value.filter(
-      (el) => el != element
-    );
-    // this.newTableDataSource$.DATA$.next(data);
-    this.tableData$.DATA$.next(data);
+    if (this.tableData$.DATA$.value.length == 1) {
+      this.tableData$.DATA$.next([]);
+    }else{
+      let data: any = this.tableData$.DATA$.value.filter(
+        (el) => el != element
+      );
+      // this.newTableDataSource$.DATA$.next(data);
+      this.tableData$.DATA$.next(data);
+    }
+    
     
     if (this.matPaginator){
       // this.newTableDataSource$.paginator = this.matPaginator;
@@ -253,8 +269,9 @@ console.log('test',test);
     }
     console.log("this.componentName", this.componentName);
     
-
-    //this.api.deleteRecord(element, this.componentName);
+    // if(element.id !== 0){
+    //   this.api.deleteRecord(element, this.componentName);
+    // }
     this.actionDelete.emit(element);
   }
 

@@ -109,6 +109,8 @@ export class ProductsComponent<T extends Identification> implements OnInit {
 
     // this.productList$ = this.productList$.filter(el => el !== element);
     // console.log("this.productList AFTER DELETE", this.productList);
+    console.log("Delete", element);
+    this.api.deleteRecord(element, this.componentName);
     
   }
 

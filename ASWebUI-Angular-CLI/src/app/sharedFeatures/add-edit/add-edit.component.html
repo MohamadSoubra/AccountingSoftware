@@ -17,21 +17,21 @@
                 </ng-container> -->
 
                 <ng-container *ngIf="prop.isBoolean">
-
                     <mat-form-field appearance="outline">
                         <mat-label>{{prop.labelsText}}</mat-label>
                         <mat-select matInput [formControlName]="prop.formControlName">
-                            <mat-option value=true>True</mat-option>
-                            <mat-option value=false>False</mat-option>
+                            <mat-option [value]='true' >True</mat-option>
+                            <mat-option [value]='false' >False</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </ng-container>
                 <!-- ||| Table ||| -->
                 <ng-container *ngIf="prop.needTable">
-                    <app-table class="tableEmbed" [componentName]="'SaleDetail'" [ngClass]="prop.formControlName" [InputData$]="saleDetailsData" [tableColumns]="saledetailscolumns" [isPageable]="false"
+                    <app-table class="tableEmbed" [componentName]="'SaleDetail'" [ngClass]="prop.formControlName" [tableData$]="saleDetailsData" [tableColumns]="saledetailscolumns" [isPageable]="false"
                     [isFilterable]="false" [hasActionColumn]="true" [isSortable]="false"
-                    [hasCheckboxColumn]="false"  (actionEdit)="edit($event)" (actionAdd)="add($event)"
+                    [hasCheckboxColumn]="false"  (actionEdit)="edit($event)" (actionAdd)="add($event)" 
                     (actionDelete)="delete($event)"> </app-table>
+                    <!-- (onAdd)="updateTotals($event)" -->
 
                     <div class="addButton">
                         <button mat-stroked-button color="warn" type="button" (click)="addSaleDetail()">
@@ -78,14 +78,14 @@
 
                     <!-- && prop.formControlName != 'subTotal' && prop.formControlName != 'tax' && prop.formControlName != 'total' -->
                 <ng-container *ngIf="!prop.isBoolean && !prop.needTextArea&& !prop.needSelectInput && !prop.needDatePicker && !prop.needTable
-                 && prop.Included">
+                 && prop.Included && prop.formControlName != 'sale'">
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label> {{ prop.labelsText }} </mat-label>
-                        <input matInput placeholder="" color="primary" [formControlName]="prop.formControlName">
+                        <input matInput [type]="prop.type" placeholder="" color="primary" [formControlName]="prop.formControlName">
                     </mat-form-field>
                     <!-- <label for="prop.formControlName">{{ prop.labelsText }}</label>
-                <input placeholder="" name="prop.formControlName" [formControlName]="prop.formControlName"> -->
+                 <input placeholder="" name="prop.formControlName" [formControlName]="prop.formControlName"> -->
 
                 </ng-container>
                 <!-- <mat-form-field appearance="outline"> -->
@@ -94,16 +94,34 @@
                 <!-- </mat-form-field> -->
 
 
-                <ng-container *ngIf="prop.formControlName == 'saleDetails'">
+                <ng-container *ngIf="prop.formControlName == 'sale'">
                     <!-- <mat-form-field  aria-disabled="true" appearance="outline" [ngClass]="prop.formControlName">
                                         <mat-label> {{ prop.labelsText }} </mat-label>
                                         <input matInput placeholder="" color="primary" [formControlName]="prop.formControlName">
                                     </mat-form-field> -->
                     <ng-container>
-                        <div class="totals">
-                            <div> <mat-label> Sub Total : </mat-label> <span> {{subTotal}}</span> </div>
-                            <div> <mat-label> Tax : </mat-label> <span> {{tax}}</span> </div>
-                            <div> <mat-label> Total : </mat-label> <span> {{total}}</span> </div>
+                        <div formGroupName="sale" class="totals">
+                            
+                            <!-- <div> <mat-label> Sub Total : </mat-label> <input disabled matInput [formControlName]="prop.value.subTotal"/> </div> -->
+                            <!-- 
+                            <input matInput [attr.disabled]="true" [type]="prop.type" placeholder="" color="primary" formControlName="subTotal">
+                            <input matInput [attr.disabled]="true" [type]="prop.type" placeholder="" color="primary" formControlName="tax">
+                            <input matInput [attr.disabled]="true" [type]="prop.type" placeholder="" color="primary" formControlName="total"> -->
+                            <!-- <mat-form-field  appearance="outline" [ngClass]="prop.formControlName">
+                                <mat-label> Sub Total </mat-label>
+                                <input matInput [type]="prop.type" placeholder="" color="primary" formControlName="subTotal">
+                            </mat-form-field> -->
+                            <!-- <mat-form-field  appearance="outline" [ngClass]="prop.formControlName">
+                                <mat-label> Sub Total </mat-label>
+                                <input matInput [type]="prop.type" placeholder="" color="primary" formControlName="tax">
+                            </mat-form-field>
+                            <mat-form-field  appearance="outline" [ngClass]="prop.formControlName">
+                                <mat-label> Sub Total </mat-label>
+                                <input matInput [type]="prop.type" placeholder="" color="primary" formControlName="total">
+                            </mat-form-field> -->
+                            <div> <mat-label> Subtotal :    </mat-label> <input matInput [attr.disabled]="true" [type]="prop.type" placeholder="" color="primary" formControlName="subTotal"> </div>
+                            <div> <mat-label> Tax :         </mat-label> <input matInput [attr.disabled]="true" [type]="prop.type" placeholder="" color="primary" formControlName="tax"> </div>
+                            <div> <mat-label> Total :       </mat-label> <input matInput [attr.disabled]="true" [type]="prop.type" placeholder="" color="primary" formControlName="total"> </div>
                 
                         </div>
                     </ng-container>

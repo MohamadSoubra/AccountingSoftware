@@ -4,7 +4,7 @@ AS
 BEGIN
 	set nocount on;
 
-	SELECT Id, SupplierName, FirstName, LastName, EmailAddress, [Address], PhoneNumber, Country, City
+	SELECT [Id], [AccountNumber], [CompanyName], [ContactName], [EmailAddress], [Address], [PhoneNumber], [Country], [City]
     FROM Supplier
 	WHERE Id = @Id and Active = 1;
 END

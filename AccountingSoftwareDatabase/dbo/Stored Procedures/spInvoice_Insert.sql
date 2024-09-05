@@ -6,16 +6,15 @@
 	@InvoiceDate datetime2(7),
 	@PaymentDueDate datetime2(7),
 	@AmountDue money,
-	@Status varchar(20),
-	@SaleId int = 0
+	@Status varchar(20)
 
 AS
 
 BEGIN
 	set nocount on;
 	set IDENTITY_INSERT [dbo].[Invoice] OFF ;
-	INSERT INTO dbo.Invoice (InvoiceNumber, ClientId, [Description], InvoiceDate, PaymentDueDate, AmountDue, [Status], SaleId)
+	INSERT INTO dbo.Invoice (InvoiceNumber, ClientId, [Description], InvoiceDate, PaymentDueDate, AmountDue, [Status])
 	OUTPUT inserted.Id
-	VALUES ( @InvoiceNumber, @ClientId, @Description, @InvoiceDate, @PaymentDueDate, @AmountDue, @Status, ISNULL(@SaleId,0));
-	return
+	VALUES ( @InvoiceNumber, @ClientId, @Description, @InvoiceDate, @PaymentDueDate, @AmountDue, @Status);
+	--select @Id = SCOPE_IDENTITY();
 END

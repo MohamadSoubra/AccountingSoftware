@@ -45,9 +45,9 @@ export class ClientsComponent<T extends Identification> implements OnInit {
     
   }
   
-  delete(client){
-    console.log("Deleted Client",client);
-
+  delete(element){
+    console.log("Deleted Client", element);
+    this.api.deleteRecord(element, this.componentName);
   }
 
   batchDelete() {

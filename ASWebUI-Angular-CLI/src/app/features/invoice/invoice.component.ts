@@ -191,6 +191,9 @@ export class InvoiceComponent<T extends Identification> implements OnInit {
   delete(element) {
     // this.InvoiceList$ = this.InvoiceList$.filter((el) => el !== element);
     // console.log("this.InvoiceList AFTER DELETE", this.InvoiceList);
+
+    console.log("Delete", element);
+    this.api.deleteRecord(element, this.componentName);
   }
 
   toggleEditmode() {

@@ -4,6 +4,8 @@
 
 // }
 
+
+
 .modal {
     --flex-size: 100%;
     background-color: white;
@@ -90,12 +92,12 @@
             padding: .5rem;
         }
     }
-    .form>*:has(.saleDetails) {
-        // width:50%;
-        // background-color: orange;
-        margin-inline: auto;
-        overflow: auto;
-    }
+    // .form>*:has(.saleDetails) {
+    //     // width:50%;
+    //     // background-color: orange;
+    //     // margin-inline: auto;
+    //     // overflow: auto;
+    // }
 
     // .form>.ng-star-inserted:first-child {
     //     display: none;
@@ -118,12 +120,16 @@
         }
     }
 
+    // .tableEmbed{
+        
+    // }
+
 
 }
 
-.dontInclude{
-    display: none;
-}
+// .dontInclude{
+//     display: none;
+// }
 
 // .firstName {
 //     background: pink;
@@ -184,6 +190,13 @@
                 display: flex;
                 justify-content: space-between;
                 padding: .5rem;
+                label{
+                    width: 25%;
+                }
+                input{
+                    width: 25%;
+                    margin-left: auto
+                }
             }
         }
 

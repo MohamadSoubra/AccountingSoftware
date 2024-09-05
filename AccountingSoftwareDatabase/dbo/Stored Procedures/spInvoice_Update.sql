@@ -16,7 +16,6 @@ BEGIN
 	update dbo.Invoice set 
 	InvoiceNumber = ISNULL(@InvoiceNumber, InvoiceNumber), 
 	ClientId = ISNULL(@ClientId, ClientId),
-	SaleId = ISNULL(@SaleID, SaleId),
 	[Description] = ISNULL(@Description, [Description]),
 	InvoiceDate = ISNULL(@InvoiceDate, InvoiceDate),
 	PaymentDueDate = ISNULL(@PaymentDueDate, PaymentDueDate),

@@ -123,3 +123,13 @@ th .mat-form-field-infix{
   margin: auto;
   width: 98%;
 }
+
+.component{
+  background-color: white;
+  height: auto;
+  padding-bottom: var(--top-space);
+  border-radius: 0.5rem 0.5rem;
+  text-align: center;
+  margin: var(--top-space) auto;
+  position: relative;
+}

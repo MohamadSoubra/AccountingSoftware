@@ -7,6 +7,7 @@ namespace ASDataManager.Library.DataAccess
     {
         ClientModel GetClientById(int ClientId);
         List<ClientModel> GetClients();
-        void PostClients(List<ClientModel> Clients);
+        void PostClients(ClientModel Clients, bool Update = false);
+        void DeleteClientRecord(int ClientID);
     }
 }

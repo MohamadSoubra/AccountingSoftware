@@ -1,12 +1,12 @@
 ﻿CREATE TABLE [dbo].[Supplier]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
-    [SupplierName] NVARCHAR(50) NOT NULL,
-    [FirstName] NVARCHAR(50) NOT NULL, 
-    [LastName] NVARCHAR(50) NOT NULL, 
-    [EmailAddress] NVARCHAR(256) NOT NULL, 
-    [Address] NVARCHAR(MAX) NOT NULL, 
-    [PhoneNumber] NVARCHAR(50) NOT NULL, 
+    [AccountNumber] NVARCHAR(50) NOT NULL,
+    [CompanyName] NVARCHAR(50) NOT NULL,
+    [ContactName] NVARCHAR(50) NULL, 
+    [EmailAddress] NVARCHAR(256) NULL, 
+    [Address] NVARCHAR(MAX) NULL, 
+    [PhoneNumber] NVARCHAR(50) NULL, 
     [Country] NVARCHAR(50) NULL, 
     [City] NVARCHAR(50) NULL, 
     [Active] BIT NULL DEFAULT 1

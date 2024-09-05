@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ASDataManager.Library.DataAccess;
 using ASDataManager.Library.Models;
@@ -33,9 +34,9 @@ namespace AccountingSoftwareApi.Controllers
         [Authorize(Roles = "Manager")]
         //[Authorize(Roles = "Accountant")]
         [HttpPost]
-        public IActionResult PostProducts([FromBody] List<ProductModel> products)
+        public IActionResult PostProducts([FromBody] ProductModel product)
         {
-            _productData.PostProducts(products);
+            _productData.PostProduct(product);
 
             return Ok();
         }
@@ -47,6 +48,16 @@ namespace AccountingSoftwareApi.Controllers
           {
             var x = _productData.GetProductById(ProductId);
             return _productData.GetProductById(ProductId);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("UpdateProduct")]
+        [HttpPut]
+        public void UpdateProduct([FromBody] ProductModel product)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            _productData.PostProduct(product, true);
         }
 
 

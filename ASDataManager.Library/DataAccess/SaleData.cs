@@ -32,12 +32,14 @@ namespace ASDataManager.Library.DataAccess
             _sql.SaveData<object>("dbo.spSaleDetail_Delete", new { Ids = Ids }, "ASDatabase");
         }
 
-        public void SaveSale(List<SaleDetailModel> saleInfo, string cashierId)
+
+
+        public void SaveSale(List<SaleDetailModel> saleInfo, string cashierId, int InvoiceID)
         {
             // TODO: Make this SOLID/DRY/Better
             // Start filling in the models we will save to the database
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
-            //var taxRate = _configHelper.GetTaxRate() / 100;
+            var SaleDetailLookup = _sql.LoadData<SaleDetailModel, dynamic>("spSaleDetail_GetByInvoiceId", new { Id = InvoiceID }, "ASDatabase");
 
 
 
@@ -52,9 +54,11 @@ namespace ASDataManager.Library.DataAccess
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
-                    InvoiceId = item.InvoiceId,
+                    InvoiceId = InvoiceID,
                     Description = item.Description,
-                    Total = item.Total
+                    Total = item.Total,
+                    Tax = item.Tax,
+                    
                     
                 };
 
@@ -78,8 +82,10 @@ namespace ASDataManager.Library.DataAccess
             //create the sale model
             SaleDBModel sale = new SaleDBModel
             {
+                InvoiceID = InvoiceID,
                 SubTotal = details.Sum(x => x.UnitPrice),
                 Tax = details.Sum(x => x.Tax),
+                Total = details.Sum(x => x.UnitPrice) * details.Sum(x => x.Tax),
                 CashierId = cashierId
             };
 
@@ -94,16 +100,28 @@ namespace ASDataManager.Library.DataAccess
                 _sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
 
                 // Get the ID from the sale model
-                sale.Id = _sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { sale.CashierId, sale.SaleDate }).FirstOrDefault();
+                sale.Id = _sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { sale.CashierId, sale.SaleDate, sale.InvoiceID }).FirstOrDefault();
+
+                if (SaleDetailLookup.Count != 0)
+                {
+                    _sql.SaveDataInTransaction("spSaleDetail_DeleteByInvoiceId", InvoiceID);
+                }
+
+                //if (!upda)
+                //{
+
+                //}
 
                 // Finish filling in the sale detail models
-                foreach (var item in details)
-                {
-                   // item.SaleId = sale.Id;
+                //foreach (var item in details)
+                //{
+                //   // item.SaleId = sale.Id;
 
-                    // Save the sale detail models
-                    _sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
-                }
+                //    // Save the sale detail models
+                //    _sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
+                //}
+
+                details.ForEach(detail => _sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", detail));
 
                 _sql.CommitTransaction();
             }
@@ -131,10 +149,10 @@ namespace ASDataManager.Library.DataAccess
 
                 if (SDstoDelete != null)
                 {
-                    //_sql.SaveData<object>("dbo.spSaleDetail_Delete", new { Ids = SDstoDelete }, "ASDatabase");
+                    _sql.SaveData<object>("dbo.spSaleDetail_Delete", new { Ids = SDstoDelete.ToArray() }, "ASDatabase");
                 }
 
-                //this.SaveSale(saleDetails, cashierId, InvoiceID);
+                this.SaveSale(saleDetails, cashierId, InvoiceID);
             }
         }
 

@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ASDataManager.Library.Internal.DataAccess
@@ -71,9 +72,9 @@ namespace ASDataManager.Library.Internal.DataAccess
 
         }
 
-        public T SaveDataInTransaction<T>(string StoredProcedure, T parameters)
+        public int SaveDataInTransaction<T>(string StoredProcedure, T parameters)
         {
-            return _connection.ExecuteScalar<T>(StoredProcedure, parameters,
+            return _connection.ExecuteScalar<int>(StoredProcedure, parameters,
                                 commandType: CommandType.StoredProcedure,
                                 transaction: _transaction);
         }

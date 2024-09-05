@@ -33,7 +33,7 @@ namespace ASDataManager.Library.DataAccess
         }
 
         //TODO: Check if that method is made by me or by IAMTIMCOREY
-        public void PostProducts(List<ProductModel> products)
+        public void PostProduct(ProductModel product, bool Update = false)
         {
 
             //foreach (var product in products)
@@ -42,7 +42,26 @@ namespace ASDataManager.Library.DataAccess
             //    _sql.SaveData<object>("dbo.spProduct_Insert", new {product.ProductName, product.Description, product.RetailPrice, product.QuantityInStock, product.IsTaxable}, "ASDatabase");
 
             //}
-            _sql.SaveData<object>("dbo.spProduct_Insert", products, "ASDatabase");
+
+            if(Update ==  false)
+            {
+                _sql.SaveData<object>("dbo.spProduct_Insert",
+                    new {product.ProductName,
+                        product.QuantityInStock,
+                        product.IsTaxable,
+                        product.Description,
+                        product.RetailPrice}, "ASDatabase");
+            }
+            else
+            {
+                 _sql.SaveData<object>("dbo.spProduct_Update",
+                    new {product.Id,
+                        product.ProductName,
+                        product.QuantityInStock,
+                        product.IsTaxable,
+                        product.Description,
+                        product.RetailPrice}, "ASDatabase");
+            }
         }
 
         public void DeleteProducts(int[] IDs)

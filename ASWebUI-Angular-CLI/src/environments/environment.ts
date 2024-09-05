@@ -5,7 +5,8 @@
 
 export const environment = {
   production: false,
-  development: true
+  development: true,
+  apiUrl: "https://localhost:445/AccountingSoftwareApi",
 };
 
 /*

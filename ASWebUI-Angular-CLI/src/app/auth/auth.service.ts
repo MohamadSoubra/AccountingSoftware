@@ -15,12 +15,13 @@ import { mapTo, tap, catchError, count } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { AuthResponse } from "./auth-response.model";
 import { accessToken } from "./accessToken.model";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  rootUrl: string = "https://localhost/AccountingSoftwareApi";
+  rootUrl: string = environment.apiUrl;
   user = new BehaviorSubject<User>(null);
   tokenExpirationTimer: any;
   offset = new Date().getTimezoneOffset();
@@ -56,7 +57,10 @@ export class AuthService {
 
           this.refreshTokenString = token.refreshToken;
 
-          const user = new User(decodedToken.email, token.accessToken);
+          const user = new User();
+          user.id = decodedToken.id;
+          user.email = decodedToken.email;
+          user.token = token.accessToken;
 
           this.user.next(user);
 
@@ -111,7 +115,14 @@ export class AuthService {
     const storedToken = localStorage.getItem("token");
     if (this.isTokenValid(storedToken)) {
       const token = this.decodeToken(storedToken);
-      const user = new User(token.email, storedToken);
+      console.log("decodedtoken", token);
+      
+      const user = new User(
+        token.id,
+        token.email,
+        storedToken,
+    );
+      
       this.user.next(user);
     } else {
       this.user.next(null);
@@ -180,7 +191,10 @@ export class AuthService {
           // this.stringtoken = tokens.token;
           //console.log(tokens);
           const decodedtoken = this.decodeToken(tokens.token);
-          const user = new User(decodedtoken.email, tokens.token);
+          const user = new User();
+          user.id = decodedtoken.id;
+          user.email = decodedtoken.email;
+          user.token = tokens.token;
           this.user.next(user);
 
           // this.autoRefreshToken(

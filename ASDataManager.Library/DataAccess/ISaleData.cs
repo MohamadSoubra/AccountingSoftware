@@ -6,7 +6,7 @@ namespace ASDataManager.Library.DataAccess
     public interface ISaleData
     {
         List<SaleReportModel> GetSaleReport();
-        void SaveSale(List<SaleDetailModel> saleInfo, string cashierId);
+        void SaveSale(List<SaleDetailModel> saleInfo, string cashierId, int InvoiceID);
         void DeleteSaleDetails(List<string> Ids);
         void UpdateSaleDetails(List<SaleDetailModel> saleDetails, string cashierId, int InvoiceID);
     }

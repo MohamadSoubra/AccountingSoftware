@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Observable } from "rxjs";
 import { isEmpty } from "rxjs/operators";
 import { ClientsComponent } from "src/app/components/clients/clients.component";
@@ -18,7 +18,7 @@ interface ModalSaleDetail {
   product: Product[];
   quantity: number;
   price: number ;
-  total: number;
+  tax: number;
 };
 
 @Component({
@@ -31,6 +31,7 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
     @Inject(MAT_DIALOG_DATA) public displayItem,
     private fb: FormBuilder,
     private dialog: MatDialog,
+    private dialogRef: MatDialogRef<DisplayModalComponent<T>>,
     private apiHelper: ApiHelperService<T>
   ) {}
 
@@ -38,37 +39,41 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
   itemProperties;
   itemFormArray = this.fb.array([]);
   formControlsArray = [];
-  itemform = this.fb.group({});
+  formItemSaleDetail = this.fb.group({});
   labelstext = [];
   selectValue = false;
   selectInputData: any;
   selectInputValue: any;
-  ModalSD: ModalSaleDetail
+  ModalSD: ModalSaleDetail = { product: [],price: 0, quantity: 0, tax: 0  };
   DisplayModal$: Observable<Product[]>
   // autoCompleteValue: any;
+
+  @ViewChild(HTMLElement) blurinput: HTMLElement
 
   ngOnInit(): void {
     //console.log(Object.entries(this.displayItem));
     //this.displayItem = this.data.map((value) => String(value));
-    console.log("this.displayItem", this.displayItem);
+    // console.log("this.displayItem", this.displayItem);
     // console.log("this.displayItem.id", this.displayItem.id);
     // console.log("this.displayItem.constructor.name", this.displayItem.constructor.name );
     // console.log("Object.keys(this.displayItem)", Object.keys(this.displayItem));
     // console.log("Object.keys(Product)", Object.keys(new Product()));
-    this.ModalSD = { product: [{ id: 90, productName: "testName", description: "testDesc", retailPrice: 1000, quantityInStock: 1000, isTaxable: false }],price: 0, quantity: 0, total: 0  };
+    // this.ModalSD = { product: [{ id: 90, productName: "testName", description: "testDesc", retailPrice: 1000, quantityInStock: 1000, isTaxable: false }],price: 0, quantity: 0, total: 0  };
     // this.ModalSD = { product: [],price: 0, quantity: 0, total: 0  };
     // this.ModalSD.products = [{ id: 90, productName: "testName", description: "testDesc", retailPrice: 1000, quantityInStock: 1000, isTaxable: false }];
 
     // this.apiHelper.getProducts().subscribe((products) => {
     //   return this.ModalSD.product = products;
     // })
+
+    console.log("this.itemform.value",this.formItemSaleDetail.value);
     
-    this.DisplayModal$ = this.apiHelper.getProducts()
+    this.DisplayModal$ = this.apiHelper.getProducts();
     console.log("ModalSD", this.ModalSD);
 
 
 
-    console.log("this.ModalSD", this.ModalSD);
+    // console.log("this.ModalSD", this.ModalSD);
     
 
     if (this.displayItem.id != undefined) {
@@ -103,11 +108,17 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
     // console.log("this.itemform.controls.client", this.itemform.controls.client);
     // console.log("this.itemform", this.itemform);
     // console.log("this.selectInputData", this.selectInputData);
+
+    // this.blurinput.blur();
+
   }
 
   onSubmit() {
-    console.log("this.itemform", this.itemform);
-    console.log(this.itemform.value);
+    this.dialogRef.close(this.formItemSaleDetail.value);
+  }
+
+  closeDialog(){
+    this.dialogRef.close(undefined);
   }
 
   formatText(text: string) {
@@ -149,13 +160,13 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
   }
 
   autoCompleteIsEmpty(prop): boolean {
-    console.log("prop",prop);
+    // console.log("prop",prop);
     
     if (prop.formControlName !== 'product' ){
       return true;
     }else{
-      const formControlValue = this.itemform.get(prop.formControlName).value
-      console.log("formControlValue", formControlValue);
+      const formControlValue = this.formItemSaleDetail.get(prop.formControlName).value
+      // console.log("formControlValue", formControlValue);
       if (typeof formControlValue === 'object' && formControlValue !== null){
         return this.objectHasEmptyProperties(formControlValue);
       }
@@ -163,7 +174,7 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
   }
 
   resetAutoComplete(prop){
-    this.itemform.get(prop.formControlName).setValue({});
+    this.formItemSaleDetail.get(prop.formControlName).setValue({});
   }
 
   objectHasEmptyProperties(object){
@@ -172,6 +183,18 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
     } else {
       return false;
     }
+  }
+
+  getItem(id: string){
+    console.log(this.apiHelper.getByID("products", id));
+     
+    this.apiHelper.getByID("products", id).subscribe(product => {
+      console.log(product);
+      
+      this.formItemSaleDetail.get('price').setValue(product.retailPrice);
+    })
+    console.log(this.formItemSaleDetail);
+    
   }
 
   GenerateFormFromObject(object: ModalSaleDetail) {
@@ -206,12 +229,12 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
 
         if (prop.toLowerCase().includes("date")) {
           needDatePicker = true;
-          this.itemform.addControl(
+          this.formItemSaleDetail.addControl(
             prop,
             new FormControl(new Date(object[prop]))
           );
         } else {
-          this.itemform.addControl(
+          this.formItemSaleDetail.addControl(
             prop,
             new FormControl(object[prop])
           );

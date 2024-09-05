@@ -4,7 +4,7 @@ AS
 begin
 	set nocount on;
 
-	select Id, CashierId, SaleDate, SubTotal, Tax, Total
+	select Id, CashierId, InvoiceID, SaleDate, SubTotal, Tax, Total
 	from dbo.Sale
 	Where Id = @Id and Active = 1;
 end

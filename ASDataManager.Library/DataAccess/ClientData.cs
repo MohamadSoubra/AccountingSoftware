@@ -30,13 +30,22 @@ namespace ASDataManager.Library.DataAccess
             return output;
         }
 
-        public void PostClients(List<ClientModel> Clients)
+        public void PostClients(ClientModel Client, bool Update)
         {
-            foreach (var Client in Clients)
-            {
-                _sql.SaveData<object>("dbo.spClient_Insert", new { Client.FirstName, Client.LastName, Client.Address, Client.EmailAddress, Client.PhoneNumber }, "ASDatabase");
 
+            if(Update == false)
+            {
+                 _sql.SaveData<object>("dbo.spClient_Insert", new { Client.FirstName, Client.LastName, Client.Address, Client.EmailAddress, Client.PhoneNumber }, "ASDatabase");
             }
+            else
+            {
+                 _sql.SaveData<object>("dbo.spClient_Update", new { Client.Id, Client.FirstName, Client.LastName, Client.Address, Client.EmailAddress, Client.PhoneNumber }, "ASDatabase");
+            }
+        }
+
+        public void DeleteClientRecord(int id)
+        {
+            _sql.SaveData<object>("dbo.spClient_Delete", new { Id = id }, "ASDatabase");
         }
     }
 }

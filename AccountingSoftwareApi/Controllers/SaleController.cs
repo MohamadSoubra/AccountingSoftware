@@ -26,11 +26,21 @@ namespace AccountingSoftwareApi.Controllers
 
         [Authorize(Roles = "Accountant")]
         [HttpPost]
-        public void Post(List<SaleDetailModel> sales)
+        public void Post(List<SaleDetailModel> sales, int InvoiceID)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            _saleData.SaveSale(sales, userId);
+            _saleData.SaveSale(sales, userId, InvoiceID);
+        }
+
+        [Authorize(Roles = "Accountant")]
+        [Route("UpdateSale/{InvoiceID}")]
+        [HttpPut]
+        public void UpdateSaleDetails(List<SaleDetailModel> sales, int InvoiceID)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            _saleData.SaveSale(sales, userId, InvoiceID);
         }
 
         [Authorize(Roles = "Admin,Manager")]

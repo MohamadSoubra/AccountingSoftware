@@ -30,7 +30,7 @@ namespace AccountingSoftwareApi.Controllers
         [Authorize(Roles = "Accountant")]
         [Route("getClientByID")]
         [HttpGet]
-        public ClientModel getClientByID(int ClientId)
+        public ClientModel GetClientByID(int ClientId)
         {
             return _clientData.GetClientById(ClientId);
         }
@@ -38,11 +38,30 @@ namespace AccountingSoftwareApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult PostClients([FromBody] List<ClientModel> clients)
+        public IActionResult PostClients([FromBody] ClientModel client)
         {
-            _clientData.PostClients(clients);
+            _clientData.PostClients(client);
+
+            return Ok();
+        } 
+        
+        [Authorize(Roles = "Admin")]
+        [Route("UpdateClient")]
+        [HttpPut]
+        public IActionResult UpdateClient([FromBody] ClientModel client)
+        {
+            _clientData.PostClients(client,true);
 
             return Ok();
         }
+
+        [Authorize(Roles = "Accountant")]
+        [Route("DeleteClient")]
+        [HttpDelete]
+        public void DeleteClient([FromBody] int ClientID)
+        {
+            _clientData.DeleteClientRecord(ClientID);
+        }
+
     }
 }

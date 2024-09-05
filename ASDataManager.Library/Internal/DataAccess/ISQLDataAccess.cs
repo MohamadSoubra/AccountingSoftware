@@ -11,7 +11,7 @@ namespace ASDataManager.Library.Internal.DataAccess
         List<T> LoadDataInTransaction<T, U>(string StoredProcedure, U parameters);
         void RollbackTransaction();
         int SaveData<T>(string StoredProcedure, T parameters, string connectionStringName);
-        T SaveDataInTransaction<T>(string StoredProcedure, T parameters);
+        int SaveDataInTransaction<T>(string StoredProcedure, T parameters);
         void StartTransaction(string connectionStringName);
     }
 }
