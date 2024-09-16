@@ -32,7 +32,7 @@ namespace AccountingSoftwareApi.Controllers
         }
 
         [Authorize(Roles = "Manager")]
-        //[Authorize(Roles = "Accountant")]
+        [Authorize(Roles = "Accountant")]
         [HttpPost]
         public IActionResult PostProducts([FromBody] ProductModel product)
         {

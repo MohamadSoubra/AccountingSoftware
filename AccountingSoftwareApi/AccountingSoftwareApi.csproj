@@ -14,6 +14,14 @@
     <Optimize>false</Optimize>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="web.config.old" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="web.config.old" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.32" />

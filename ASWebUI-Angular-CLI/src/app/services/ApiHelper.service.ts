@@ -276,6 +276,9 @@ export class ApiHelperService<T> {
         invoicetoupdate.amountDue = (object as Invoice).amountDue;
         invoicetoupdate.status = (object as Invoice).status;
         invoicetoupdate.saleDetails = (object as Invoice).saleDetails;
+        if(invoicetoupdate.sale === null){
+          invoicetoupdate.sale = new Sale((object as Invoice).sale);
+        }
         invoicetoupdate.sale = (object as Invoice).sale;
         this.updateInvoice(invoicetoupdate);
         // this.updateSale(invoicetoupdate.saleDetails, invoicetoupdate.id);

@@ -480,6 +480,9 @@ export class AddEditComponent<T> implements OnInit {
 
 
         if (prop === "sale") {
+          if(object[prop] === null){
+            object[prop] = new Sale();
+          }
           if(object[prop]){
 
             this.itemform.addControl(
