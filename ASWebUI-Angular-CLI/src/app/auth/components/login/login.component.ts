@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
   }
 
   checktoken() {
-    console.log(this.authService.isTokenValid(localStorage.getItem("token")));
+    console.log(this.authService.isTokenExpired(localStorage.getItem("token")));
   }
 
   login() {
