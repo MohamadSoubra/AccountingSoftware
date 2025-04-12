@@ -37,6 +37,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   loginUser(email: string, password: string) {
+
     let options = {
       headers: new HttpHeaders().set(
         "Content-Type",
@@ -44,6 +45,7 @@ export class AuthService {
       ),
       withCredentials: true,
     };
+
     let params = new HttpParams({});
     params = params.append("email", email);
     params = params.append("password", password);
@@ -115,29 +117,27 @@ export class AuthService {
 
     const tokenExpiryDate = new Date(date * 1000).getTime();
     const now = new Date().getTime();
-    // const expiry = new Date(
-    //   tokenExpiryDate.setMinutes(tokenExpiryDate.getMinutes() - this.offset)
-    // ).getTime();
     let result = tokenExpiryDate - now;
-    //console.log(`getTimeDuration result ${result}`);
     return result;
   }
 
   autologin() {
     const storedToken = localStorage.getItem("token");
-    if (this.isTokenValid(storedToken)) {
+    console.log();
+    
+    if (this.isTokenExpired(storedToken)) {
       const token = this.decodeToken(storedToken);
-      // console.log("decodedtoken", token);
-      
-      const user = new User(
-        token.id,
-        token.email,
-        token.sub,
-        storedToken,
-    );
-      
+
+      const user = new User();
+      user.id = token.id;
+      user.username = token.sub;
+      user.email = token.email;
+      user.token = storedToken;
+
       this.user.next(user);
+      
     } else {
+      console.log("TOKEN IS EXPIRED");
       this.user.next(null);
     }
     //const storedtoken = localStorage.getItem("token");
@@ -166,7 +166,7 @@ export class AuthService {
           // localStorage.setItem("token", tokens.token);
           // //this.autoRefreshToken(+decodedtoken.exp, tokens.token);
 
-          // console.log("Token refreshed");
+          console.log("----------------------------------------Token refreshed-------------------------------------------");
         },
         (error) => {
           console.log(error);
@@ -195,6 +195,8 @@ export class AuthService {
   }
 
   refreshToken(token: any) {
+    console.log("Refreshing Token");
+    
     return this.http
       .post<any>(this.rootUrl + "/refresh-token", token, {
         withCredentials: true,
@@ -202,8 +204,9 @@ export class AuthService {
       .pipe(
         tap((tokens) => {
           // this.stringtoken = tokens.token;
-          //console.log(tokens);
+          console.log("Tokens in refreah token",tokens);
           const decodedtoken = this.decodeToken(tokens.token);
+          console.log("decodedtoken in refresh",decodedtoken);
           const user = new User();
           user.id = decodedtoken.id;
           user.email = decodedtoken.email;
@@ -253,7 +256,7 @@ export class AuthService {
       );
   }
 
-  isTokenValid(token: string): boolean {
+  isTokenExpired(token: string): boolean {
     //console.log(storedtoken);
 
     if (token != null || token != undefined) {
@@ -289,5 +292,10 @@ export class AuthService {
 
   GetRoles(){
     return this.http.get<[]>(this.rootUrl + "/api/User/Admin/GetAllRoles")
+  }
+  
+  getUsers(){
+    
+    return this.http.get<User[]>(this.rootUrl + "/api/User/Admin/GetAllUsers")
   }
 }

@@ -59,7 +59,7 @@ namespace AccountingSoftwareApi.Controllers
 
             List<ApplicationUserModel> output = new List<ApplicationUserModel>();
 
-            var users = _context.Users.ToList();
+            var users = _userData.GetAllUsers();
 
             var UserRoles = from ur in _context.UserRoles
                             join r in _context.Roles on ur.RoleId equals r.Id
@@ -70,7 +70,12 @@ namespace AccountingSoftwareApi.Controllers
                 ApplicationUserModel u = new ApplicationUserModel
                 {
                     Id = user.Id,
-                    Email = user.Email
+                    EmailAddress = user.EmailAddress,
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    CreatedDate = user.CreatedDate
+
                 };
 
                 u.Roles = UserRoles.Where(x => x.UserId == u.Id).ToDictionary(x => x.RoleId, x => x.Name);

@@ -6,6 +6,7 @@ namespace ASDataManager.Library.DataAccess
     public interface IUserData
     {
         List<UserModel> GetUserById(string Id);
+        List<UserModel> GetAllUsers();
         void RegisterUser(UserModel user);
     }
 }

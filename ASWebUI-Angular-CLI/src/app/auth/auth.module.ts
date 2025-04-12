@@ -10,13 +10,16 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { LoadingSpinnerComponent } from "../sharedFeatures/loading-Spinner/loading-spoinner.component";
 import { AngularMaterialModule } from "../sharedFeatures/angular-material/angular-material.module";
+import { UsersManagerComponent } from "./components/UsersManager/UsersManager.component";
+import { TableModule } from "../sharedFeatures/table/table.module";
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
     ResetPasswordComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    UsersManagerComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +28,9 @@ import { AngularMaterialModule } from "../sharedFeatures/angular-material/angula
     RouterModule,
     AuthRoutingModule,
     AngularMaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TableModule
+
   ],
   exports: [LoginComponent, RegisterComponent, ResetPasswordComponent]
 })
