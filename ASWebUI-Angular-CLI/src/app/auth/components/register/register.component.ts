@@ -17,6 +17,7 @@ const passwordMatchValidator = (control: AbstractControl) => {
   }
 }
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -35,12 +36,20 @@ export class RegisterComponent implements OnInit {
   passwordsMatch: boolean = true;
   userRoles: Role[] = [];
   rolesOptions: Role[] = [];
+  passwordVisible:boolean = false;
   registrationForm = this.fb.group({
     firstName : [,],
     lastName : [,],
     userName : [,],
     emailAddress : [,[Validators.required, Validators.email]],
-    password : [,[Validators.required]],
+    password : [,[
+      Validators.required,
+      Validators.minLength(6),
+      this.regexValidator(new RegExp(/(?=[0-9]).*$/), {'number': {}}),
+      this.regexValidator(new RegExp(/(?=.*[a-z])(?=.*[A-Z]).*$/), {'case': {}}),
+      this.regexValidator(new RegExp(/^\S*$/), {'space': {}}),
+      this.regexValidator(new RegExp(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`]/), {'special': {}})
+    ]],
     userRoles : [,],
     confirmPassword : [,[Validators.required]]
   },{validator : passwordMatchValidator});
@@ -106,13 +115,25 @@ export class RegisterComponent implements OnInit {
     };
 
     // this.authService.RegisterUser(newUser)
-    console.log("formValue",formValue);
-    console.log("registrationForm",this.registrationForm);
-    console.log("newUser",newUser);
+    // console.log("formValue",formValue);
+    console.log("this.registrationForm",this.registrationForm);
+    // console.log("registrationForm",this.registrationForm);
+    // console.log("newUser",newUser);
 
-    console.log(this.confirmPassword);
+    // console.log(this.confirmPassword);
     
     this.authService.RegisterUser(newUser);
+  }
+
+  regexValidator(regex: RegExp, error: ValidationErrors): ValidatorFn{
+    return (control: AbstractControl): {[key: string]: any} => {
+      if (!control.value) {
+        return null;
+      }
+      const valid = regex.test(control.value);
+      
+      return valid ? null : error;
+    };
   }
 
 }

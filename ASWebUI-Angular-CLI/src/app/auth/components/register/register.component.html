@@ -43,9 +43,31 @@
             <div class="form-group password">
                 <mat-form-field class="formfield" appearance="outline">
                     <mat-label>Password</mat-label>
-                    <input matInput formControlName="password" type="password" required (input)="checkPasswords()">
+                    <input matInput formControlName="password" [type]="passwordVisible ? 'text' : 'password'" required (input)="checkPasswords()">
+                    <button mat-icon-button type="button" matSuffix (click)="passwordVisible = !passwordVisible" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="!passwordVisible">
+                  <mat-icon>{{passwordVisible ? 'visibility' : 'visibility_off'}}</mat-icon>
+                  </button>
                     <mat-error *ngIf="password.hasError('required')">
                         Password is <strong>required</strong>
+                    </mat-error>                    
+
+                    
+                    <mat-error *ngIf="!password.hasError('required')" >
+                        Password should
+                        <span *ngIf="password.hasError('minlength')"> at least be <strong>6 characters</strong> long </span>
+                        
+                        <span *ngIf="password.hasError('number')"> have at least <strong>one number </strong></span>
+                        
+                        <span *ngIf="password.hasError('case')">
+                            have at least <strong>one Upper Case</strong> and <strong> one Lower Case </strong>
+                        </span>
+                        <span *ngIf="password.hasError('special')">
+                            have at least <strong>one Special Character </strong>
+                        </span>
+                        <span *ngIf="password.hasError('space')">
+                            <strong>not</strong> include <strong>spaces </strong>
+                        </span>
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -57,7 +79,7 @@
                     <mat-error *ngIf="confirmPassword.hasError('required')">
                         Please <strong>confirm</strong> your password
                     </mat-error>
-                    <mat-error *ngIf="confirmPassword.hasError('passwordMismatch')">
+                    <mat-error *ngIf="confirmPassword.hasError('passwordMismatch') && !confirmPassword.hasError('required')">
                         Passwords dont <strong>match</strong>
                     </mat-error>
                 </mat-form-field>
@@ -70,7 +92,7 @@
                     <mat-option *ngFor="let role of rolesOptions" [value]="role">{{role.roleName}}</mat-option>
                     </mat-select>
                     <mat-error>
-                        Select a <strong>permission</strong> to continue
+                        Select at least one <strong>permission</strong>
                     </mat-error>
                 </mat-form-field>
             </div>
