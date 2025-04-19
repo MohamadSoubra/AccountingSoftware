@@ -19,7 +19,7 @@ import { AuthService } from "../../auth.service";
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent<T> implements OnInit {
   //Users: User;
   user: authUser;
   error: string = null;
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   })
   //loggedin = false;
   constructor(
-    private authService: AuthService,
+    private authService: AuthService<T>,
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder

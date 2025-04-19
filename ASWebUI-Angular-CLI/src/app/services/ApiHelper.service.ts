@@ -11,6 +11,7 @@ import { Sale } from "../models/sale.model";
 import { User } from "../models/User.model";
 import { Supplier } from "../models/supplier.model";
 import { environment } from "src/environments/environment";
+import { ApplicationUser } from "../auth/Models/ApplicationUser.model";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +23,7 @@ export class ApiHelperService<T> {
   recsType :string;
   recID: number;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService<T>) {}
 
 
   getProducts(): Observable<Product[]> {
@@ -351,7 +352,7 @@ export class ApiHelperService<T> {
     return this.http.delete(`${this.rootUrl}/api/product`, httpOptions);
   }
 
-  getInvoiceById(ID: any) {
+  getInvoiceById(ID: string) {
     let params = new HttpParams({});
     params = params.append("InvoiceId", ID);
 
@@ -370,7 +371,7 @@ export class ApiHelperService<T> {
     );
   }
 
-  getProductById(ID: any){
+  getProductById(ID: string){
    let params = new HttpParams();
     params = params.append('ProductId', ID);
     return this.http.get<Product>(`${this.rootUrl}/api/product/getProductByID`, { params })
@@ -385,7 +386,7 @@ export class ApiHelperService<T> {
       }));
   } 
 
-  getclientById(ID: any) {
+  getclientById(ID: string) {
     let params = new HttpParams();
     params = params.append('ClientId', ID);
     return this.http.get(`${this.rootUrl}/api/Client/getClientByID`,{params}).pipe(
@@ -402,7 +403,7 @@ export class ApiHelperService<T> {
     );
   }
   
-  getSupplierById(ID: any) {
+  getSupplierById(ID: string) {
     let params = new HttpParams();
     params = params.append('SupplierId', ID);
     return this.http.get<Supplier>(`${this.rootUrl}/api/Supplier/getSupplierByID`, { params }).pipe(
@@ -425,19 +426,17 @@ export class ApiHelperService<T> {
     // console.log("object.constructor.name", object.constructor.name);
     let result;
     switch (ObjectTypeAsString) {
-      case "products":
+      case "Products":
       result = this.getProductById(ID);
       break;
-      case "clients":
+      case "Clients":
       result = this.getclientById(ID);
       break;
-      case "suppliers":
+      case "Suppliers":
       result = this.getSupplierById(ID);
       break;
-      case "invoices":
+      case "Invoices":
       result = this.getInvoiceById(ID);
-        console.log("getByID Invoices Result", result);
-      
       break;
       // case "saleDetails":
       // object = this.getSaleDetailById(ID);
@@ -511,20 +510,23 @@ export class ApiHelperService<T> {
      console.log("object", object);
 
     switch (object) {
-      case "products":
+      case "Products":
         object = new Product(object);
         break;
-      case "clients":
+      case "Clients":
         object = new Client(object);
         break;
-      case "suppliers":
+      case "Suppliers":
         object = new Supplier(object);
         break;
-      case "invoices":
+      case "Invoices":
         object = new Invoice(object);
         break;
-      case "saleDetails":
+      case "Sale Details":
         object = new SaleDetail(object);
+        break;
+      case "Users Manager":
+        object = new ApplicationUser(object);
         break;
       default:
         {

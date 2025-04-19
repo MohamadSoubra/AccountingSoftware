@@ -30,8 +30,10 @@ export class InvoiceComponent<T extends Identification> implements OnInit {
 
   Clients: Client[] = [];
 
-  constructor(private api: ApiHelperService<T>, private router: Router,
-    private actRout: ActivatedRoute,) {
+  constructor(
+    private api: ApiHelperService<T>, 
+    private router: Router,
+    private activatedRoute: ActivatedRoute,) {
       api.recsType = "Invoice"
     }
 
@@ -169,7 +171,7 @@ export class InvoiceComponent<T extends Identification> implements OnInit {
 
   AddRecord(){
     this.router.navigate(["./", 0], {
-      relativeTo: this.actRout,
+      relativeTo: this.activatedRoute,
     });
     
   }

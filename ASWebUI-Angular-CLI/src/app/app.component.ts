@@ -8,9 +8,9 @@ import { take } from "rxjs/operators";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"]
 })
-export class AppComponent implements OnInit {
+export class AppComponent<T> implements OnInit {
   private timer: Subscription;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService<T>) {}
 
   ngOnInit() {
     this.authService.autologin();
