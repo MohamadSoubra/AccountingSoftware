@@ -7,10 +7,10 @@ import { Subscription } from "rxjs";
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.scss"],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent<T> implements OnInit, OnDestroy {
   private userSub: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService<T>) {}
   loggedInUser = null;
   isLoggedIn = false;
 

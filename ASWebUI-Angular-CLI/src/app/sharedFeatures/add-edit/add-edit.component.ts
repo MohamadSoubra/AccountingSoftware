@@ -17,6 +17,7 @@ import { TableDataSource } from '../table/table-datasource';
 import { TableColumn, TableComponent } from '../table/table.component';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Role } from 'src/app/auth/Models/Role.model';
+import { ApplicationUser } from 'src/app/auth/Models/ApplicationUser.model';
 
 @Component({
   selector: "app-add-edit",
@@ -91,15 +92,20 @@ export class AddEditComponent<T> implements OnInit {
       this.displayItem = this.apiHelper.InitializeType(this.actroute.snapshot.params[""]);
 
 
-      this.GenerateFormFromObject(this.displayItem);
-
+      
       // this.saleDetailsData = new MatTableDataSource<SaleDetail>([]);
       this.saleDetailsData = [];
-
-      this.authService.GetRoles().subscribe(roles => {
-        this.rolesOptions = roles;
-      });
-
+      
+      if (this.actroute.snapshot.params[""] === "Users Manager"){
+        
+        this.authService.GetRoles().subscribe(roles => {
+          this.rolesOptions = roles;
+        });
+        
+        this.displayItem = new ApplicationUser();
+      }
+      
+      this.GenerateFormFromObject(this.displayItem);
       console.log("this.rolesOptions",this.rolesOptions);
       
       this.apiHelper.recsType = this.displayItem.constructor.name;

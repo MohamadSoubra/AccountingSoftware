@@ -22,7 +22,7 @@ export class ApiHelperService<T> {
   recsType :string;
   recID: number;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService<T>) {}
 
 
   getProducts(): Observable<Product[]> {
