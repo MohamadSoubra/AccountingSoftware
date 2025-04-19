@@ -1,4 +1,4 @@
 export class Role {
-    userId: string;
-    roleName: string
+    id: string;
+    name: string
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Role } from '../../Models/Role.model';
 import { AuthService } from '../../auth.service';
-import { RegistrationRequest } from '../../Models/RegistrationRequest.model';
+import { ApplicationUser } from '../../Models/ApplicationUser.model';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 const passwordMatchValidator = (control: AbstractControl) => {
@@ -26,7 +26,7 @@ const passwordMatchValidator = (control: AbstractControl) => {
 
 
 
-export class RegisterComponent implements OnInit {
+export class RegisterComponent<T> implements OnInit {
   // confirmPassword: string;
   // firstName: string;
   // lastName: string;
@@ -59,24 +59,19 @@ export class RegisterComponent implements OnInit {
   get password() { return this.registrationForm.get('password'); }
   get confirmPassword() { return this.registrationForm.get('confirmPassword'); }
 
-  constructor(private authService :AuthService,private fb: FormBuilder) { }
+  constructor(private authService :AuthService<T>,private fb: FormBuilder) { }
 
   ngOnInit() {
 
     
     this.authService.GetRoles().subscribe(roles => {
-      
-      console.log(roles);
-      roles.forEach(role => {
-        this.rolesOptions.push({roleName : role, userId:""});
-      });
-      console.log("userRoles",this.userRoles.length);
+      this.rolesOptions = roles;
     });
     
   }
 
   compareFn(role1: Role, role2: Role) {
-    return role1 && role2 ? role1.roleName === role2.roleName : role1 === role2;
+    return role1 && role2 ? role1.name === role2.name : role1 === role2;
   }
 
   checkPasswords(){
@@ -105,7 +100,8 @@ export class RegisterComponent implements OnInit {
   onSubmit(){
     console.log("this.confirmPassword",this.confirmPassword);
     const formValue = this.registrationForm.value;
-    const newUser :RegistrationRequest = {
+    const newUser :ApplicationUser = {
+      id: formValue["id"],
       firstName : formValue["firstName"],
       lastName : formValue["lastName"],
       userName : formValue["userName"],

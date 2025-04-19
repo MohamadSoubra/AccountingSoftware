@@ -6,7 +6,7 @@ import { InvoiceModule } from './invoice.module';
 
 const routes: Routes = [
   {
-    path: "invoices",
+    path: "Invoices",
     component: InvoiceComponent,
   }
 ];

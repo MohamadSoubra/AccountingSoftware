@@ -89,7 +89,7 @@
                 <mat-form-field appearance="outline" class="formfield">
                     <mat-label>Permissions</mat-label>
                     <mat-select formControlName="userRoles" [compareWith]="compareFn" multiple required>
-                    <mat-option *ngFor="let role of rolesOptions" [value]="role">{{role.roleName}}</mat-option>
+                    <mat-option *ngFor="let role of rolesOptions" [value]="role">{{role.name}}</mat-option>
                     </mat-select>
                     <mat-error>
                         Select at least one <strong>permission</strong>

@@ -7,10 +7,10 @@ import { UsersManagerComponent } from './components/UsersManager/UsersManager.co
 
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegisterComponent},
-  { path: 'reset-password', component: ResetPasswordComponent},
-  { path: 'usersManager', component: UsersManagerComponent},
+  { path: 'Login', component: LoginComponent},
+  { path: 'Register', component: RegisterComponent},
+  { path: 'Reset Password', component: ResetPasswordComponent},
+  { path: 'Users Manager', component: UsersManagerComponent},
 ];
 
 @NgModule({
