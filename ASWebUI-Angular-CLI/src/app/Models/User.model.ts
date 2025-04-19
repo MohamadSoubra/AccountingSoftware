@@ -6,10 +6,13 @@ export class User implements Identification{
   email: string;
   token: string;
 
-  constructor(id: string = "", username: string = "", email: string = "", token: string = "") {
-      this.id = id;
-      this.username = username;
-      this.email = email;
-      this.token = token;
+  constructor({id = "", username = "", email = "", token = ""} ={}) {
+    this.id = id;
+    this.username = username;
+    this.email = email;
+    this.token = token;
   }
+
+  
+
 }

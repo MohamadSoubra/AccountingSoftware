@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -44,11 +45,28 @@ namespace AccountingSoftwareApi.Controllers
         }
 
         [HttpGet]
-        public UserModel GetById()
+        public ApplicationUserModel GetById(string userId)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //string userId = User.FindFirstValue(ClaimTypes.Sid);
+            var user = _userData.GetUserById(userId).FirstOrDefault();
 
-            return _userData.GetUserById(userId).First();
+            ApplicationUserModel AppUser = new ApplicationUserModel
+            {
+                Id = user.Id,
+                EmailAddress = user.EmailAddress,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                CreatedDate = user.CreatedDate
+            };
+            AppUser.Roles = _context.Users
+                .Where(x => x.Id == userId)
+                .SelectMany(x => _context.UserRoles
+                .Where(ur => ur.UserId == x.Id)
+                .Join(_context.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => new RoleModel { Id = ur.RoleId, Name = r.Name }))
+                .ToArray();
+
+            return AppUser;
         }
 
         [Authorize(Roles = "Admin")]
@@ -63,7 +81,7 @@ namespace AccountingSoftwareApi.Controllers
 
             var UserRoles = from ur in _context.UserRoles
                             join r in _context.Roles on ur.RoleId equals r.Id
-                            select new { ur.UserId, ur.RoleId, r.Name };
+                            select new { ur.RoleId, r.Name };
 
             foreach (var user in users)
             {
@@ -78,7 +96,12 @@ namespace AccountingSoftwareApi.Controllers
 
                 };
 
-                u.Roles = UserRoles.Where(x => x.UserId == u.Id).ToDictionary(x => x.RoleId, x => x.Name);
+                u.Roles = _context.Users
+                .Where(x => x.Id == u.Id)
+                .SelectMany(x => _context.UserRoles
+                .Where(ur => ur.UserId == x.Id)
+                .Join(_context.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => new RoleModel { Id = ur.RoleId, Name = r.Name }))
+                .ToArray();
 
                 output.Add(u);
             }
@@ -90,9 +113,29 @@ namespace AccountingSoftwareApi.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("Admin/GetAllRoles")]
-        public List<string> GetAllRoles()
+        public List<RoleModel> GetAllRoles()
         {
-            var roles = _context.Roles.Select(x => x.Name).ToList();
+            var roles = _context.Roles.Select(r => new RoleModel { Id = r.Id, Name = r.Name}).ToList();
+
+            return roles;
+
+        }
+
+        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("Admin/GetUserRoles")]
+        public List<string> GetUserRoles(string ID)
+        {
+            var roles = _context.UserRoles.Join(_context.Roles,
+                ur => ur.RoleId,
+                r => r.Id,
+                (ur, r) => new { ur.UserId, r.Name })
+                .Where(x => x.UserId == ID)
+                .Select(x => x.Name)
+                .ToList();
+
+
 
             return roles;
 

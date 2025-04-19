@@ -80,22 +80,37 @@
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label>{{ prop.labelsText }}</mat-label>
-                        <input matInput [matDatepicker]="picker1" [formControlName]="prop.formControlName">
-                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                        <mat-datepicker #picker1></mat-datepicker>
+                        <input matInput [matDatepicker]="picker" [formControlName]="prop.formControlName">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
 
                 </ng-container>
 
                     <!-- && prop.formControlName != 'subTotal' && prop.formControlName != 'tax' && prop.formControlName != 'total' -->
-                <ng-container *ngIf="!prop.isBoolean && !prop.needTextArea&& !prop.needSelectInput && !prop.needDatePicker && !prop.needTable
-                 && prop.Included && prop.formControlName != 'sale'">
+                <ng-container *ngIf="!prop.isBoolean && !prop.needTextArea && !prop.needSelectInput && !prop.needDatePicker && !prop.needTable
+                 && prop.Included && !prop.needAutoComplete && prop.formControlName != 'sale'">
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label> {{ prop.labelsText }} </mat-label>
                         <input matInput [type]="prop.type" placeholder="" color="primary" [formControlName]="prop.formControlName">
                     </mat-form-field>
 
+                </ng-container>
+
+                <ng-container *ngIf="prop.needAutoComplete">
+
+                    <div class="form-group permissions">
+                        <mat-form-field appearance="outline" class="formfield" [ngClass]="prop.formControlName">
+                            <mat-label>Permissions</mat-label>
+                            <mat-select [formControlName]="prop.formControlName" [compareWith]="compareFn" multiple required>
+                                <mat-option *ngFor="let role of rolesOptions" [value]="role">{{role.name}}</mat-option>
+                            </mat-select>
+                            <mat-error>
+                                Select at least one <strong>permission</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
                 </ng-container>
 
                 <ng-container *ngIf="prop.formControlName == 'sale'">
@@ -120,7 +135,7 @@
    
     <div class="dialog-actions">
         <button mat-stroked-button (click)="Cancel()">Cancel</button>
-        <button mat-stroked-button (click)="print()">Print</button>
+        <button mat-stroked-button class="ml" (click)="print()">Print</button>
         <button mat-stroked-button class="ml" type="button" (click)="onSubmit()"
             color="primary">Save</button>
     </div>

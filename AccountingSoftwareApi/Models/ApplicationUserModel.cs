@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace AccountingSoftwareApi.Models
 {
-    public class ApplicationUserModel : UserModel
+    public class ApplicationUserModel
     {
-        public Dictionary<string, string> Roles { get; set; } = new Dictionary<string, string>();
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string EmailAddress { get; set; }
+        public string CreatedDate { get; set; } = DateTime.Now.ToString();
+        public RoleModel[] Roles { get; set; } = new RoleModel[]{};
     }
 }

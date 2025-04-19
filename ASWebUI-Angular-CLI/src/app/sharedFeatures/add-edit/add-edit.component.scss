@@ -63,7 +63,12 @@
                 text-align: right;
             }
         }
+
     }
+    .mat-error{
+        margin-top: 1rem;
+        text-align: end;
+      }
     // .form>*:has(.saleDetails) {
     //     // width:50%;
     //     // background-color: orange;
@@ -147,6 +152,9 @@
             width: 100%;
         }
         .form>*:has(.totals) {
+            width: 100%;
+        }
+        .form .mat-form-field {
             width: 100%;
         }
         .form div>div.totals {

@@ -111,7 +111,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   ngOnInit(): void {
 
     this.InitialzeColumns();
-    console.log("this.tableData", this.tableData);
+    // console.log("this.tableData", this.tableData);
     
     this.tableDataSource = new MatTableDataSource<T>(this.tableData);
     // this.tableDataSource = new MatTableDataSource<T>(this.tableData.map(item => Object.keys(item).)));
@@ -122,7 +122,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // console.log("this.isPageable", this.isPageable);,
     // console.log("this.newTableDataSource$ ngOnINIT", this.newTableDataSource$); 
     
-    console.log("this.matPaginator VIEW CHILD ONINIT", this.matPaginator);
+    // console.log("this.matPaginator VIEW CHILD ONINIT", this.matPaginator);
     // we need this, in order to make pagination work with *ngIf
   }
   ngAfterViewInit() {
@@ -132,9 +132,9 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     // console.log("this.matPaginator VIEW CHILD", this.matPaginator);
   
   
-    console.log("this.isPageable",this.isPageable);
+    // console.log("this.isPageable",this.isPageable);
     if (this.isPageable){
-      console.log("this.isPageable",this.isPageable);
+      // console.log("this.isPageable",this.isPageable);
       
       this.tableDataSource.paginator = this.matPaginator;
       // this.tableDataSource.connect();
@@ -144,7 +144,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     if (this.isSortable){
       this.tableDataSource.sort = this.matSort;
     }
-    console.log("this.tableDataSource.paginator", this.tableDataSource.paginator);
+    // console.log("this.tableDataSource.paginator", this.tableDataSource.paginator);
     
     // console.log("this.tableDataSource.DATA$.value.length", this.tableDataSource.DATA$.value.length);
     // console.log("this.tableDataSource.DATA$", this.tableDataSource.DATA$);
@@ -212,7 +212,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
     
     // console.log(JSON.stringify(data));
     const test = data.splice(startIndex, this.matPaginator.pageSize);
-    console.log('test',test);
+    // console.log('test',test);
     
     return test;
   }
@@ -233,7 +233,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
   Add(element: T){
 
-    console.log("this.tableDataSource",this.tableDataSource);
+    // console.log("this.tableDataSource",this.tableDataSource);
     
 
     console.log("element in table component add",element);
@@ -281,7 +281,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
         this.matPaginator.previousPage();
       }
     }
-    console.log("this.componentName", this.componentName);
+    // console.log("this.componentName", this.componentName);
     
     // if(element.id !== 0){
     //   this.api.deleteRecord(element, this.componentName);
@@ -295,7 +295,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
   clearFilters() {
     // this.tableDataItems.filterChange$.next("");
-    console.log(this.filterInputs);
+    // console.log(this.filterInputs);
     this.filterInputs = {};
     this.emptyFilters = true;
   }
@@ -316,7 +316,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   //https://stackoverflow.com/questions/48276404/filtering-specific-column-in-angular-material-table-in-angular-5/48400406?noredirect=1#comment84008277_48400406
   //Rui Marques's answer
   setupFilter(column: string) {
-    console.log(column);
+    // console.log(column);
 
     return;
     // this.tableDataItems.filterPredicate = (
@@ -355,7 +355,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   printFilters(f: any) {
-    console.log(f);
+    // console.log(f);
   }
 
   ///https://stackblitz.com/edit/angular-material2-table?file=app%2Fapp.component.html
@@ -452,7 +452,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   // }
 
   AddRecord() {
-    console.log("ADD RECORD");
+    // console.log("ADD RECORD");
     
     this.router.navigate(["./", 0], {
       relativeTo: this.actRout,
@@ -461,7 +461,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
 
   edit(item: T) {
 
-    console.log("item in edit", item);
+    // console.log("item in edit", item);
     // this.api.objectbyId = item;
     
     this.router.navigate(["./", item.id], {
@@ -470,7 +470,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   InitialzeColumns() {
-    console.log("this.tableColumns", this.tableColumns);
+    // console.log("this.tableColumns", this.tableColumns);
 
 
     
@@ -498,8 +498,8 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
       (tableColumn: TableColumn) => tableColumn.dataKey
     );
 
-    console.log("this.displayedColumns", this.displayedColumns);
-    console.log("this.displayedRows", this.displayedRows);
+    // console.log("this.displayedColumns", this.displayedColumns);
+    // console.log("this.displayedRows", this.displayedRows);
     
 
     if (this.isFilterable) {
@@ -527,7 +527,7 @@ export class TableComponent<T extends Identification> implements OnInit, AfterVi
   }
 
   handlePage(event){
-    console.log("event", event);
+    // console.log("event", event);
     
   }
 

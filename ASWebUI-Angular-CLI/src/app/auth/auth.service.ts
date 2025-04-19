@@ -11,18 +11,18 @@ import {
 import { authUser } from "src/app/models/authUser.model";
 import { Token } from "../models/token.model";
 import { User } from "../models/User.model";
-import { mapTo, tap, catchError, count } from "rxjs/operators";
+import { mapTo, tap, catchError, count, map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { AuthResponse } from "./Models/auth-response.model";
 import { accessToken } from "./Models/accessToken.model";
 import { environment } from "src/environments/environment";
-import { RegistrationRequest } from "./Models/RegistrationRequest.model";
+import { ApplicationUser } from "./Models/ApplicationUser.model";
 import { Role } from "./Models/Role.model";
 
 @Injectable({
   providedIn: "root",
 })
-export class AuthService {
+export class AuthService<T> {
   rootUrl: string = environment.apiUrl;
   user = new BehaviorSubject<User>(null);
   tokenExpirationTimer: any;
@@ -286,16 +286,53 @@ export class AuthService {
     this.router.navigate["/login"];
   }
   
-  RegisterUser(regRequest :RegistrationRequest){
+  RegisterUser(regRequest :ApplicationUser){
     return this.http.post<AuthResponse>(this.rootUrl + "/api/User/Admin/Register",regRequest).subscribe();
   }
 
   GetRoles(){
-    return this.http.get<[]>(this.rootUrl + "/api/User/Admin/GetAllRoles")
+    return this.http.get<Role[]>(this.rootUrl + "/api/User/Admin/GetAllRoles")
   }
   
   getUsers(){
-    
     return this.http.get<User[]>(this.rootUrl + "/api/User/Admin/GetAllUsers")
+  }
+
+  getUserRoles<T>(ID: string){
+    let params = new HttpParams();
+    params = params.append('userId', ID);
+    return this.http.get<T>(`${this.rootUrl}/api/User`, { params })
+    .pipe(
+      map((user) =>  {
+        let appUser : ApplicationUser = new ApplicationUser(user)
+        console.log("GET USER BY ID",user);
+        
+        return user;
+      }),
+      catchError((error) => {
+        console.log("error from api helper");
+        console.log(error);
+        return throwError(error);
+    }));
+  
+  }
+
+  getUserById<T>(ID: string){
+    // return this.http.get<User[]>(this.rootUrl + "/api/User")
+    let params = new HttpParams();
+    params = params.append('userId', ID);
+    return this.http.get<T>(`${this.rootUrl}/api/User`, { params })
+    .pipe(
+      map((user) =>  {
+        let appUser : ApplicationUser = new ApplicationUser(user)
+        console.log("GET USER BY ID",user);
+        
+        return user;
+      }),
+      catchError((error) => {
+        console.log("error from api helper");
+        console.log(error);
+        return throwError(error);
+    }));
   }
 }
