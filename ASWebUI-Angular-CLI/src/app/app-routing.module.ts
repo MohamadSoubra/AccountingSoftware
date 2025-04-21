@@ -14,58 +14,25 @@ const routes: Routes = [
     path: "Products",
     component: ProductsComponent,
     canActivate: [AuthGuard],
-    // ,children: [
-    //   {path: "AddEdit", component: AddEditComponent},
-    //   {path: "AddEdit/:id", component: AddEditComponent},
-    // ]
   },
   {
     path: "Clients",
     component: ClientsComponent,
     canActivate: [AuthGuard],
-    // ,children: [
-    //   {path: "AddEdit", component: AddEditComponent},
-    //   {path: "AddEdit/:id", component: AddEditComponent},
-    // ]
   },
   {
     path: "Suppliers",
     component: SuppliersComponent,
     canActivate: [AuthGuard],
-    // children:[
-    //   {path: "AddEdit", component: AddEditComponent},
-    //   {path: "AddEdit/:id", component: AddEditComponent},
-    // ]
   },
   {
     path: "SaleDetails",
     component: SuppliersComponent,
     canActivate: [AuthGuard],
-    // children:[
-    //   {path: "AddEdit", component: AddEditComponent},
-    //   {path: "AddEdit/:id", component: AddEditComponent},
-    // ]
   },
-  // {
-  //   path: "invoices",
-  //   canActivate: [AuthGuard],
-  //   loadChildren: () => import('./features/invoice/invoice-routing.module').then(mod => mod.InvoiceRoutingModule),
-  // },
-  // {
-  //   path: "invoices",
-  //   component: InvoiceComponent,
-  //   // canActivate: [AuthGuard],
-  //   // loadChildren: () => import('./features/invoice/invoice.module').then(mod => mod.InvoiceModule),
-  // },{
-  //   path: ":/saledetails",
-  //   loadChildren : () => import('./features/sale-details/sale-details.module').then(mod => mod.SaleDetailsModule)
-    
-  // }
 ];
  
 @NgModule({
-  // imports: [RouterModule.forRoot(routes, {enableTracing: true}), AuthModule],
-  // imports: [RouterModule.forRoot(routes, {enableTracing: false}), AddEditModule],
   imports: [RouterModule.forRoot(routes, {enableTracing: false})],
   exports: [RouterModule],
 })
