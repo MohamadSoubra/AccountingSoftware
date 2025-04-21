@@ -425,16 +425,16 @@ export class ApiHelperService<T> {
     // console.log("object.constructor.name", object.constructor.name);
     let result;
     switch (ObjectTypeAsString) {
-      case "products":
+      case "Products":
       result = this.getProductById(ID);
       break;
-      case "clients":
+      case "Clients":
       result = this.getclientById(ID);
       break;
-      case "suppliers":
+      case "Suppliers":
       result = this.getSupplierById(ID);
       break;
-      case "invoices":
+      case "Invoices":
       result = this.getInvoiceById(ID);
         console.log("getByID Invoices Result", result);
       
@@ -511,19 +511,19 @@ export class ApiHelperService<T> {
      console.log("object", object);
 
     switch (object) {
-      case "products":
+      case "Products":
         object = new Product(object);
         break;
-      case "clients":
+      case "Clients":
         object = new Client(object);
         break;
-      case "suppliers":
+      case "Suppliers":
         object = new Supplier(object);
         break;
-      case "invoices":
+      case "Invoices":
         object = new Invoice(object);
         break;
-      case "saleDetails":
+      case "SaleDetails":
         object = new SaleDetail(object);
         break;
       default:
