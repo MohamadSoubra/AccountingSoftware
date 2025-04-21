@@ -11,7 +11,7 @@ import { AddEditModule } from "./sharedFeatures/add-edit/add-edit.module";
 const routes: Routes = [
   { path: "", component: HomeComponent, canActivate: [AuthGuard] },
   {
-    path: "products",
+    path: "Products",
     component: ProductsComponent,
     canActivate: [AuthGuard],
     // ,children: [
@@ -20,7 +20,7 @@ const routes: Routes = [
     // ]
   },
   {
-    path: "clients",
+    path: "Clients",
     component: ClientsComponent,
     canActivate: [AuthGuard],
     // ,children: [
@@ -29,7 +29,7 @@ const routes: Routes = [
     // ]
   },
   {
-    path: "suppliers",
+    path: "Suppliers",
     component: SuppliersComponent,
     canActivate: [AuthGuard],
     // children:[
@@ -38,7 +38,7 @@ const routes: Routes = [
     // ]
   },
   {
-    path: "saleDetails",
+    path: "SaleDetails",
     component: SuppliersComponent,
     canActivate: [AuthGuard],
     // children:[
