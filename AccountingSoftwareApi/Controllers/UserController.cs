@@ -200,5 +200,33 @@ namespace AccountingSoftwareApi.Controllers
                 return Ok(result);
             }
         }
+
+        [AllowAnonymous]
+        [Route("Admin/UpdateUser")]
+        [HttpPost]
+        public async Task<ActionResult> UpdateUser([FromBody] ApplicationUserModel AppUser)
+        {
+            if (AppUser == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _userData.UpdateUser(new UserModel
+            {
+                Id = AppUser.Id,
+                FirstName = AppUser.FirstName,
+                LastName = AppUser.LastName,
+                UserName = AppUser.UserName,
+                EmailAddress = AppUser.EmailAddress,
+                CreatedDate = AppUser.CreatedDate
+            });
+
+            return Ok();
+        }
     }
 }

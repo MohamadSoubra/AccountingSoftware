@@ -8,5 +8,6 @@ namespace ASDataManager.Library.DataAccess
         List<UserModel> GetUserById(string Id);
         List<UserModel> GetAllUsers();
         void RegisterUser(UserModel user);
+        void UpdateUser(UserModel user);
     }
 }

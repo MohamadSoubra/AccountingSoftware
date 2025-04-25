@@ -38,5 +38,10 @@ namespace ASDataManager.Library.DataAccess
             //var UserID = _sql.QueryData<string, dynamic>("dbo.spUser_GetUserID_FromEmail", new { user.EmailAddress }, "ASDatabase");
             var output = _sql.SaveData<UserModel>("dbo.spUser_Insert", new UserModel { Id = user.Id, FirstName = user.FirstName, LastName = user.LastName, UserName= user.UserName, EmailAddress = user.EmailAddress, CreatedDate = user.CreatedDate}, "ASDatabase");
         }
+
+        public void UpdateUser(UserModel user)
+        {
+            var output = _sql.SaveData<UserModel>("dbo.spUser_Insert", new UserModel { Id = user.Id, FirstName = user.FirstName, LastName = user.LastName, UserName= user.UserName, EmailAddress = user.EmailAddress, CreatedDate = user.CreatedDate}, "ASDatabase");
+        }
     }
 }

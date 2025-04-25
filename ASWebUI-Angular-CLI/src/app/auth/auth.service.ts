@@ -323,6 +323,38 @@ export class AuthService<T> {
     params = params.append('userId', ID);
     return this.http.get<T>(`${this.rootUrl}/api/User`, { params })
     .pipe(
+      map((user: T) =>  {
+        let appUser = new User(user)
+        console.log("GET USER BY ID",user);
+        
+        return user;
+      }),
+      catchError((error) => {
+        console.log("error from auth service");
+        console.log(error);
+        return throwError(error);
+    }));
+  }
+
+  saveUser<T>(user: apiUser){
+    return this.http.post<User>(`${this.rootUrl}/api/User`, user)
+    .pipe(
+      map((user) =>  {
+        let appUser : User = new User(user)
+        console.log("saveUser",user);
+        
+        return user;
+      }),
+      catchError((error) => {
+        console.log("error from api helper");
+        console.log(error);
+        return throwError(error);
+    }));
+  }
+
+  updateUser<T>(user: apiUser){
+    return this.http.put<User>(`${this.rootUrl}/api/User`, user)
+    .pipe(
       map((user) =>  {
         let appUser : ApplicationUser = new ApplicationUser(user)
         console.log("GET USER BY ID",user);
