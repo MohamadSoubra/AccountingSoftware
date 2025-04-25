@@ -9,6 +9,10 @@ export class DataPropertyGetterPipe implements PipeTransform {
       return;
     }
     if(nestedProperty){
+      if(keyName == 'roles'){
+        return object[keyName].map(role => role.name).toString();
+      }
+      
       if(object[keyName][nestedProperty] === undefined){
         console.log(`nestedProperty ${nestedProperty} was not detected make sure you spelled it right (it's case sensitive)`);
         if (object[keyName]){
