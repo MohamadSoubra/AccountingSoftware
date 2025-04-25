@@ -5,7 +5,7 @@ import {
   AfterViewInit,
 } from "@angular/core";
 import { ApiHelperService } from "src/app/services/ApiHelper.service";
-import { User } from "src/app/models/User.model";
+import { apiUser } from "src/app/Models/apiUser.model";
 import { authUser } from "src/app/models/authUser.model";
 import { FormBuilder, NgForm, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";

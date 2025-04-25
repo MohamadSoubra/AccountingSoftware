@@ -8,9 +8,10 @@ import { Client } from "../models/client.model";
 import { Invoice } from "../models/invoice.model";
 import { SaleDetail } from "../models/sale-detail.model";
 import { Sale } from "../models/sale.model";
-import { User } from "../models/User.model";
+import { apiUser } from "../Models/apiUser.model";
 import { Supplier } from "../models/supplier.model";
 import { environment } from "src/environments/environment";
+import { User } from "../auth/Models/User.model";
 
 @Injectable({
   providedIn: "root",
@@ -86,7 +87,7 @@ export class ApiHelperService<T> {
   }
 
   getUserId(){
-    this.http.get<User>(`${this.rootUrl}/api/User`).subscribe(user => {
+    this.http.get<apiUser>(`${this.rootUrl}/api/User`).subscribe(user => {
       return user.id;
     });
   }

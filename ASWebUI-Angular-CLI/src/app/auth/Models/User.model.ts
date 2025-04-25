@@ -1,13 +1,13 @@
 import { Role } from "./Role.model";
 
-export class ApplicationUser{
+export class User{
     id: string;
-    userName: string;
+    username: string;
     firstName: string;
     lastName: string;
     emailAddress: string;
-    password: string;
-    userRoles: Role[]
+    // password: string;
+    roles: Role[]
 
     constructor({
         id="",
@@ -15,15 +15,15 @@ export class ApplicationUser{
         firstName = "",
         lastName = "",
         emailAddress = "",
-        password = "",
+        // password = "",
         userRoles = [],
     }={}){
         this.id = id ;
-        this.userName = userName ;
+        this.username = userName ;
         this.firstName = firstName ;
         this.lastName = lastName ;
         this.emailAddress = emailAddress ;
-        this.password = password ; 
-        this.userRoles = userRoles ;
+        // this.password = password ; 
+        this.roles = userRoles ;
     }
 }

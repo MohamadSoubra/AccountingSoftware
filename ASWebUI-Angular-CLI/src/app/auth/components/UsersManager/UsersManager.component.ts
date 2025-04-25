@@ -1,6 +1,6 @@
 import { Component,OnInit, ViewChild } from "@angular/core";
 import { AuthService } from "../../auth.service";
-import { User } from "src/app/models/User.model";
+import { apiUser } from "src/app/Models/apiUser.model";
 import { TableComponent } from "src/app/sharedFeatures/table/table.component";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -16,7 +16,7 @@ export class UsersManagerComponent<T> implements OnInit {
     componentName: string = "User";
     selectedUsers;
 
-    @ViewChild(TableComponent) table: TableComponent<User>;
+    @ViewChild(TableComponent) table: TableComponent<apiUser>;
     constructor(
         private auth: AuthService<T>,
         private router: Router,

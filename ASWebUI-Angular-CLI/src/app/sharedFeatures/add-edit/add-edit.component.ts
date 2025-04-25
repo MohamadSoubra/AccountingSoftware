@@ -17,7 +17,7 @@ import { TableDataSource } from '../table/table-datasource';
 import { TableColumn, TableComponent } from '../table/table.component';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Role } from 'src/app/auth/Models/Role.model';
-import { ApplicationUser } from 'src/app/auth/Models/ApplicationUser.model';
+import { User } from 'src/app/auth/Models/User.model';
 
 @Component({
   selector: "app-add-edit",
@@ -102,7 +102,7 @@ export class AddEditComponent<T> implements OnInit {
           this.rolesOptions = roles;
         });
         
-        this.displayItem = new ApplicationUser();
+        this.displayItem = new User();
       }
       
       this.GenerateFormFromObject(this.displayItem);

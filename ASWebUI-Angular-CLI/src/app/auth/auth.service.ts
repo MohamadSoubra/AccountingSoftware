@@ -10,13 +10,13 @@ import {
 } from "rxjs";
 import { authUser } from "src/app/models/authUser.model";
 import { Token } from "../models/token.model";
-import { User } from "../models/User.model";
+import { apiUser } from "../Models/apiUser.model";
 import { mapTo, tap, catchError, count, map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { AuthResponse } from "./Models/auth-response.model";
 import { accessToken } from "./Models/accessToken.model";
 import { environment } from "src/environments/environment";
-import { ApplicationUser } from "./Models/ApplicationUser.model";
+import { User } from "./Models/User.model";
 import { Role } from "./Models/Role.model";
 
 @Injectable({
@@ -24,7 +24,7 @@ import { Role } from "./Models/Role.model";
 })
 export class AuthService<T> {
   rootUrl: string = environment.apiUrl;
-  user = new BehaviorSubject<User>(null);
+  user = new BehaviorSubject<apiUser>(null);
   tokenExpirationTimer: any;
   offset = new Date().getTimezoneOffset();
   today = new Date().getUTCDate();
@@ -65,7 +65,7 @@ export class AuthService<T> {
           
           this.refreshTokenString = response.refreshToken;
 
-          const user = new User();
+          const user = new apiUser();
           if(!decodedToken){
             console.log(decodedToken);
             return null;
@@ -128,7 +128,7 @@ export class AuthService<T> {
     if (this.isTokenExpired(storedToken)) {
       const token = this.decodeToken(storedToken);
 
-      const user = new User();
+      const user = new apiUser();
       user.id = token.id;
       user.username = token.sub;
       user.email = token.email;
@@ -207,7 +207,7 @@ export class AuthService<T> {
           console.log("Tokens in refreah token",tokens);
           const decodedtoken = this.decodeToken(tokens.token);
           console.log("decodedtoken in refresh",decodedtoken);
-          const user = new User();
+          const user = new apiUser();
           user.id = decodedtoken.id;
           user.email = decodedtoken.email;
           user.username = decodedtoken.sub;
@@ -286,7 +286,7 @@ export class AuthService<T> {
     this.router.navigate["/login"];
   }
   
-  RegisterUser(regRequest :ApplicationUser){
+  RegisterUser(regRequest :User){
     return this.http.post<AuthResponse>(this.rootUrl + "/api/User/Admin/Register",regRequest).subscribe();
   }
 
@@ -304,7 +304,7 @@ export class AuthService<T> {
     return this.http.get<T>(`${this.rootUrl}/api/User`, { params })
     .pipe(
       map((user) =>  {
-        let appUser : ApplicationUser = new ApplicationUser(user)
+        let appUser : User = new User(user)
         console.log("GET USER BY ID",user);
         
         return user;
@@ -356,8 +356,8 @@ export class AuthService<T> {
     return this.http.put<User>(`${this.rootUrl}/api/User`, user)
     .pipe(
       map((user) =>  {
-        let appUser : ApplicationUser = new ApplicationUser(user)
-        console.log("GET USER BY ID",user);
+        let appUser : User = new User(user)
+        console.log("updateUser user",user);
         
         return user;
       }),
