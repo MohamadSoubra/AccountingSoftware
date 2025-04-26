@@ -18,6 +18,8 @@ import { TableColumn, TableComponent } from '../table/table.component';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Role } from 'src/app/auth/Models/Role.model';
 import { User } from 'src/app/auth/Models/User.model';
+import { Product } from 'src/app/models/product.model';
+import { Supplier } from 'src/app/models/supplier.model';
 
 @Component({
   selector: "app-add-edit",
@@ -38,6 +40,7 @@ export class AddEditComponent<T> implements OnInit {
   ) { }
 
   @ViewChild(TableComponent) table: TableComponent<SaleDetail>;
+
 
   // @Input() displayItem: Product | Client | Supplier | Invoice ;
   displayItem: any;
@@ -78,22 +81,14 @@ export class AddEditComponent<T> implements OnInit {
   // total: number = 0;
   // autoCompleteValue: any;
 
-  IPO: Observable<T> = null;
+  IPO: Observable<Product | Invoice | User | Client | Supplier> = null;
 
 
 
   ngOnInit(): void {
-    console.log("this.actroute.snapshot.params[id]",this.actroute.snapshot.params["id"]);
-    console.log("this.actroute.snapshot.params[]",this.actroute.snapshot.params[""]);
-    
     if (+this.actroute.snapshot.params["id"] === 0) {
       this.update = false;
-
-      this.displayItem = this.apiHelper.InitializeType(this.actroute.snapshot.params[""]);
-
-
-      
-      // this.saleDetailsData = new MatTableDataSource<SaleDetail>([]);
+      this.displayItem = this.apiHelper.InitializeType({},this.actroute.snapshot.params[""]);
       this.saleDetailsData = [];
       
       if (this.actroute.snapshot.params[""] === "Users Manager"){
@@ -101,31 +96,27 @@ export class AddEditComponent<T> implements OnInit {
         this.authService.GetRoles().subscribe(roles => {
           this.rolesOptions = roles;
         });
-        
         this.displayItem = new User();
       }
-      
-      this.GenerateFormFromObject(this.displayItem);
-      console.log("this.rolesOptions",this.rolesOptions);
-      
       this.apiHelper.recsType = this.displayItem.constructor.name;
       
+      this.GenerateFormFromObject(this.displayItem);
     } else {
       
       this.update = true;
       
-      
-
       if (this.actroute.snapshot.params[""] === "Invoices") {
-        this.apiHelper.getRecords('Saledetail', this.actroute.snapshot.params["id"]).subscribe(SDs => {
+        this.apiHelper.getRecords<SaleDetail>('Saledetail', this.actroute.snapshot.params["id"]).subscribe(SDs => {
           this.saleDetailsData = SDs as SaleDetail[];
         })
       }
 
       if (this.actroute.snapshot.params[""] === "Users Manager"){
-        this.IPO = this.authService.getUserById<T>(this.actroute.snapshot.params["id"]);
+        this.IPO = this.authService.getUserById<User>(this.actroute.snapshot.params["id"]);
 
-        
+        this.authService.GetRoles().subscribe(roles => {
+          this.rolesOptions = roles;
+        });
         
       }else{
         this.IPO = this.apiHelper.getByID<T>(this.actroute.snapshot.params[""], this.actroute.snapshot.params["id"]);
@@ -171,15 +162,13 @@ export class AddEditComponent<T> implements OnInit {
 
 
       this.IPO.subscribe(itemprops => {
-        console.log("itemprops in IPO", itemprops);
-
-        this.apiHelper.recsType = itemprops.constructor.name;
-        this.GenerateFormFromObject(itemprops);
+        const tempObject = this.apiHelper.InitializeType(itemprops,this.actroute.snapshot.params[""])
+        this.apiHelper.recsType = tempObject.constructor.name;
+        this.GenerateFormFromObject(tempObject);
       })
-
+ 
     }
 
-    console.log("this.displayItem", this.displayItem);
     console.log("this.itemform", this.itemform);
 
   }
@@ -226,7 +215,7 @@ export class AddEditComponent<T> implements OnInit {
     } else {
       this.apiHelper.saveRecord(this.itemform.getRawValue());
     }
-
+      
   }
 
   formatText(text: string) {
@@ -444,7 +433,7 @@ export class AddEditComponent<T> implements OnInit {
           // this.SelectOptionsForStatus = Object.values(InvoiceStatus);
         }
 
-        if (prop === "userRoles") {
+        if (prop === "roles") {
           needAutoComplete = true;
         }
 
@@ -492,11 +481,7 @@ export class AddEditComponent<T> implements OnInit {
 
         if (object.id != undefined) {
           if (object.id == 0) {
-            if (this.actroute.snapshot.params[""] === "Users Manager"){
-              this.Title = `Add new User`;
-            }else{
               this.Title = `Add new ${object.constructor.name}`;
-            }
           } else {
             if (object.constructor.name === "Invoice") {
 
@@ -574,7 +559,7 @@ export class AddEditComponent<T> implements OnInit {
 
           if (object.id != 0) {
 
-            this.apiHelper.getSaleDetailsByInvoiceID(object.id).subscribe(SDTS => {
+            this.apiHelper.getSaleDetailsByInvoiceID<SaleDetail>(object.id).subscribe(SDTS => {
               console.log("SDTS", SDTS);
 
               // this.saleDetailsData = new MatTableDataSource<SaleDetail>(SDTS);
