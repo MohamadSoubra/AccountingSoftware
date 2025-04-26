@@ -17,7 +17,7 @@ import {
   filter,
 } from "rxjs/operators";
 import { throwError } from "rxjs";
-import { User } from "../models/User.model";
+import { apiUser } from "../Models/apiUser.model";
 
 @Injectable({
   providedIn: "root",
@@ -94,7 +94,7 @@ export class TokenInterceptorService<T> implements HttpInterceptor {
       return this.authService.refreshToken({ token: user.token }).pipe(
         switchMap((tokens) => {
           //this.refreshTokenSubject.next(token.jwt);
-          const newuser = new User();
+          const newuser = new apiUser();
           newuser.id = user.id;
           newuser.email = user.email; 
           newuser.token = tokens.token

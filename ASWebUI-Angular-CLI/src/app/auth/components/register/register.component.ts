@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Role } from '../../Models/Role.model';
 import { AuthService } from '../../auth.service';
-import { ApplicationUser } from '../../Models/ApplicationUser.model';
+import { User } from '../../Models/User.model';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { apiUser } from 'src/app/Models/apiUser.model';
+import { authRequest } from '../../Models/auth-request.model';
 
 const passwordMatchValidator = (control: AbstractControl) => {
   const password = control.get('password').value;
@@ -100,14 +102,14 @@ export class RegisterComponent<T> implements OnInit {
   onSubmit(){
     console.log("this.confirmPassword",this.confirmPassword);
     const formValue = this.registrationForm.value;
-    const newUser :ApplicationUser = {
+    const newUser :authRequest = {
       id: formValue["id"],
       firstName : formValue["firstName"],
       lastName : formValue["lastName"],
-      userName : formValue["userName"],
+      username : formValue["username"],
       emailAddress : formValue["emailAddress"],
       password : formValue["password"],
-      userRoles : formValue["userRoles"]
+      roles : formValue["userRoles"]
     };
 
     // this.authService.RegisterUser(newUser)
