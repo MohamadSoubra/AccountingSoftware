@@ -1,11 +1,13 @@
 @use '~@angular/material' as mat;
 // @use './bootStrap.scss' as boot;
 @use "sass:map";
+// @import "C:/Users/user/Desktop/Mhmd Files/Repos/ASWebUI-Angular-CLI/node_modules/material-icons/iconfont/material-icons.css";
+@import "~material-icons/iconfont/material-icons.css";
 
 @include mat.core();
 ///////////////////////////////BOOtSTRAP/////////////////////////////////////
 // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
-@import "../node_modules/bootstrap/scss/functions";
+// @import "../node_modules/bootstrap/scss/functions";
 
 // 2. Include any default variable overrides here
 
@@ -16,17 +18,17 @@ $ASW-accent: mat.define-palette(mat.$orange-palette, 500);
 $ASW-warn: mat.define-palette(mat.$red-palette);
 
 $ASW-theme: mat.define-light-theme((
- color: (
-   primary: $ASW-primary,
-   accent: $ASW-accent,
- )
-));
-
-@mixin color($BG-Color, $color: $ASWebUI-primary, ) {
-  
-}
-
-
+  color: (
+    primary: $ASW-primary,
+    accent: $ASW-accent,
+    )
+    ));
+    
+    @mixin color($BG-Color, $color: $ASWebUI-primary, ) {
+      
+    }
+    
+    
 
 
 /*
