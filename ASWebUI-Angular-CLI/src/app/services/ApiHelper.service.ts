@@ -26,7 +26,7 @@ export class ApiHelperService<T> {
   constructor(private http: HttpClient, private authService: AuthService<T>) {}
 
 
-  getProducts(): Observable<Product[]> {
+  getProducts<Product>(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.rootUrl}/api/product`).pipe(
       map((products: Product[]) => {
         return products
@@ -39,15 +39,15 @@ export class ApiHelperService<T> {
     );
   }
 
-  getClients(): Observable<Client[]> {
+  getClients<Client>(): Observable<Client[]> {
     return this.http.get<Client[]>(`${this.rootUrl}/api/client`);
   }
 
-  getInvoices(): Observable<Invoice[]> {
+  getInvoices<Invoice>(): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(`${this.rootUrl}/api/invoice`)
   }
 
-  saveInvoice(invoice: Invoice){
+  saveInvoice<Invoice>(invoice: Invoice){
     this.http.post<Invoice>(`${this.rootUrl}/api/Invoice`, invoice).subscribe(); 
   }
 
@@ -137,6 +137,7 @@ export class ApiHelperService<T> {
         // this.saveSale(invoicetoSave.saleDetails);
         
         break;
+
       default:
         {
           console.log("default");
@@ -185,14 +186,9 @@ export class ApiHelperService<T> {
         invoicetoupdate.saleDetails = (object as Invoice).saleDetails;
         invoicetoupdate.sale = new Sale((object as Invoice).sale);
         this.updateInvoice(invoicetoupdate);
-        // this.updateSale(invoicetoupdate.saleDetails, invoicetoupdate.id);
         console.log("invoicetoupdate", invoicetoupdate);
         console.log("Invoice");
         break;
-      // case "SaleDetail":
-      //   this.updateSaleDetail([object] as SaleDetail[]).subscribe();
-      //   console.log("SaleDetail");
-      //   break;
       default:
         {
           console.log("default");
@@ -202,22 +198,22 @@ export class ApiHelperService<T> {
 
   }
 
-  getRecords(type: string, invoiceID: number = 0): Observable<Invoice[] | SaleDetail[]>  {
+  getRecords<T>(type: string, invoiceID: number = 0): Observable<T[]>  {
     console.log(type);
 
     // console.log("object.constructor.name", object.constructor.name);
     switch (type) {
       case "Product":
         console.log("getRecords Product");
-        // return this.getProducts();
+        return this.getProducts();
         break;
       case "Client":
         console.log("getRecords Client");
-        this.getClients();
+        return this.getClients();
         break;
       case "Supplier":
         console.log("getRecords Supplier");
-        this.getSuppliers();
+        return this.getSuppliers();
         break;
       case "Invoice":
         console.log("getRecords Invoice");
@@ -225,7 +221,7 @@ export class ApiHelperService<T> {
         break;
       case "Saledetail":
         console.log("getRecords Saledetail");
-        return this.getSaleDetailsByInvoiceID(invoiceID);
+        return this.getSaleDetailsByInvoiceID<T>(invoiceID);
         break;
       default:
         {
@@ -321,14 +317,14 @@ export class ApiHelperService<T> {
 
   }
 
-  getSaleDetailsByInvoiceID (ID): Observable<SaleDetail[]>{
+  getSaleDetailsByInvoiceID<Saledetail>(ID): Observable<Saledetail[]>{
     let params = new HttpParams({});
     params = params.append("InvoiceId", ID);
 
-    return this.http.get<SaleDetail[]>(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params });
+    return this.http.get<Saledetail[]>(`${this.rootUrl}/api/invoice/GetInvoiceSaleDetails`, { params });
   }
 
-  getSuppliers(): Observable<Supplier[]> {
+  getSuppliers<Supplier>(): Observable<Supplier[]> {
     return this.http.get<Supplier[]>(`${this.rootUrl}/api/supplier`).pipe(
       map((suppliers: Supplier[]) => {
         return suppliers;
@@ -352,14 +348,14 @@ export class ApiHelperService<T> {
     return this.http.delete(`${this.rootUrl}/api/product`, httpOptions);
   }
 
-  getInvoiceById(ID: any) {
+  getInvoiceById<Invoice>(ID: any) {
     let params = new HttpParams({});
     params = params.append("InvoiceId", ID);
 
-    return this.http.get(`${this.rootUrl}/api/invoice/GetInvoiceById`, {params}).pipe(
+    return this.http.get<Invoice>(`${this.rootUrl}/api/invoice/GetInvoiceById`, {params}).pipe(
       map((invoice: Invoice) => {
         console.log("invoice get by id",invoice);
-        return new Invoice(invoice)
+        return invoice ;
       }),
       catchError((error) => {
         console.log("error from api helper");
@@ -371,13 +367,14 @@ export class ApiHelperService<T> {
     );
   }
 
-  getProductById(ID: any){
+  getProductById<Product>(ID: any){
    let params = new HttpParams();
     params = params.append('ProductId', ID);
+    // return this.http.get<Product>(`${this.rootUrl}/api/product/getProductByID`, { params })
     return this.http.get<Product>(`${this.rootUrl}/api/product/getProductByID`, { params })
     .pipe(
       map((product: Product) =>  {
-        return new Product(product);
+        return product;
       }),
       catchError((error) => {
         console.log("error from api helper");
@@ -386,12 +383,12 @@ export class ApiHelperService<T> {
       }));
   } 
 
-  getclientById(ID: any) {
+  getclientById<Client>(ID: any) {
     let params = new HttpParams();
     params = params.append('ClientId', ID);
-    return this.http.get(`${this.rootUrl}/api/Client/getClientByID`,{params}).pipe(
+    return this.http.get<Client>(`${this.rootUrl}/api/Client/getClientByID`,{params}).pipe(
       map((client: Client) => {
-        return new Client(client);
+        return client;
       }),
       catchError((error) => {
         console.log("error from api helper");
@@ -403,12 +400,12 @@ export class ApiHelperService<T> {
     );
   }
   
-  getSupplierById(ID: any) {
+  getSupplierById<T>(ID: any) {
     let params = new HttpParams();
     params = params.append('SupplierId', ID);
-    return this.http.get<Supplier>(`${this.rootUrl}/api/Supplier/getSupplierByID`, { params }).pipe(
-      map((supplier: Supplier) => {
-        return new Supplier(supplier);
+    return this.http.get<T>(`${this.rootUrl}/api/Supplier/getSupplierByID`, { params }).pipe(
+      map((supplier: T) => {
+        return supplier;
       }),
       catchError((error) => {
         console.log("error from api helper");
@@ -424,19 +421,19 @@ export class ApiHelperService<T> {
     console.log("object getByID", ObjectTypeAsString);
     console.log("ID", ID);
     // console.log("object.constructor.name", object.constructor.name);
-    let result;
+    let result: Observable<Product | Invoice | Client | Supplier> ;
     switch (ObjectTypeAsString) {
       case "Products":
-      result = this.getProductById(ID);
+      result = this.getProductById<Product>(ID);
       break;
       case "Clients":
-      result = this.getclientById(ID);
+      result = this.getclientById<Client>(ID);
       break;
       case "Suppliers":
-      result = this.getSupplierById(ID);
+      result = this.getSupplierById<Supplier>(ID);
       break;
       case "Invoices":
-      result = this.getInvoiceById(ID);
+      result = this.getInvoiceById<Invoice>(ID);
         console.log("getByID Invoices Result", result);
       
       break;
@@ -508,24 +505,27 @@ export class ApiHelperService<T> {
     return result
   }
 
-  InitializeType(object?: any) {
+  InitializeType(object: any, type: string = "") {
      console.log("object", object);
 
-    switch (object) {
+    switch (type) {
       case "Products":
-        object = new Product(object);
+        object = object? new Product(object) : new Product();
         break;
       case "Clients":
-        object = new Client(object);
+        object = object? new Client(object) : new Client();
         break;
       case "Suppliers":
-        object = new Supplier(object);
+        object = object? new Supplier(object) : new Supplier();
         break;
       case "Invoices":
-        object = new Invoice(object);
+        object = object? new Invoice(object) : new Invoice();
         break;
       case "SaleDetails":
-        object = new SaleDetail(object);
+        object = object? new SaleDetail(object) : new SaleDetail();
+        break;
+      case "Users Manager":
+        object = object? new User(object) : new User();
         break;
       default:
         {
