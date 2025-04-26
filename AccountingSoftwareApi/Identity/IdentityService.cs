@@ -59,7 +59,7 @@ namespace AccountingSoftwareApi.Identity
 
             UserModel user = new UserModel
             {
-                UserName = registerUser.UserName,
+                Username = registerUser.Username,
                 FirstName = registerUser.FirstName,
                 LastName = registerUser.LastName,
                 EmailAddress = registerUser.EmailAddress,
@@ -67,7 +67,7 @@ namespace AccountingSoftwareApi.Identity
 
             IdentityUser identityUser = new IdentityUser
             {
-                UserName = registerUser.UserName,
+                UserName = registerUser.Username,
                 Email = registerUser.EmailAddress,
 
             };

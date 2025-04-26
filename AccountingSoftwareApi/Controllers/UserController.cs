@@ -54,7 +54,7 @@ namespace AccountingSoftwareApi.Controllers
             {
                 Id = user.Id,
                 EmailAddress = user.EmailAddress,
-                UserName = user.UserName,
+                Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 CreatedDate = user.CreatedDate
@@ -89,7 +89,7 @@ namespace AccountingSoftwareApi.Controllers
                 {
                     Id = user.Id,
                     EmailAddress = user.EmailAddress,
-                    UserName = user.UserName,
+                    Username = user.Username,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     CreatedDate = user.CreatedDate
@@ -221,7 +221,7 @@ namespace AccountingSoftwareApi.Controllers
                 Id = AppUser.Id,
                 FirstName = AppUser.FirstName,
                 LastName = AppUser.LastName,
-                UserName = AppUser.UserName,
+                Username = AppUser.Username,
                 EmailAddress = AppUser.EmailAddress,
                 CreatedDate = AppUser.CreatedDate
             });
