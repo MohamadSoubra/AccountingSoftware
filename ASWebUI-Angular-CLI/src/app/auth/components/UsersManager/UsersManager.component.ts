@@ -31,8 +31,8 @@ export class UsersManagerComponent<T> implements OnInit {
 
         this.usersTableColumns = [
             {
-                name: "User Name",
-                dataKey: "userName",
+                name: "Username",
+                dataKey: "username",
                 isSortable: true,
                 isFilterable: true,
             },
@@ -53,6 +53,13 @@ export class UsersManagerComponent<T> implements OnInit {
                 dataKey: "emailAddress",
                 isSortable: true,
                 isFilterable: true,
+            },
+            {
+                name: "Roles",
+                dataKey: "roles",
+                isSortable: true,
+                isFilterable: true,
+                nestedProperty: "name",
             },
         ]
 
