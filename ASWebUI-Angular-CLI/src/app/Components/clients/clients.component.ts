@@ -32,7 +32,7 @@ export class ClientsComponent<T extends Identification> implements OnInit {
   }
 
   getClients() {
-    this.api.getClients().subscribe(clients => {
+    this.api.getRecords<Client>("Client").subscribe(clients => {
 
 
       this.clientList = clients;

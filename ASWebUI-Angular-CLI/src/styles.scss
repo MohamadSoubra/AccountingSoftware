@@ -150,6 +150,7 @@ th .mat-form-field-infix{
   td,
   th{
   //  font-size: 1rem !important;
+  visibility: unset;
   }
 
   html,
@@ -160,6 +161,10 @@ th .mat-form-field-infix{
    padding: 0;
   }
 
+  .mat-form-field-appearance-outline .mat-form-field-prefix,
+  .mat-form-field-appearance-outline .mat-form-field-suffix {
+    top:0;
+  }
     
 
 }

@@ -30,7 +30,7 @@ export class SuppliersComponent<T extends Identification> implements OnInit {
   }
 
   getSuppliers(){
-    this.api.getSuppliers().subscribe(suppliers => {
+    this.api.getRecords<Supplier>("Supplier").subscribe(suppliers => {
       console.log("suppliers", suppliers);
       
       this.suppliersList = suppliers;

@@ -48,39 +48,50 @@ export class InvoiceDisplayComponent<T> implements OnInit {
 
 
     console.log(this.actroute.snapshot.params);
-    this.saleDetailsData = this.apiHelper.getByID<T>("invoices", this.actroute.snapshot.params["id"]).pipe(
-      switchMap(invoice => {
+    // this.saleDetailsData = this.apiHelper.getByID<T>("invoices", this.actroute.snapshot.params["id"]).pipe(
+    //   switchMap(invoice => {
 
-        const inv = new Invoice(invoice);
-        this.invoice = inv
-        console.log("Invoice ONINT", invoice);
-        inv.client = invoice["client"];
-        // inv.sale.invoiceId = inv.id;
+    //     const inv = new Invoice(invoice);
+    //     this.invoice = inv
+    //     console.log("Invoice ONINT", invoice);
+    //     inv.client = invoice["client"];
+    //     // inv.sale.invoiceId = inv.id;
 
-        return this.apiHelper.getRecords('Saledetail', this.actroute.snapshot.params["id"]).pipe(
-          map((SALEDTS) => {
-            if (!this.apiHelper.objectIsEmpty(SALEDTS)) {
-              const converted = SALEDTS.map(RTSALEDTS => {
-                return new SaleDetail(RTSALEDTS)
-              })
+    //     return this.apiHelper.getRecords('Saledetail', this.actroute.snapshot.params["id"]).pipe(
+    //       map((SALEDTS) => {
+    //         if (!this.apiHelper.objectIsEmpty(SALEDTS)) {
+    //           const converted = SALEDTS.map(RTSALEDTS => {
+    //             return new SaleDetail(RTSALEDTS)
+    //           })
 
-              inv.saleDetails = converted
-              this.saleDetailsData = new MatTableDataSource<SaleDetail>(converted);
+    //           inv.saleDetails = converted
+    //           this.saleDetailsData = new MatTableDataSource<SaleDetail>(converted);
 
-              // this.saleDetailsData.FechData(inv.id);
-            } else {
-              console.log("NOT CONVERTED");
+    //           // this.saleDetailsData.FechData(inv.id);
+    //         } else {
+    //           console.log("NOT CONVERTED");
 
-              this.saleDetailsData = new MatTableDataSource<SaleDetail>([]);
-            }
-            console.log("this.saleDetailsData", this.saleDetailsData);
-            return inv;
+    //           this.saleDetailsData = new MatTableDataSource<SaleDetail>([]);
+    //         }
+    //         console.log("this.saleDetailsData", this.saleDetailsData);
+    //         return inv;
+    //       })
+    //     )
+    //   })
+    // );
+    this.apiHelper.getRecords("Invoices", this.actroute.snapshot.params["id"]).pipe(
+      map((SALEDTS) => {
+        if (!this.apiHelper.objectIsEmpty(SALEDTS)) {
+          const converted = SALEDTS.map(RTSALEDTS => {
+            return new SaleDetail(RTSALEDTS)
           })
-        )
-      })
-    );
-
-    console.log(this.saleDetailsData);
+          this.saleDetailsData = new MatTableDataSource<SaleDetail>(converted);
+        } else {
+          console.log("NOT CONVERTED");
+          this.saleDetailsData = new MatTableDataSource<SaleDetail>([]);
+        }
+      console.log(this.saleDetailsData);
+    }))
     
     
   }

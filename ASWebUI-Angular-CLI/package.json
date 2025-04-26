@@ -21,6 +21,7 @@
     "jquery": "^3.6.0",
     "karma": "^6.3.11",
     "karma-coverage-istanbul-reporter": "^2.1.1",
+    "material-icons": "^1.13.14",
     "ngx-bootstrap": "^5.6.2",
     "node": "16.10",
     "popper.js": "^1.16.1",

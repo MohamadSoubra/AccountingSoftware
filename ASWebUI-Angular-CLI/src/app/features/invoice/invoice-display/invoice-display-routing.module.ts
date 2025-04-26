@@ -5,7 +5,7 @@ import { InvoiceDisplayComponent } from './invoice-display.component';
 
 const routes: Routes = [
     {
-        path: "invoices/display/:id",
+        path: "Invoices/display/:id",
         component: InvoiceDisplayComponent,
     },
 ];

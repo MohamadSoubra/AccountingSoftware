@@ -35,7 +35,7 @@ export class ProductsComponent<T extends Identification> implements OnInit {
   }
 
   getProducts() {
-    this.api.getProducts().subscribe(products => {
+    this.api.getRecords<Product>("Product").subscribe(products => {
 
 
       this.productList = products;

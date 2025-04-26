@@ -23,12 +23,12 @@ export class Invoice implements Identification {
   client?: Client ;
   // clientId: number;
   status: InvoiceStatus;
-  sale? : Sale;
   invoiceNumber: string;
   description: string;
   invoiceDate: string;
   paymentDueDate: string;
   amountDue: number;
+  sale? : Sale;
   saleDetails: SaleDetail[];
   // subTotal: number;
   // tax: number;

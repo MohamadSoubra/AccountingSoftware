@@ -49,9 +49,9 @@ export class InvoiceComponent<T extends Identification> implements OnInit {
     );
   }
 
-  getInvoices(): void{
-    this.api.getInvoices().subscribe(invoices => {
-      this.api.getClients().subscribe(clients => {
+  getInvoices<T>(): void{
+    this.api.getRecords<Invoice>("Invoice").subscribe(invoices => {
+      this.api.getRecords<Client>("Client").subscribe(clients => {
         console.log("clients in get invs", clients);
         
         this.InvoiceList = invoices.map(inv => {

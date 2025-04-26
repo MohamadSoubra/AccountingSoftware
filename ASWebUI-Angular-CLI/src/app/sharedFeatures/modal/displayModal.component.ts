@@ -68,12 +68,12 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
 
     console.log("this.itemform.value",this.formItemSaleDetail.value);
     
-    this.DisplayModal$ = this.apiHelper.getProducts();
+    this.DisplayModal$ = this.apiHelper.getRecords<Product>("Product");
     console.log("ModalSD", this.ModalSD);
 
 
 
-    // console.log("this.ModalSD", this.ModalSD);
+    // console.log("this.ModalSD", this.ModalSD); 
     
 
     if (this.displayItem.id != undefined) {
@@ -188,12 +188,12 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
   }
 
   getItem(id: string){
-    console.log(this.apiHelper.getByID("products", id));
+    console.log(this.apiHelper.getByID("Products", id));
      
-    this.apiHelper.getByID("products", id).subscribe(product => {
+    this.apiHelper.getByID<Product>("Products", id).subscribe(product => {
       console.log(product);
-      
-      this.formItemSaleDetail.get('price').setValue(product.retailPrice);
+      const tempProd = new Product(product)
+      this.formItemSaleDetail.get('price').setValue(tempProd.retailPrice);
     })
     console.log(this.formItemSaleDetail);
     
@@ -208,6 +208,7 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
         let isBoolean = false;
         let needSelectInput = false;
         let needDatePicker = false;
+        let isMoney = false;
 
         
 
@@ -253,6 +254,10 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
         //   String(this.displayItem[prop]);
         // }
 
+        if (prop.toLowerCase().includes("price") || prop.toLowerCase() === "subtotal" || prop.toLowerCase() === "tax" || prop.toLowerCase() === "total" ) {
+          isMoney = true
+        }
+
         let needTextArea = false;
         if (prop === "description" || this.displayItem[prop]?.length > 20) {
           needTextArea = true;
@@ -292,6 +297,7 @@ export class DisplayModalComponent<T extends Identification> implements OnInit {
           needSelectInput: needSelectInput,
           needDatePicker: needDatePicker,
           width: width,
+          isMoney: isMoney,
         };
       }).filter((item) => item.Included);
   }
