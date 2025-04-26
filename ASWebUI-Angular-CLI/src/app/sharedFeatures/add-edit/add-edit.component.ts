@@ -425,6 +425,7 @@ export class AddEditComponent<T> implements OnInit {
         let needDatePicker = false;
         let needAutoComplete = false;
         let Included = true;
+        let isMoney = false;
 
         if (prop === "id") {
           Included = false;
@@ -599,6 +600,10 @@ export class AddEditComponent<T> implements OnInit {
           new FormControl(object[prop])
         );
 
+        if (prop.toLowerCase().includes("price") || prop.toLowerCase() === "subtotal" || prop.toLowerCase() === "tax" || prop.toLowerCase() === "total" ) {
+          isMoney = true
+        }
+
         return {
           labelsText: this.formatText(prop),
           formControlName: prop,
@@ -611,7 +616,8 @@ export class AddEditComponent<T> implements OnInit {
           needTable: this.needTable,
           width: width,
           type: type,
-          needAutoComplete: needAutoComplete
+          needAutoComplete: needAutoComplete,
+          isMoney: isMoney,
         };
       }).filter(prop => {
         return prop.Included

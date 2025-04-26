@@ -93,7 +93,8 @@
 
                     <mat-form-field appearance="outline" [ngClass]="prop.formControlName">
                         <mat-label> {{ prop.labelsText }} </mat-label>
-                        <input matInput [type]="prop.type" placeholder="" color="primary" [formControlName]="prop.formControlName">
+                        <span *ngIf="prop.isMoney"  class="currency">$&nbsp;</span>
+                        <input class="inputField" matInput [type]="prop.type" placeholder="" color="primary" [formControlName]="prop.formControlName">
                     </mat-form-field>
 
                 </ng-container>
@@ -103,7 +104,7 @@
                     <div class="form-group permissions">
                         <mat-form-field appearance="outline" class="formfield" [ngClass]="prop.formControlName">
                             <mat-label>Permissions</mat-label>
-                            <mat-select [formControlName]="prop.formControlName" [compareWith]="compareFn" multiple required>
+                            <mat-select [formControlName]="prop.formControlName" [compareWith]="compareFn" multiple>
                                 <mat-option *ngFor="let role of rolesOptions" [value]="role">{{role.name}}</mat-option>
                             </mat-select>
                             <mat-error>
@@ -135,7 +136,7 @@
    
     <div class="dialog-actions">
         <button mat-stroked-button (click)="Cancel()">Cancel</button>
-        <button mat-stroked-button class="ml" (click)="print()">Print</button>
+        <!-- <button mat-stroked-button class="ml" (click)="print()">Print</button> -->
         <button mat-stroked-button class="ml" type="button" (click)="onSubmit()"
             color="primary">Save</button>
     </div>
