@@ -179,7 +179,7 @@ export class AuthService<T> {
   logout() {
     this.user.next(null);
 
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/Login"]);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
@@ -321,13 +321,13 @@ export class AuthService<T> {
     // return this.http.get<User[]>(this.rootUrl + "/api/User")
     let params = new HttpParams();
     params = params.append('userId', ID);
-    return this.http.get<T>(`${this.rootUrl}/api/User`, { params })
+    return this.http.get<User>(`${this.rootUrl}/api/User`, { params })
     .pipe(
-      map((user: T) =>  {
+      map((user: User) =>  {
         let appUser = new User(user)
         console.log("GET USER BY ID",user);
         
-        return user;
+        return appUser;
       }),
       catchError((error) => {
         console.log("error from auth service");
