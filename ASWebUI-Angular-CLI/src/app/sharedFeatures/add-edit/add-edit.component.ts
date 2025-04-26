@@ -221,11 +221,11 @@ export class AddEditComponent<T> implements OnInit {
     console.log("this.itemform.getRawValue()", this.itemform.getRawValue());
     console.log("this.update", this.update);
 
-    // if (this.update) {
-    //   this.apiHelper.updateRecord(this.itemform.getRawValue());
-    // } else {
-    //   this.apiHelper.saveRecord(this.itemform.getRawValue());
-    // }
+    if (this.update) {
+      this.apiHelper.updateRecord(this.itemform.getRawValue());
+    } else {
+      this.apiHelper.saveRecord(this.itemform.getRawValue());
+    }
 
   }
 
