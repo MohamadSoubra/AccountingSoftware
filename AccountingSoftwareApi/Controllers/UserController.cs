@@ -203,7 +203,7 @@ namespace AccountingSoftwareApi.Controllers
 
         [AllowAnonymous]
         [Route("Admin/UpdateUser")]
-        [HttpPost]
+        [HttpPut]
         public async Task<ActionResult> UpdateUser([FromBody] ApplicationUserModel AppUser)
         {
             if (AppUser == null)
@@ -216,7 +216,7 @@ namespace AccountingSoftwareApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            _userData.UpdateUser(new UserModel
+            var User = new UserModel
             {
                 Id = AppUser.Id,
                 FirstName = AppUser.FirstName,
@@ -224,7 +224,18 @@ namespace AccountingSoftwareApi.Controllers
                 Username = AppUser.Username,
                 EmailAddress = AppUser.EmailAddress,
                 CreatedDate = AppUser.CreatedDate
-            });
+            };
+
+            var IdentityUser = await _userManager.FindByIdAsync(User.Id);
+            var Roles = AppUser.Roles.Select(r => r.Name).ToList();
+            var ExistingRoles = await _userManager.GetRolesAsync(IdentityUser);
+
+            await _userManager.RemoveFromRolesAsync(IdentityUser, ExistingRoles);
+
+            if(Roles.Count > 0)
+            {
+                await _userManager.AddToRolesAsync(IdentityUser, Roles);
+            }
 
             return Ok();
         }

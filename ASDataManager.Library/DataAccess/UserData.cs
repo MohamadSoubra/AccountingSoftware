@@ -41,7 +41,7 @@ namespace ASDataManager.Library.DataAccess
 
         public void UpdateUser(UserModel user)
         {
-            var output = _sql.SaveData<UserModel>("dbo.spUser_Insert", new UserModel { Id = user.Id, FirstName = user.FirstName, LastName = user.LastName, Username= user.Username, EmailAddress = user.EmailAddress, CreatedDate = user.CreatedDate}, "ASDatabase");
+            var output = _sql.SaveData<dynamic>("dbo.spUser_Update", new { Id = user.Id, FirstName = user.FirstName, LastName = user.LastName, Username= user.Username, EmailAddress = user.EmailAddress}, "ASDatabase");
         }
     }
 }

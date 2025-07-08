@@ -189,6 +189,19 @@ export class ApiHelperService<T> {
         console.log("invoicetoupdate", invoicetoupdate);
         console.log("Invoice");
         break;
+      // move to authService maybe?  
+      case "User":
+        console.log("User");
+        const user = object as User;
+        let userToUpdate = new User();
+        userToUpdate.id = user.id;
+        userToUpdate.firstName = user.firstName;
+        userToUpdate.lastName = user.lastName;
+        userToUpdate.roles = user.roles;
+        userToUpdate.username = user.username;
+        userToUpdate.emailAddress = user.emailAddress;
+        this.updateUser(userToUpdate);
+        break;
       default:
         {
           console.log("default");
@@ -449,6 +462,11 @@ export class ApiHelperService<T> {
     return result;
   }
 
+  updateUser(user: User) {
+    console.log("user to update", user);
+    this.http.put<User>(`${this.rootUrl}/api/User/Admin/UpdateUser`, user).subscribe();
+  }
+  // Check if an object is empty
   objectIsEmpty(object) {
     let emptyProperties;
     if (object) {
